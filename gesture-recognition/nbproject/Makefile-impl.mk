@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=in5x-gesture-recognition
+PROJECTNAME=gesture-recognition
 
 # Active Configuration
 DEFAULTCONF=Debug
