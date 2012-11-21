@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>pClearHand.hpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -13,6 +14,7 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>main.cpp</itemPath>
+      <itemPath>pClearHand.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -37,11 +39,13 @@
         <ccTool>
           <incDir>
             <pElem>opencv/include</pElem>
+            <pElem>pandore/include</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
           <linkerAddLib>
             <pElem>opencv/lib</pElem>
+            <pElem>pandore/lib</pElem>
           </linkerAddLib>
           <linkerLibItems>
             <linkerLibFileItem>opencv/lib/libopencv_calib3d243.dll.a</linkerLibFileItem>
@@ -61,9 +65,29 @@
             <linkerLibFileItem>opencv/lib/libopencv_ts243.a</linkerLibFileItem>
             <linkerLibFileItem>opencv/lib/libopencv_video243.dll.a</linkerLibFileItem>
             <linkerLibFileItem>opencv/lib/libopencv_videostab243.dll.a</linkerLibFileItem>
+            <linkerLibLibItem>pandore</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <folder path="TestFiles/f1">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>.</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>.</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f1</output>
+        </linkerTool>
+      </folder>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>

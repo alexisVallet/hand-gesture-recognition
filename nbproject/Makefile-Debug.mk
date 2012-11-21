@@ -35,7 +35,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/main.o
+	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/pClearHand.o
 
 
 # C Compiler Flags
@@ -52,7 +53,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-Lopencv/lib opencv/lib/libopencv_calib3d243.dll.a opencv/lib/libopencv_contrib243.dll.a opencv/lib/libopencv_core243.dll.a opencv/lib/libopencv_features2d243.dll.a opencv/lib/libopencv_flann243.dll.a opencv/lib/libopencv_gpu243.dll.a opencv/lib/libopencv_highgui243.dll.a opencv/lib/libopencv_imgproc243.dll.a opencv/lib/libopencv_legacy243.dll.a opencv/lib/libopencv_ml243.dll.a opencv/lib/libopencv_nonfree243.dll.a opencv/lib/libopencv_objdetect243.dll.a opencv/lib/libopencv_photo243.dll.a opencv/lib/libopencv_stitching243.dll.a opencv/lib/libopencv_ts243.a opencv/lib/libopencv_video243.dll.a opencv/lib/libopencv_videostab243.dll.a
+LDLIBSOPTIONS=-Lopencv/lib -Lpandore/lib opencv/lib/libopencv_calib3d243.dll.a opencv/lib/libopencv_contrib243.dll.a opencv/lib/libopencv_core243.dll.a opencv/lib/libopencv_features2d243.dll.a opencv/lib/libopencv_flann243.dll.a opencv/lib/libopencv_gpu243.dll.a opencv/lib/libopencv_highgui243.dll.a opencv/lib/libopencv_imgproc243.dll.a opencv/lib/libopencv_legacy243.dll.a opencv/lib/libopencv_ml243.dll.a opencv/lib/libopencv_nonfree243.dll.a opencv/lib/libopencv_objdetect243.dll.a opencv/lib/libopencv_photo243.dll.a opencv/lib/libopencv_stitching243.dll.a opencv/lib/libopencv_ts243.a opencv/lib/libopencv_video243.dll.a opencv/lib/libopencv_videostab243.dll.a -lpandore
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -99,7 +100,12 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ${OBJEC
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Iopencv/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -Iopencv/include -Ipandore/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/pClearHand.o: pClearHand.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Iopencv/include -Ipandore/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/pClearHand.o pClearHand.cpp
 
 # Subprojects
 .build-subprojects:
