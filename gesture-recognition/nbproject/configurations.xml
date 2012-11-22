@@ -50,7 +50,7 @@
           </incDir>
         </ccTool>
         <linkerTool>
-          <output>${TESTDIR}/TestFiles/f1</output>
+          <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition</output>
           <linkerAddLib>
             <pElem>../pandore/lib</pElem>
             <pElem>../opencv/lib</pElem>

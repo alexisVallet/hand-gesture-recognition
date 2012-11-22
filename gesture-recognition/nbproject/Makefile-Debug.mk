@@ -57,45 +57,45 @@ LDLIBSOPTIONS=-L../pandore/lib -L../opencv/lib ../opencv/lib/libopencv_calib3d24
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${TESTDIR}/TestFiles/f1.exe
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe
 
-${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_calib3d243.dll.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_calib3d243.dll.a
 
-${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_contrib243.dll.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_contrib243.dll.a
 
-${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_core243.dll.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_core243.dll.a
 
-${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_features2d243.dll.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_features2d243.dll.a
 
-${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_flann243.dll.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_flann243.dll.a
 
-${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_gpu243.dll.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_gpu243.dll.a
 
-${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_highgui243.dll.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_highgui243.dll.a
 
-${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_imgproc243.dll.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_imgproc243.dll.a
 
-${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_legacy243.dll.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_legacy243.dll.a
 
-${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_ml243.dll.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_ml243.dll.a
 
-${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_nonfree243.dll.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_nonfree243.dll.a
 
-${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_objdetect243.dll.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_objdetect243.dll.a
 
-${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_photo243.dll.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_photo243.dll.a
 
-${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_stitching243.dll.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_stitching243.dll.a
 
-${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_ts243.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_ts243.a
 
-${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_video243.dll.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_video243.dll.a
 
-${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_videostab243.dll.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_videostab243.dll.a
 
-${TESTDIR}/TestFiles/f1.exe: ${OBJECTFILES}
-	${MKDIR} -p ${TESTDIR}/TestFiles
-	${LINK.cc} -o ${TESTDIR}/TestFiles/f1 ${OBJECTFILES} ${LDLIBSOPTIONS} 
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ${OBJECTFILES}
+	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -113,7 +113,7 @@ ${OBJECTDIR}/pClearHand.o: pClearHand.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${TESTDIR}/TestFiles/f1.exe
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe
 
 # Subprojects
 .clean-subprojects:
