@@ -36,7 +36,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/pClearHand.o
+	${OBJECTDIR}/pClearHand.o \
+	${OBJECTDIR}/StatisticalClassifier.o \
+	${OBJECTDIR}/Classifier.o
 
 
 # C Compiler Flags
@@ -72,6 +74,16 @@ ${OBJECTDIR}/pClearHand.o: pClearHand.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/pClearHand.o pClearHand.cpp
+
+${OBJECTDIR}/StatisticalClassifier.o: StatisticalClassifier.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/StatisticalClassifier.o StatisticalClassifier.cpp
+
+${OBJECTDIR}/Classifier.o: Classifier.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Classifier.o Classifier.cpp
 
 # Subprojects
 .build-subprojects:

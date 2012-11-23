@@ -12,8 +12,8 @@ CND_DISTDIR=dist
 CND_BUILDDIR=build
 NBTMPDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition
-OUTPUT_BASENAME=in5x-gesture-recognition
+OUTPUT_PATH=${TESTDIR}/TestFiles/f1
+OUTPUT_BASENAME=f1
 PACKAGE_TOP_DIR=gesture-recognition/
 
 # Functions

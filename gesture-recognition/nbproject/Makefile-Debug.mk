@@ -36,7 +36,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/pClearHand.o
+	${OBJECTDIR}/pClearHand.o \
+	${OBJECTDIR}/StatisticalClassifier.o \
+	${OBJECTDIR}/Classifier.o
 
 
 # C Compiler Flags
@@ -57,55 +59,65 @@ LDLIBSOPTIONS=-L../pandore/lib -L../opencv/lib ../opencv/lib/libopencv_calib3d24
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${TESTDIR}/TestFiles/f1.exe
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_calib3d243.dll.a
+${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_calib3d243.dll.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_contrib243.dll.a
+${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_contrib243.dll.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_core243.dll.a
+${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_core243.dll.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_features2d243.dll.a
+${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_features2d243.dll.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_flann243.dll.a
+${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_flann243.dll.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_gpu243.dll.a
+${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_gpu243.dll.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_highgui243.dll.a
+${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_highgui243.dll.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_imgproc243.dll.a
+${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_imgproc243.dll.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_legacy243.dll.a
+${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_legacy243.dll.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_ml243.dll.a
+${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_ml243.dll.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_nonfree243.dll.a
+${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_nonfree243.dll.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_objdetect243.dll.a
+${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_objdetect243.dll.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_photo243.dll.a
+${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_photo243.dll.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_stitching243.dll.a
+${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_stitching243.dll.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_ts243.a
+${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_ts243.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_video243.dll.a
+${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_video243.dll.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ../opencv/lib/libopencv_videostab243.dll.a
+${TESTDIR}/TestFiles/f1.exe: ../opencv/lib/libopencv_videostab243.dll.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe: ${OBJECTFILES}
-	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition ${OBJECTFILES} ${LDLIBSOPTIONS} 
+${TESTDIR}/TestFiles/f1.exe: ${OBJECTFILES}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc} -o ${TESTDIR}/TestFiles/f1 ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -I../opencv/include -I../pandore/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -I../opencv/include -I../pandore/include -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
 
 ${OBJECTDIR}/pClearHand.o: pClearHand.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -I../opencv/include -I../pandore/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/pClearHand.o pClearHand.cpp
+	$(COMPILE.cc) -g -I../opencv/include -I../pandore/include -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/pClearHand.o pClearHand.cpp
+
+${OBJECTDIR}/StatisticalClassifier.o: StatisticalClassifier.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../opencv/include -I../pandore/include -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/StatisticalClassifier.o StatisticalClassifier.cpp
+
+${OBJECTDIR}/Classifier.o: Classifier.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../opencv/include -I../pandore/include -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/Classifier.o Classifier.cpp
 
 # Subprojects
 .build-subprojects:
@@ -113,7 +125,7 @@ ${OBJECTDIR}/pClearHand.o: pClearHand.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition.exe
+	${RM} ${TESTDIR}/TestFiles/f1.exe
 
 # Subprojects
 .clean-subprojects:

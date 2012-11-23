@@ -4,6 +4,8 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>Classifier.h</itemPath>
+      <itemPath>StatisticalClassifier.h</itemPath>
       <itemPath>pClearHand.hpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -13,6 +15,8 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>Classifier.cpp</itemPath>
+      <itemPath>StatisticalClassifier.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>pClearHand.cpp</itemPath>
     </logicalFolder>
@@ -41,16 +45,18 @@
             <pElem>.</pElem>
             <pElem>.</pElem>
             <pElem>.</pElem>
+            <pElem>.</pElem>
           </incDir>
         </cTool>
         <ccTool>
           <incDir>
             <pElem>../opencv/include</pElem>
             <pElem>../pandore/include</pElem>
+            <pElem>.</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
-          <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/in5x-gesture-recognition</output>
+          <output>${TESTDIR}/TestFiles/f1</output>
           <linkerAddLib>
             <pElem>../pandore/lib</pElem>
             <pElem>../opencv/lib</pElem>
