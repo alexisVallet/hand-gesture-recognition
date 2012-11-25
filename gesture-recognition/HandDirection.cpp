@@ -21,14 +21,13 @@ using namespace cv;
 static Mat handPixels(const Mat &segmentedHand) {
     int numberOfHandPixels = countNonZero(segmentedHand);
     Mat handPixelsMatrix(2, numberOfHandPixels, CV_32S);
-    Size segmentedHandSize = segmentedHand.size();
     int currentHandPixel = 0;
     
-    for (int i = 0; i < segmentedHandSize.height; i++) {
-        for (int j = 0; j < segmentedHandSize.width; j++) {
+    for (int i = 0; i < segmentedHand.rows; i++) {
+        for (int j = 0; j < segmentedHand.cols; j++) {
             int pixelValue = segmentedHand.at<int>(i,j);
             
-            if (pixelValue == HAND_PIXEL_VALUE) {
+            if (pixelValue > 0.5) {
                 handPixelsMatrix.at<int>(0, currentHandPixel) = i;
                 handPixelsMatrix.at<int>(1, currentHandPixel) = j;
                 currentHandPixel++;
@@ -40,13 +39,12 @@ static Mat handPixels(const Mat &segmentedHand) {
 }
 
 std::pair < Mat,Mat > handDirection(const Mat &segmentedHand) {
-    Mat handPixelsMatrix = Mat_<float>(handPixels(segmentedHand));
-    std::cout<<"Hand pixels computed, size=("<<handPixelsMatrix.rows<<","<<handPixelsMatrix.cols<<")"<<std::endl;
+    Mat handPixelsMatrix = Mat_<float>(handPixels(Mat_<int>(segmentedHand)));
     PCA handPCA;
     handPCA(handPixelsMatrix, Mat(), CV_PCA_DATA_AS_COL);
     std::cout<<"PCA computed"<<std::endl;
     Mat eigenVectors = handPCA.eigenvectors.clone();
-    std::pair < Mat, Mat > separatedEigenVectors(eigenVectors.col(0), eigenVectors.col(1));
+    std::pair < Mat, Mat > separatedEigenVectors(eigenVectors.row(0), eigenVectors.row(1));
     
     return separatedEigenVectors;
 }
