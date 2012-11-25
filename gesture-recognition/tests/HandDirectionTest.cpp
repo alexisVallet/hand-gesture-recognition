@@ -16,14 +16,16 @@ using namespace cv;
 using namespace std;
 
 int main(int argc, char** argv) {
-    Mat segmentedHandGray = imread("test-segmented-2.bmp");
-    cout<<"Image loaded"<<endl;
-    namedWindow("Out", CV_WINDOW_AUTOSIZE);
-    cout<<"Window opened"<<endl;
+    Mat segmentedHandRGB = imread("C:\\Users\\Alexis\\Documents\\Dev\\IN5x\\in5x-gesture-recognition\\gesture-recognition\\runFolder\\test-segmented-2.bmp");
+    vector<Mat> rgbPlanes;
+    split(segmentedHandRGB, rgbPlanes);
+    Mat segmentedHandGray = rgbPlanes[0];
+    Mat segmentedHandBin = segmentedHandGray / 255;
+    cout<<"Binhand="<<segmentedHandBin<<endl;
+    pair<Mat,Mat> directions = handDirection(segmentedHandBin);
+    cout<<directions.first<<";"<<directions.second<<endl;
     imshow("Out", segmentedHandGray);
-    cout<<"Image shown"<<endl;
     waitKey(0);
     
     return (EXIT_SUCCESS);
 }
-

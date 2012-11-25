@@ -12,6 +12,7 @@
 #define BACKGROUND_PIXEL_VALUE 0
 
 #include <utility>
+#include <iostream>
 #include "opencv2/opencv.hpp"
 
 /**

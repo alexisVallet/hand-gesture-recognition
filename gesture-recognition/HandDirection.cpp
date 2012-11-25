@@ -40,8 +40,11 @@ static Mat handPixels(const Mat &segmentedHand) {
 }
 
 std::pair < Mat,Mat > handDirection(const Mat &segmentedHand) {
-    Mat handPixelsMatrix = handPixels(segmentedHand);
-    PCA handPCA(handPixelsMatrix, noArray(), CV_PCA_DATA_AS_COL);
+    Mat handPixelsMatrix = Mat_<float>(handPixels(segmentedHand));
+    std::cout<<"Hand pixels computed, size=("<<handPixelsMatrix.rows<<","<<handPixelsMatrix.cols<<")"<<std::endl;
+    PCA handPCA;
+    handPCA(handPixelsMatrix, Mat(), CV_PCA_DATA_AS_COL);
+    std::cout<<"PCA computed"<<std::endl;
     Mat eigenVectors = handPCA.eigenvectors.clone();
     std::pair < Mat, Mat > separatedEigenVectors(eigenVectors.col(0), eigenVectors.col(1));
     
