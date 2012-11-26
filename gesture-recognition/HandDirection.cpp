@@ -9,16 +9,7 @@
 
 using namespace cv;
 
-/**
- * Returns the position of the pixels belonging to the hand as a 2xn matrix,
- * where columns are pixel coordinates. Assumes that the hand image is integer
- * valued, with HAND_PIXEL_VALUE (defined in HandDirection.h at the moment) 
- * for the hand pixels.
- * 
- * @param segmentedHand the segmented, cropped and binarized hand image.
- * @return a 2 lines matrix where columns are hand pixels coordinates.
- */
-static Mat handPixels(const Mat &segmentedHand) {
+Mat handPixels(const Mat &segmentedHand) {
     int numberOfHandPixels = countNonZero(segmentedHand);
     Mat handPixelsMatrix(2, numberOfHandPixels, CV_32S);
     int currentHandPixel = 0;
@@ -27,7 +18,7 @@ static Mat handPixels(const Mat &segmentedHand) {
         for (int j = 0; j < segmentedHand.cols; j++) {
             int pixelValue = segmentedHand.at<int>(i,j);
             
-            if (pixelValue > 0.5) {
+            if (pixelValue == HAND_PIXEL_VALUE) {
                 handPixelsMatrix.at<int>(0, currentHandPixel) = i;
                 handPixelsMatrix.at<int>(1, currentHandPixel) = j;
                 currentHandPixel++;
