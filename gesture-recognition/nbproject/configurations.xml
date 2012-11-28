@@ -11,6 +11,8 @@
       <itemPath>StatisticalClassifier.h</itemPath>
       <itemPath>convert.hpp</itemPath>
       <itemPath>pClearHand.hpp</itemPath>
+      <itemPath>paramsClassifieurs.h</itemPath>
+      <itemPath>utilsFunctions.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -20,17 +22,28 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>Classifier.cpp</itemPath>
+      <itemPath>ClassifieurDistEuclidienne.cpp</itemPath>
+      <itemPath>ClassifieurDistHistogramm.cpp</itemPath>
+      <itemPath>ClassifieursProfils.cpp</itemPath>
       <itemPath>HandDirection.cpp</itemPath>
       <itemPath>RadialHistogram.cpp</itemPath>
       <itemPath>StatisticalClassifier.cpp</itemPath>
       <itemPath>convert.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
+      <itemPath>newfile.cpp</itemPath>
       <itemPath>pClearHand.cpp</itemPath>
+      <itemPath>utilsFunctions.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
                    projectFiles="false"
                    kind="TEST_LOGICAL_FOLDER">
+      <logicalFolder name="f3"
+                     displayName="classifieurDecodeurTest"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/classifiieurDecodeurTest.cpp</itemPath>
+      </logicalFolder>
       <logicalFolder name="f1"
                      displayName="HandDirectionTest"
                      projectFiles="true"
@@ -130,6 +143,21 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f2</output>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f3">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f3</output>
         </linkerTool>
       </folder>
     </conf>
