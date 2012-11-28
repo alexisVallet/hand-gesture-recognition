@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/pClearHand.o \
 	${OBJECTDIR}/StatisticalClassifier.o \
 	${OBJECTDIR}/RadialHistogram.o \
+	${OBJECTDIR}/convert.o \
 	${OBJECTDIR}/Classifier.o
 
 # Test Directory
@@ -98,6 +99,11 @@ ${OBJECTDIR}/RadialHistogram.o: RadialHistogram.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/RadialHistogram.o RadialHistogram.cpp
+
+${OBJECTDIR}/convert.o: convert.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/convert.o convert.cpp
 
 ${OBJECTDIR}/Classifier.o: Classifier.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -193,6 +199,19 @@ ${OBJECTDIR}/RadialHistogram_nomain.o: ${OBJECTDIR}/RadialHistogram.o RadialHist
 	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/RadialHistogram_nomain.o RadialHistogram.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/RadialHistogram.o ${OBJECTDIR}/RadialHistogram_nomain.o;\
+	fi
+
+${OBJECTDIR}/convert_nomain.o: ${OBJECTDIR}/convert.o convert.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/convert.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/convert_nomain.o convert.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/convert.o ${OBJECTDIR}/convert_nomain.o;\
 	fi
 
 ${OBJECTDIR}/Classifier_nomain.o: ${OBJECTDIR}/Classifier.o Classifier.cpp 

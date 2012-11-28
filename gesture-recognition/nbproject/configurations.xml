@@ -5,9 +5,11 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>Classifier.h</itemPath>
+      <itemPath>ClassifierParameters.h</itemPath>
       <itemPath>HandDirection.h</itemPath>
       <itemPath>RadialHistogram.h</itemPath>
       <itemPath>StatisticalClassifier.h</itemPath>
+      <itemPath>convert.hpp</itemPath>
       <itemPath>pClearHand.hpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -21,6 +23,7 @@
       <itemPath>HandDirection.cpp</itemPath>
       <itemPath>RadialHistogram.cpp</itemPath>
       <itemPath>StatisticalClassifier.cpp</itemPath>
+      <itemPath>convert.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>pClearHand.cpp</itemPath>
     </logicalFolder>
@@ -47,7 +50,6 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>ClassifierParameters.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
