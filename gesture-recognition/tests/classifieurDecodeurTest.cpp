@@ -15,7 +15,7 @@ using namespace cv;
 using namespace std;
 
 
-/*void drawVector(Mat &image, Mat vector, const Scalar &color) {
+void drawVector(Mat &image, Mat vector, const Scalar &color) {
     Point center(image.cols/2, image.rows/2);
     Point vectorEnd(center.x + vector.at<float>(0,0), center.y + vector.at<float>(0,1));
     line(image, center, vectorEnd, color);
@@ -58,25 +58,28 @@ void redressHand()
     std::pair < Mat, Mat > orientation = handDirection( hand );
     cout << "x = " << (double)orientation.second.data[0] << "  y = " << (float)orientation.second.data[1] << endl;
     
-    float norme = sqrt( pow((double)orientation.second.data[0], 2) + pow((float)orientation.second.data[1], 2) );
+    
+    float x = directions.first.at<float>(0,0);
+    float y = directions.first.at<float>(0,1);
+    
+    float norme = sqrt( pow(x, 2) + pow(y, 2) );
     cout << "norme = " << norme << endl;
     
-    float x = (int)orientation.second.data[0];
-    float y = (int)orientation.second.data[1];
-    
-    float xnormalized = (float)orientation.second.data[0]/norme;
-    float ynormalized = (float)orientation.second.data[1]/norme;
+    float xnormalized = x/norme;
+    float ynormalized = y/norme;
     
     cout << "xn = " << xnormalized << "yn = " << ynormalized << endl;
     
     float angle = acos(xnormalized)* 180.0 / M_PI;
     cout << "angle = " << angle << endl;
     
+    
+    
 showHandAndDirection( fn );
     
     namedWindow("subImage", CV_WINDOW_AUTOSIZE );
     imshow("subImage", hand );
-}*/
+}
 
 
 
@@ -131,15 +134,15 @@ int main( int argc, char** argv )
     
     //convertAllYMLImageFromPath();
     
-    ClassifieurDistEuclidienne classifieur;
+    /*ClassifieurDistEuclidienne classifieur;
     classifieur.initBase();
     classifieur.testImage("./7.bmp");
     
     ClassifieurDistHistogramm cl2;
     cl2.initBase();
-    cl2.testImage("./7.bmp");
+    cl2.testImage("./7.bmp");*/
     //classifieur.testImage("F:/iut/utbm/S5/projetIN52-54/ClassImages/1/0.bmp");
-
+    redressHand();
 
     waitKey(0);
     return 0;

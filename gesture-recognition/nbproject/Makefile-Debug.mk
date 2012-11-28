@@ -43,6 +43,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/HandDirection.o \
 	${OBJECTDIR}/newfile.o \
 	${OBJECTDIR}/pClearHand.o \
+	${OBJECTDIR}/RedressHand.o \
 	${OBJECTDIR}/StatisticalClassifier.o \
 	${OBJECTDIR}/RadialHistogram.o \
 	${OBJECTDIR}/Classifier.o \
@@ -55,7 +56,8 @@ TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
 TESTFILES= \
 	${TESTDIR}/TestFiles/f3 \
 	${TESTDIR}/TestFiles/f1 \
-	${TESTDIR}/TestFiles/f2
+	${TESTDIR}/TestFiles/f2 \
+	${TESTDIR}/TestFiles/f4
 
 # C Compiler Flags
 CFLAGS=
@@ -155,6 +157,11 @@ ${OBJECTDIR}/pClearHand.o: pClearHand.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../opencv/include -I../pandore/include -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/pClearHand.o pClearHand.cpp
 
+${OBJECTDIR}/RedressHand.o: RedressHand.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../opencv/include -I../pandore/include -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/RedressHand.o RedressHand.cpp
+
 ${OBJECTDIR}/StatisticalClassifier.o: StatisticalClassifier.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -180,7 +187,7 @@ ${OBJECTDIR}/convert.o: convert.cpp
 
 # Build Test Targets
 .build-tests-conf: .build-conf ${TESTFILES}
-${TESTDIR}/TestFiles/f3: ${TESTDIR}/tests/classifiieurDecodeurTest.o ${OBJECTFILES:%.o=%_nomain.o}
+${TESTDIR}/TestFiles/f3: ${TESTDIR}/tests/classifieurDecodeurTest.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f3 $^ ${LDLIBSOPTIONS} 
 
@@ -192,11 +199,15 @@ ${TESTDIR}/TestFiles/f2: ${TESTDIR}/tests/RadialHistogramTest.o ${OBJECTFILES:%.
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f2 $^ ${LDLIBSOPTIONS} 
 
+${TESTDIR}/TestFiles/f4: ${TESTDIR}/tests/newsimpletest.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc}   -o ${TESTDIR}/TestFiles/f4 $^ ${LDLIBSOPTIONS} 
 
-${TESTDIR}/tests/classifiieurDecodeurTest.o: tests/classifiieurDecodeurTest.cpp 
+
+${TESTDIR}/tests/classifieurDecodeurTest.o: tests/classifieurDecodeurTest.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -I../opencv/include -I../pandore/include -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/classifiieurDecodeurTest.o tests/classifiieurDecodeurTest.cpp
+	$(COMPILE.cc) -g -I. -I../opencv/include -I../pandore/include -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/classifieurDecodeurTest.o tests/classifieurDecodeurTest.cpp
 
 
 ${TESTDIR}/tests/HandDirectionTest.o: tests/HandDirectionTest.cpp 
@@ -209,6 +220,12 @@ ${TESTDIR}/tests/RadialHistogramTest.o: tests/RadialHistogramTest.cpp
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
 	$(COMPILE.cc) -g -I. -I../opencv/include -I../pandore/include -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/RadialHistogramTest.o tests/RadialHistogramTest.cpp
+
+
+${TESTDIR}/tests/newsimpletest.o: tests/newsimpletest.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} $@.d
+	$(COMPILE.cc) -g -I. -I../opencv/include -I../pandore/include -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/newsimpletest.o tests/newsimpletest.cpp
 
 
 ${OBJECTDIR}/utilsFunctions_nomain.o: ${OBJECTDIR}/utilsFunctions.o utilsFunctions.cpp 
@@ -315,6 +332,19 @@ ${OBJECTDIR}/pClearHand_nomain.o: ${OBJECTDIR}/pClearHand.o pClearHand.cpp
 	    ${CP} ${OBJECTDIR}/pClearHand.o ${OBJECTDIR}/pClearHand_nomain.o;\
 	fi
 
+${OBJECTDIR}/RedressHand_nomain.o: ${OBJECTDIR}/RedressHand.o RedressHand.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/RedressHand.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -g -I../opencv/include -I../pandore/include -I. -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/RedressHand_nomain.o RedressHand.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/RedressHand.o ${OBJECTDIR}/RedressHand_nomain.o;\
+	fi
+
 ${OBJECTDIR}/StatisticalClassifier_nomain.o: ${OBJECTDIR}/StatisticalClassifier.o StatisticalClassifier.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/StatisticalClassifier.o`; \
@@ -374,6 +404,7 @@ ${OBJECTDIR}/convert_nomain.o: ${OBJECTDIR}/convert.o convert.cpp
 	    ${TESTDIR}/TestFiles/f3 || true; \
 	    ${TESTDIR}/TestFiles/f1 || true; \
 	    ${TESTDIR}/TestFiles/f2 || true; \
+	    ${TESTDIR}/TestFiles/f4 || true; \
 	else  \
 	    ./${TEST} || true; \
 	fi
