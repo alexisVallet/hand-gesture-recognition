@@ -22,8 +22,8 @@ using namespace std;
 
 int main(int argc, char** argv) {
 
-    string ymlfile = "C:/Users/Alexis/Documents/Dev/IN5x/in5x-gesture-recognition/gesture-recognition/runFolder/img/1.yml";
-    string panfile = "C:/Users/Alexis/Documents/Dev/IN5x/in5x-gesture-recognition/gesture-recognition/runFolder/imgresult/1.pan";
+    string ymlfile = "./runFolder/img/1.yml";
+    string panfile = "./runFolder/imgresult/1.pan";
      
     IplImage * imgyml = loadYml(ymlfile.c_str());
     Mat img = IplToMat(*imgyml);
