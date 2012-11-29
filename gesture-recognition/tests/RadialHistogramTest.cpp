@@ -87,9 +87,9 @@ void showHandAndRadialHistogram(Mat &segmentedHandRGB) {
 }
 
 int main(int argc, char** argv) {
-    Mat four = imread(".\\test-segmented-4.bmp").t();
+    Mat four = imread("./runFolder/test-segmented-4.bmp").t();
     Mat flippedFour, rotatedFour;
-    Mat five = imread(".\\test-segmented-5-2-wristless.bmp").t();
+    Mat five = imread("./runFolder/test-segmented-5-2-wristless.bmp").t();
     Mat flippedFive, rotatedFive;
     horizontalSymmetry(four, flippedFour);
     verticalSymmetry(flippedFour, rotatedFour);
