@@ -20,7 +20,10 @@ static void radialHistogramWithCenterAndPixels(const Mat &segmentedHand, MatND &
                 atan(((float)(handPixel.x - center.x))/
                      ((float)(handPixel.y - center.y)));
     }
-
+    static int j = 0;
+    namedWindow("Angle offsets " + j);
+    imshow("Angle offsets " + j, (angleOffsets + M_PI/2.0)/M_PI);
+    j++;
     Mat segmentedHandMask = Mat_<unsigned char>(segmentedHand);
     int hsize[] = {numberOfBins};
     float range[] = {-M_PI/2.0, M_PI/2.0};
@@ -43,23 +46,4 @@ void radialHistogram(const Mat &segmentedHand, MatND &histogram, int numberOfBin
 void radialHistogramWithCenter(const Mat &segmentedHand, MatND &histogram, int numberOfBins, Point2f center) {
     Mat handPixelsMatrix = handPixels(Mat_<int>(segmentedHand));
     radialHistogramWithCenterAndPixels(segmentedHand, histogram, numberOfBins, center, handPixelsMatrix);
-}
-
-Point2f estimatePalmCenter(const Mat &segmentedHand, int maxFingerWidth) {
-    Mat structuringElement = getStructuringElement(
-            MORPH_ELLIPSE, 
-            Size(maxFingerWidth-1,maxFingerWidth-1));
-    Mat palm;
-    erode(segmentedHand, palm, structuringElement);
-
-    return computeMassCenter(palm);
-}
-
-Point2f computeMassCenter(const Mat &segmentedHand) {
-    Mat handPixelsMatrix = handPixels(Mat_<int>(segmentedHand));
-    PCA handPCA(Mat_<float>(handPixelsMatrix), Mat(), CV_PCA_DATA_AS_COL);
-    Mat massCenterMat = handPCA.mean;
-    Point2f massCenter(massCenterMat.at<float>(0,0), massCenterMat.at<float>(0,1));
-    
-    return massCenter;
 }

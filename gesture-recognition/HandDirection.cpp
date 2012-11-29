@@ -29,8 +29,7 @@ Mat handPixels(const Mat &segmentedHand) {
     return handPixelsMatrix;
 }
 
-std::pair < Mat,Mat > handDirection(const Mat &segmentedHand) {
-    Mat handPixelsMatrix = Mat_<float>(handPixels(Mat_<int>(segmentedHand)));
+static std::pair < Mat,Mat > handDirectionPCA(const Mat &segmentedHand, Mat &handPixelsMatrix) {
     PCA handPCA;
     handPCA(handPixelsMatrix, Mat(), CV_PCA_DATA_AS_COL);
     std::cout<<"PCA computed"<<std::endl;
@@ -38,4 +37,33 @@ std::pair < Mat,Mat > handDirection(const Mat &segmentedHand) {
     std::pair < Mat, Mat > separatedEigenVectors(eigenVectors.row(0), eigenVectors.row(1));
     
     return separatedEigenVectors;
+}
+
+std::pair < Mat,Mat > handDirection(const Mat &segmentedHand) {
+    Mat handPixelsMatrix = Mat_<float>(handPixels(Mat_<int>(segmentedHand)));
+    
+    return handDirectionPCA(segmentedHand, handPixelsMatrix);
+}
+
+Point2f estimatePalmCenter(const Mat &segmentedHand, int maxFingerWidth) {
+    Mat structuringElement = getStructuringElement(
+            MORPH_ELLIPSE, 
+            Size(maxFingerWidth-1,maxFingerWidth-1));
+    Mat palm;
+    erode(segmentedHand, palm, structuringElement);
+
+    return computeMassCenter(palm);
+}
+
+Point2f computeMassCenter(const Mat &segmentedHand) {
+    Mat handPixelsMatrix = handPixels(Mat_<int>(segmentedHand));
+    // Fails when there are no hand pixels.
+    if (handPixelsMatrix.cols == 0) {
+        return Point2f(-1,-1);
+    }
+    PCA handPCA(Mat_<float>(handPixelsMatrix), Mat(), CV_PCA_DATA_AS_COL);
+    Mat massCenterMat = handPCA.mean;
+    Point2f massCenter(massCenterMat.at<float>(0,0), massCenterMat.at<float>(0,1));
+    
+    return massCenter;
 }

@@ -18,6 +18,24 @@
 using namespace cv;
 using namespace std;
 
+void horizontalSymmetry(Mat &inputImage, Mat &outputImage) {
+    Mat symmetryMatrix = Mat::zeros(2,3,CV_32F);
+    symmetryMatrix.at<float>(0,0) = -1;
+    symmetryMatrix.at<float>(1,1) = 1;
+    symmetryMatrix.at<float>(0,2) = inputImage.cols;
+    symmetryMatrix.at<float>(1,2) = 0;
+    warpAffine(inputImage, outputImage, symmetryMatrix, Size(inputImage.cols, inputImage.rows));
+}
+
+void verticalSymmetry(Mat &inputImage, Mat &outputImage) {
+    Mat symmetryMatrix = Mat::zeros(2,3,CV_32F);
+    symmetryMatrix.at<float>(0,0) = 1;
+    symmetryMatrix.at<float>(1,1) = -1;
+    symmetryMatrix.at<float>(0,2) = 0;
+    symmetryMatrix.at<float>(1,2) = inputImage.rows;
+    warpAffine(inputImage, outputImage, symmetryMatrix, Size(inputImage.cols, inputImage.rows));
+}
+
 Mat imHist(Mat hist, float scaleX=1, float scaleY=1){
   double maxVal=0;
   minMaxLoc(hist, 0, &maxVal, 0, 0);
@@ -41,8 +59,8 @@ Mat imHist(Mat hist, float scaleX=1, float scaleY=1){
   return histImg;
 }
 
-void showHandAndRadialHistogram(string filepath) {
-    Mat segmentedHandRGB = imread(filepath).t();
+void showHandAndRadialHistogram(Mat &segmentedHandRGB) {
+    static int j = 0;
     vector<Mat> rgbPlanes;
     split(segmentedHandRGB, rgbPlanes);
     Mat segmentedHandGray = rgbPlanes[0];
@@ -59,17 +77,28 @@ void showHandAndRadialHistogram(string filepath) {
     radialHistogramWithCenter(segmentedHandBin, histogramPalm, 150, palmCenter);
     Mat histogramImage = imHist(histogram * 100.0);
     Mat histogramPalmImage = imHist(histogramPalm * 100.0);
-    namedWindow("Segmented hand " + filepath);
-    imshow("Segmented hand " + filepath, segmentedHandRGB);
-    namedWindow("Radial histogram " + filepath);
-    imshow("Radial histogram " + filepath, histogramImage);
-    namedWindow("Radial histogram with palm center " + filepath);
-    imshow("Radial histogram with palm center " + filepath, histogramPalmImage);
+    namedWindow("Segmented hand " + j);
+    imshow("Segmented hand " + j, segmentedHandRGB);
+    namedWindow("Radial histogram " + j);
+    imshow("Radial histogram " + j, histogramImage);
+    namedWindow("Radial histogram with palm center " + j);
+    imshow("Radial histogram with palm center " + j, histogramPalmImage);
+    j++;
 }
 
-int main(int argc, char** argv) {   
-    showHandAndRadialHistogram(".\\test-segmented-4.bmp");
-    showHandAndRadialHistogram(".\\test-segmented-5-2-wristless.bmp");
+int main(int argc, char** argv) {
+    Mat four = imread(".\\test-segmented-4.bmp").t();
+    Mat flippedFour, rotatedFour;
+    Mat five = imread(".\\test-segmented-5-2-wristless.bmp").t();
+    Mat flippedFive, rotatedFive;
+    horizontalSymmetry(four, flippedFour);
+    verticalSymmetry(flippedFour, rotatedFour);
+    horizontalSymmetry(five, flippedFive);
+    verticalSymmetry(flippedFive, rotatedFive);
+    showHandAndRadialHistogram(four);
+    showHandAndRadialHistogram(rotatedFour);
+/*    showHandAndRadialHistogram(five);
+    showHandAndRadialHistogram(flippedFive);*/
     waitKey(0);
     
     return (EXIT_SUCCESS);
