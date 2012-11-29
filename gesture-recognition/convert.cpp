@@ -23,7 +23,7 @@ Mat _PanToMat( const Img2duc &ims) {
     return matrix;
 }
 
-Img2duc _MatToPan( const Mat &matrix) {
+Img2duc _MatToPan( const Mat &matrix, string panfile) {
     
     Img2duc img = Img2duc(matrix.rows, matrix.cols);
     pandore::Point2d p;
@@ -32,7 +32,7 @@ Img2duc _MatToPan( const Mat &matrix) {
         for (p.x=0; p.x<img.Width(); p.x++)
             img[p] = matrix.data[(int)(matrix.rows*p.y+p.x)];
     
-    string panfile = ".\\imgresult/1.pan";
+   // string panfile = ".\\imgresult/1.pan";
 //    string panfile = "C:/Users/Admin/Desktop/test.pan";
     img.SaveFile(panfile.c_str());
     

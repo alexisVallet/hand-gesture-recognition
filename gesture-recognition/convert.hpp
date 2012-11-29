@@ -26,7 +26,7 @@ using namespace cv;
  */
 
 Mat _PanToMat( const Img2duc &ims);
-Img2duc _MatToPan( const Mat &matrix);
+Img2duc _MatToPan( const Mat &matrix, string panfile);
 
 /*
  * This function allows to switch between Mat and IplImage OpenCV formats.

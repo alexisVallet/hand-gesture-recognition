@@ -22,14 +22,14 @@ using namespace std;
 
 int main(int argc, char** argv) {
 
-    string ymlfile = ".\\img/1.yml";
-    string panfile = ".\\imgresult/1.pan";
+    string ymlfile = "C:/Users/Alexis/Documents/Dev/IN5x/in5x-gesture-recognition/gesture-recognition/runFolder/img/1.yml";
+    string panfile = "C:/Users/Alexis/Documents/Dev/IN5x/in5x-gesture-recognition/gesture-recognition/runFolder/imgresult/1.pan";
      
     IplImage * imgyml = loadYml(ymlfile.c_str());
     Mat img = IplToMat(*imgyml);
     cvNamedWindow("test",1);
     imshow("test", img);
-//    Img2duc imgpan = _MatToPan(img);
+    Img2duc imgpan = _MatToPan(img, panfile);
 //    imgpan.SaveFile(panfile.c_str());
     
 //    system("C:/Program Files (x86)/pandore/bin/pvisu.exe "+"panfile");
