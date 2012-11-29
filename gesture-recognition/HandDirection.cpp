@@ -29,7 +29,7 @@ Mat handPixels(const Mat &segmentedHand) {
     return handPixelsMatrix;
 }
 
-static std::pair < Mat,Mat > handDirectionPCA(const Mat &segmentedHand, Mat &handPixelsMatrix) {
+std::pair < Mat,Mat > handDirectionPCA(const Mat &segmentedHand, Mat &handPixelsMatrix) {
     PCA handPCA;
     handPCA(handPixelsMatrix, Mat(), CV_PCA_DATA_AS_COL);
     std::cout<<"PCA computed"<<std::endl;
