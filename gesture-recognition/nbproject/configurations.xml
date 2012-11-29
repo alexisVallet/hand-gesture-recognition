@@ -99,15 +99,14 @@
         <ccTool>
           <incDir>
             <pElem>../opencv/include</pElem>
-            <pElem>../pandore/include</pElem>
-            <pElem>.</pElem>
+            <pElem>C:/pandore/include</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f1</output>
           <linkerAddLib>
-            <pElem>../pandore/lib</pElem>
             <pElem>../opencv/lib</pElem>
+            <pElem>C:/pandore/lib</pElem>
           </linkerAddLib>
           <linkerLibItems>
             <linkerLibFileItem>../opencv/lib/libopencv_calib3d243.dll.a</linkerLibFileItem>
@@ -127,7 +126,7 @@
             <linkerLibFileItem>../opencv/lib/libopencv_ts243.a</linkerLibFileItem>
             <linkerLibFileItem>../opencv/lib/libopencv_video243.dll.a</linkerLibFileItem>
             <linkerLibFileItem>../opencv/lib/libopencv_videostab243.dll.a</linkerLibFileItem>
-            <linkerLibLibItem>pandore</linkerLibLibItem>
+            <linkerLibFileItem>C:/pandore/lib/pandore.lib</linkerLibFileItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
