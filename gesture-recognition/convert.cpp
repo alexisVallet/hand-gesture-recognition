@@ -38,15 +38,3 @@ Img2duc _MatToPan( const Mat &matrix, string panfile) {
     
     return img;
 }
-
-Mat IplToMat(IplImage &src)
-{
-    Mat * dest = new Mat_<unsigned char>(src.width, src.height);
-    dest->dims = 0;
-    int sz = src.height*src.width;
-    
-    for(int i=0; i<sz; i++)
-        dest->data[i] = src.imageData[i];
-    
-    return *dest;
-}

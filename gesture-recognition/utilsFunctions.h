@@ -30,6 +30,7 @@ Mat IplToMat(IplImage &src);
 float * horizontalProfiling(Mat img);
 void convertAllYMLImageFromPath();
 Mat extractHandFromBMPFile(string filename);
+Mat extractHandFromBinarizedMat(Mat &img);
 
 
 

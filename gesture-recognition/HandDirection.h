@@ -32,24 +32,15 @@ cv::Mat handPixels(const cv::Mat &segmentedHand);
  * analysis. Returns the 2 eigenvectors of the covariance matrix
  * of the hand pixels. Does not guarantee the direction of the fingers,
  * the returned vector can point the other way, but it should be colinear
- * Takes hand pixels as an additional parameter.
- * 
- * @param segmentedHand the segmented, cropped and binarized hand
- * @return direction vectors of the hand.
- */
-std::pair < Mat,Mat > handDirectionPCA(const Mat &segmentedHand, Mat &handPixelsMatrix);
-
-/**
- * Computes the direction of the hand using principal component
- * analysis. Returns the 2 eigenvectors of the covariance matrix
- * of the hand pixels. Does not guarantee the direction of the fingers,
- * the returned vector can point the other way, but it should be colinear
  * 
  * 
  * @param segmentedHand the segmented, cropped and binarized hand
  * @return direction vectors of the hand.
  */
 std::pair < cv::Mat,cv::Mat > handDirection(const cv::Mat &segmentedHand);
+
+std::pair < cv::Mat,cv::Mat > handDirectionWithPixelValue(
+        const cv::Mat &segmentedHand, int handPixelValue);
 
 /**
  * Estimates the center of the palm by first eroding the hand with a kernel

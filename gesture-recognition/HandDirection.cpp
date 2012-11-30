@@ -9,7 +9,7 @@
 
 using namespace cv;
 
-Mat handPixels(const Mat &segmentedHand) {
+Mat handPixelsWithPixelValue(const Mat &segmentedHand, int handPixelValue) {
     int numberOfHandPixels = countNonZero(segmentedHand);
     Mat handPixelsMatrix(2, numberOfHandPixels, CV_32S);
     int currentHandPixel = 0;
@@ -18,7 +18,7 @@ Mat handPixels(const Mat &segmentedHand) {
         for (int j = 0; j < segmentedHand.cols; j++) {
             int pixelValue = segmentedHand.at<int>(i,j);
             
-            if (pixelValue == HAND_PIXEL_VALUE) {
+            if (pixelValue == handPixelValue) {
                 handPixelsMatrix.at<int>(0, currentHandPixel) = i;
                 handPixelsMatrix.at<int>(1, currentHandPixel) = j;
                 currentHandPixel++;
@@ -29,7 +29,13 @@ Mat handPixels(const Mat &segmentedHand) {
     return handPixelsMatrix;
 }
 
-std::pair < Mat,Mat > handDirectionPCA(const Mat &segmentedHand, Mat &handPixelsMatrix) {
+Mat handPixels(const Mat &segmentedHand) {
+    return handPixelsWithPixelValue(segmentedHand, HAND_PIXEL_VALUE);
+}
+
+std::pair < cv::Mat,cv::Mat > handDirectionWithPixelValue(
+        const cv::Mat &segmentedHand, int handPixelValue) {
+    Mat handPixelsMatrix = Mat_<float>(handPixelsWithPixelValue(Mat_<int>(segmentedHand),handPixelValue));
     PCA handPCA;
     handPCA(handPixelsMatrix, Mat(), CV_PCA_DATA_AS_COL);
     std::cout<<"PCA computed"<<std::endl;
@@ -40,9 +46,7 @@ std::pair < Mat,Mat > handDirectionPCA(const Mat &segmentedHand, Mat &handPixels
 }
 
 std::pair < Mat,Mat > handDirection(const Mat &segmentedHand) {
-    Mat handPixelsMatrix = Mat_<float>(handPixels(Mat_<int>(segmentedHand)));
-    
-    return handDirectionPCA(segmentedHand, handPixelsMatrix);
+    return handDirectionWithPixelValue(segmentedHand, HAND_PIXEL_VALUE);
 }
 
 Point2f estimatePalmCenter(const Mat &segmentedHand, int maxFingerWidth) {

@@ -52,6 +52,26 @@ Mat extractHandFromBMPFile(string filename)
     return hand;
 }
 
+//La même qu'au dessus mais à partir d'une image Mat déjà binarisée
+Mat extractHandFromBinarizedMat(Mat &img)
+{
+    img.dims=0;
+   
+    int xMin, xMax, yMin, yMax;   
+    calculBounds(img, xMin, xMax, yMin, yMax);
+    xMax++;
+    yMax++;
+    int sx = xMax - xMin;
+    int sy = yMax - yMin;
+    //extraction of the hand
+    Mat hand = Mat_<unsigned char>(sy, sx);
+    hand.dims=0;//tres important, trop de pb à cause de ces conneries de channel
+
+    extractSubimageFromBounds(img, hand, xMin, xMax, yMin, yMax);
+
+    return hand;
+}
+
 
 
 //binarisation on ne peut plus élémentaire, à la différence que si <seuil -> 255 et si >seuil ->0
@@ -141,8 +161,13 @@ void calcHist(IplImage * img)
 
 
 
+
 void calculBounds(Mat img, int &xMin, int &xMax, int &yMin, int &yMax)
 {
+    cout << "datasize = " << img.dataend - img.datastart << endl;
+    int max = 0;
+    
+    
     int canal = img.dims+1;
     //cout << "canal = " << canal << endl;
 
@@ -154,16 +179,19 @@ void calculBounds(Mat img, int &xMin, int &xMax, int &yMin, int &yMax)
         {
             if(!xMinFinded && img.data[i*img.cols*canal+j*canal]==255) 
             {
+                if(max<i*img.cols*canal+j*canal) max = i*img.cols*canal+j*canal;
                 xMin = j;
                 xMinFinded = true;
             }
-            if(!xMaxFinded && img.data[(img.rows-i-1)*img.cols*canal + (img.cols-j)*canal]==255) 
+            if(!xMaxFinded && img.data[(img.rows-i-1)*img.cols*canal + (img.cols-j-1)*canal]==255) 
             {
+                if(max<(img.rows-i-1)*img.cols*canal + (img.cols-j-1)*canal) max = (img.rows-i-1)*img.cols*canal + (img.cols-j-1)*canal;
                 xMax = img.rows-j;
                 xMaxFinded = true;
             }
         }
     }
+    cout << "max = " << max << endl;
     
     
     //2 - detection des min/max en Y
@@ -176,13 +204,13 @@ void calculBounds(Mat img, int &xMin, int &xMax, int &yMin, int &yMax)
                 yMin = i;
                 yMinFinded = true;
             }
-            if(!yMaxFinded && img.data[(img.rows-i-1)*img.cols*canal + (img.cols-j)*canal]==255) 
+            if(!yMaxFinded && img.data[(img.rows-i-1)*img.cols*canal + (img.cols-j-1)*canal]==255) 
             {
                 yMax = img.rows-i;
                 yMaxFinded = true;
             }
         }
-    //cout << "xmin = " << xMin << "  xMax = " << xMax << "  yMin = " << yMin << "  yMax = " << yMax << endl;
+    cout << "xmin = " << xMin << "  xMax = " << xMax << "  yMin = " << yMin << "  yMax = " << yMax << endl;
 }
 
 

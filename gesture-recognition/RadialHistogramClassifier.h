@@ -8,10 +8,14 @@
 #ifndef RADIALHISTOGRAMCLASSIFIER_H
 #define	RADIALHISTOGRAMCLASSIFIER_H
 
+#include "ClassifierParameters.h"
 #include "StatisticalClassifier.h"
 #include "RadialHistogram.h"
 #include "HandDirection.h"
-#include "RedressHand.h"
+#include "rotateHand.h"
+
+#define DEFAULT_RADIAL_BINS_NUMBER 80
+#define DEFAULT_MAX_FINGER_WIDTH 15
 
 /**
  * Classifies a segmented hand using its radial histogram.
@@ -23,7 +27,12 @@
 class RadialHistogramClassifier : StatisticalClassifier {
 public:
     RadialHistogramClassifier();
+    RadialHistogramClassifier(int numberOfBins, int maxFingerWidth);
     Mat caracteristicVector(Mat &segmentedHand);
+
+private:
+    int numberOfBins;
+    int maxFingerWidth;
 };
 
 #endif	/* RADIALHISTOGRAMCLASSIFIER_H */

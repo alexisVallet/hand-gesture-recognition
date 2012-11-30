@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <iostream>
 
-#include "RedressHand.h"
+#include "rotateHand.h"
 
 using namespace cv;
 using namespace std;
@@ -18,7 +18,7 @@ using namespace std;
  */
 
 int main(int argc, char** argv) {
-    Mat hand = imread("C:/Users/Alexis/Documents/Dev/IN5x/in5x-gesture-recognition/gesture-recognition/runFolder/7.bmp");
+    Mat hand = imread("./runFolder/7.bmp");
     Mat rotated;
     
     rotateHand(hand, rotated, M_PI/3);

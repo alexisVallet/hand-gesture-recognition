@@ -7,14 +7,14 @@
       <itemPath>Classifier.h</itemPath>
       <itemPath>ClassifierParameters.h</itemPath>
       <itemPath>HandDirection.h</itemPath>
-      <itemPath>LoadYML.h</itemPath>
       <itemPath>RadialHistogram.h</itemPath>
       <itemPath>RadialHistogramClassifier.h</itemPath>
-      <itemPath>RedressHand.h</itemPath>
       <itemPath>StatisticalClassifier.h</itemPath>
       <itemPath>convert.hpp</itemPath>
       <itemPath>pClearHand.hpp</itemPath>
       <itemPath>paramsClassifieurs.h</itemPath>
+      <itemPath>rotateHand.h</itemPath>
+      <itemPath>utilsFunctions.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -28,15 +28,15 @@
       <itemPath>ClassifieurDistHistogramm.cpp</itemPath>
       <itemPath>ClassifieursProfils.cpp</itemPath>
       <itemPath>HandDirection.cpp</itemPath>
-      <itemPath>LoadYML.cpp</itemPath>
       <itemPath>RadialHistogram.cpp</itemPath>
       <itemPath>RadialHistogramClassifier.cpp</itemPath>
-      <itemPath>RedressHand.cpp</itemPath>
       <itemPath>StatisticalClassifier.cpp</itemPath>
       <itemPath>convert.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>newfile.cpp</itemPath>
       <itemPath>pClearHand.cpp</itemPath>
+      <itemPath>rotateHand.cpp</itemPath>
+      <itemPath>utilsFunctions.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -72,6 +72,12 @@
                      kind="TEST">
         <itemPath>tests/newsimpletest.cpp</itemPath>
       </logicalFolder>
+      <logicalFolder name="f6"
+                     displayName="rotateHandTest"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/rotateHandTest.cpp</itemPath>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -79,6 +85,8 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>Crop.cpp</itemPath>
+    <itemPath>Crop.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -203,6 +211,21 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f5</output>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f6">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f6</output>
         </linkerTool>
       </folder>
     </conf>
