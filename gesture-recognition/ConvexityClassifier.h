@@ -28,12 +28,7 @@ class ConvexityClassifier : Classifier {
 public:
     ConvexityClassifier();
     ConvexityClassifier(const ConvexityClassifier& orig);
-    /**
-     * Do not Know What is the meaning of this function?
-     */
-    virtual int numberOfFingersFromClassifierResult(float classifierResult);
-    virtual ~ConvexityClassifier();
-    
+    virtual ~ConvexityClassifier();    
     /**
      * Return the Number of Fingers identify by the Classifier
      * 

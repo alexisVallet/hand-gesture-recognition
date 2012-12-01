@@ -6,12 +6,11 @@
                    projectFiles="true">
       <itemPath>Classifier.h</itemPath>
       <itemPath>ClassifierParameters.h</itemPath>
+      <itemPath>ConvexityClassifier.h</itemPath>
       <itemPath>HandDirection.h</itemPath>
       <itemPath>RadialHistogram.h</itemPath>
       <itemPath>RadialHistogramClassifier.h</itemPath>
       <itemPath>StatisticalClassifier.h</itemPath>
-      <itemPath>convert.hpp</itemPath>
-      <itemPath>pClearHand.hpp</itemPath>
       <itemPath>paramsClassifieurs.h</itemPath>
       <itemPath>rotateHand.h</itemPath>
       <itemPath>utilsFunctions.h</itemPath>
@@ -27,14 +26,13 @@
       <itemPath>ClassifieurDistEuclidienne.cpp</itemPath>
       <itemPath>ClassifieurDistHistogramm.cpp</itemPath>
       <itemPath>ClassifieursProfils.cpp</itemPath>
+      <itemPath>ConvexityClassifier.cpp</itemPath>
       <itemPath>HandDirection.cpp</itemPath>
       <itemPath>RadialHistogram.cpp</itemPath>
       <itemPath>RadialHistogramClassifier.cpp</itemPath>
       <itemPath>StatisticalClassifier.cpp</itemPath>
-      <itemPath>convert.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>newfile.cpp</itemPath>
-      <itemPath>pClearHand.cpp</itemPath>
       <itemPath>rotateHand.cpp</itemPath>
       <itemPath>utilsFunctions.cpp</itemPath>
     </logicalFolder>
@@ -107,14 +105,12 @@
         <ccTool>
           <incDir>
             <pElem>../opencv/include</pElem>
-            <pElem>C:/pandore/include</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f1</output>
           <linkerAddLib>
             <pElem>../opencv/lib</pElem>
-            <pElem>C:/pandore/lib</pElem>
           </linkerAddLib>
           <linkerLibItems>
             <linkerLibFileItem>../opencv/lib/libopencv_calib3d243.dll.a</linkerLibFileItem>
@@ -134,7 +130,6 @@
             <linkerLibFileItem>../opencv/lib/libopencv_ts243.a</linkerLibFileItem>
             <linkerLibFileItem>../opencv/lib/libopencv_video243.dll.a</linkerLibFileItem>
             <linkerLibFileItem>../opencv/lib/libopencv_videostab243.dll.a</linkerLibFileItem>
-            <linkerLibFileItem>C:/pandore/lib/pandore.lib</linkerLibFileItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

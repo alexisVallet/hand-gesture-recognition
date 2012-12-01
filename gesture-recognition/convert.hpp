@@ -9,7 +9,6 @@
 #define	CONVERT_HPP
 
 #include <stdio.h>
-#include <pandore.h>
 #include <vector>
 
 #include "opencv2/imgproc/imgproc.hpp"
@@ -19,7 +18,6 @@
 
 #include "utilsFunctions.h"
 
-using namespace pandore;
 using namespace cv;
 
 /*

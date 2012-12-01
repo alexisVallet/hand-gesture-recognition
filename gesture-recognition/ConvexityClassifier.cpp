@@ -17,7 +17,13 @@ ConvexityClassifier::~ConvexityClassifier() {
 }
 
 int ConvexityClassifier::numberOfFingers(Mat &segmentedHand) {
-}
-
-int ConvexityClassifier::numberOfFingersFromClassifierResult(float classifierResult) {
+    
+    Mat tmp, out;
+    tmp = segmentedHand;
+    
+    /*Compute Median Blur*/
+    medianBlur( tmp , out, 15 );
+    
+    /**/
+    
 }
