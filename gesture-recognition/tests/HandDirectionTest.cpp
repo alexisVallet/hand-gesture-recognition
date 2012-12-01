@@ -37,12 +37,12 @@ void showHandAndDirection(string filepath) {
 }
 
 int main(int argc, char** argv) {
-    showHandAndDirection(".\\test-segmented-5-2.bmp");
-    showHandAndDirection(".\\test-segmented-5-2-wristless.bmp");
-    showHandAndDirection(".\\test-segmented-1.bmp");
-    showHandAndDirection(".\\test-segmented-1-wristless.bmp");
-    showHandAndDirection(".\\test-segmented-5.bmp");
-    showHandAndDirection(".\\test-segmented-5-wristless.bmp");
+    showHandAndDirection("./runFolder/test-segmented-5-2.bmp");
+    showHandAndDirection("./runFolder/test-segmented-5-2-wristless.bmp");
+    showHandAndDirection("./runFolder/test-segmented-1.bmp");
+    showHandAndDirection("./runFolder/test-segmented-1-wristless.bmp");
+    showHandAndDirection("./runFolder/test-segmented-5.bmp");
+    showHandAndDirection("./runFolder/test-segmented-5-wristless.bmp");
     waitKey(0);
     
     return (EXIT_SUCCESS);
