@@ -14,7 +14,9 @@
 #include "opencv2/legacy/compat.hpp"
 
 #include "convert.hpp"
-#include "LoadYML.h"
+#include "utilsFunctions.h"
+#include "Pfisher.h"
+#include "PHistogramEqualization.h"
 
 using namespace cv;
 using namespace pandore;
@@ -27,18 +29,23 @@ int main(int argc, char** argv) {
      
     IplImage * imgyml = loadYml(ymlfile.c_str());
     Mat img = IplToMat(*imgyml);
-//    cvNamedWindow("test",1);
-//    imshow("test", img);
-    cout << "image loaded" << endl;
     Img2duc imgpan = _MatToPan(img, panfile);
-    imgpan.SaveFile(panfile.c_str());
-    cout << "Avant creation nouvelle matrice" << endl;
-    Mat new_mat = _PanToMat(imgpan);
-    cout << "Apres creation nouvelle matrice" << endl << "Affichage : ";
-    imshow("test", img);
+    Img2duc fished = Img2duc(imgpan.Size());
     
-//    system("pvisu "+panfile);
+    PFisher_(imgpan, fished, Uchar(0), long(5));
+//    fished.SaveFile(panfile.c_str());
+        
+    Mat MatFished = _PanToMat(fished);
+    imshow("Fished", MatFished);
+        
+    Mat MatEqualized;
+    equalizeHist(MatFished, MatEqualized);
+    imshow("Equalized", MatEqualized);
     
+    Mat segmented;
+    threshold( MatEqualized, segmented, 10, 255, THRESH_BINARY );
+    imshow("Segmented", segmented);
+      
     waitKey(0);
     
     return (EXIT_SUCCESS);

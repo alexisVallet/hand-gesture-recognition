@@ -17,8 +17,10 @@
 #include "opencv2/legacy/compat.hpp"
 
 #include "utilsFunctions.h"
+#include "pandore.h"
 
 using namespace cv;
+using namespace pandore;
 
 /*
  * These functions are operators convertors betwenn pandore Img2duc format 
