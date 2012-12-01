@@ -6,10 +6,13 @@
                    projectFiles="true">
       <itemPath>Classifier.h</itemPath>
       <itemPath>ClassifierParameters.h</itemPath>
+      <itemPath>Crop.h</itemPath>
       <itemPath>HandDirection.h</itemPath>
       <itemPath>RadialHistogram.h</itemPath>
       <itemPath>RadialHistogramClassifier.h</itemPath>
       <itemPath>StatisticalClassifier.h</itemPath>
+      <itemPath>TrainableClassifier.h</itemPath>
+      <itemPath>TrainableStatModel.h</itemPath>
       <itemPath>convert.hpp</itemPath>
       <itemPath>pClearHand.hpp</itemPath>
       <itemPath>paramsClassifieurs.h</itemPath>
@@ -27,10 +30,10 @@
       <itemPath>ClassifieurDistEuclidienne.cpp</itemPath>
       <itemPath>ClassifieurDistHistogramm.cpp</itemPath>
       <itemPath>ClassifieursProfils.cpp</itemPath>
+      <itemPath>Crop.cpp</itemPath>
       <itemPath>HandDirection.cpp</itemPath>
       <itemPath>RadialHistogram.cpp</itemPath>
-      <itemPath>RadialHistogramClassifier.cpp</itemPath>
-      <itemPath>StatisticalClassifier.cpp</itemPath>
+      <itemPath>TrainableClassifier.cpp</itemPath>
       <itemPath>convert.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>newfile.cpp</itemPath>
@@ -60,6 +63,12 @@
                      kind="TEST">
         <itemPath>tests/HandDirectionTest.cpp</itemPath>
       </logicalFolder>
+      <logicalFolder name="f7"
+                     displayName="RadialHistogramClassifierTest"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/RadialHistogramClassifierTest.cpp</itemPath>
+      </logicalFolder>
       <logicalFolder name="f2"
                      displayName="RadialHistogramTest"
                      projectFiles="true"
@@ -85,8 +94,6 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>Crop.cpp</itemPath>
-    <itemPath>Crop.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -226,6 +233,21 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f6</output>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f7">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f7</output>
         </linkerTool>
       </folder>
     </conf>

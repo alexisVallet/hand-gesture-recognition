@@ -38,4 +38,15 @@ void radialHistogram(const Mat &segmentedHand, MatND &histogram, int numberOfBin
  */
 void radialHistogramWithCenter(const Mat &segmentedHand, MatND &histogram, int numberOfBins, Point2f center);
 
+/**
+ * Draws an histogram. Taken from 
+ * http://laconsigna.wordpress.com/2011/04/29/1d-histogram-on-opencv/
+ * 
+ * @param hist histogram to draw
+ * @param scaleX horizontal scaling factor
+ * @param scaleY vertical scaling factor
+ * @return histogram image
+ */
+Mat imHist(Mat hist, float scaleX=1, float scaleY=1);
+
 #endif	/* RADIALHISTOGRAM_H */

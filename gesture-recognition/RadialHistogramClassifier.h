@@ -24,11 +24,37 @@
  * histogram is invariant), computes its radial
  * histogram.
  */
-class RadialHistogramClassifier : StatisticalClassifier {
+template <typename T>
+class RadialHistogramClassifier : public StatisticalClassifier<T> {
 public:
-    RadialHistogramClassifier();
-    RadialHistogramClassifier(int numberOfBins, int maxFingerWidth);
-    Mat caracteristicVector(Mat &segmentedHand);
+    RadialHistogramClassifier() {
+    }
+    RadialHistogramClassifier(
+        T &internalStatisticalModel,
+        int numberOfBins,
+        int maxFingerWidth = DEFAULT_MAX_FINGER_WIDTH) 
+        : StatisticalClassifier<T>(internalStatisticalModel)
+    {        
+        this->numberOfBins = numberOfBins;
+        this->maxFingerWidth = maxFingerWidth;
+    }
+    Mat caracteristicVector(const Mat &segmentedHand) {
+        Mat direction = handDirection(segmentedHand).second;
+        float angle = atan(direction.at<float>(0,1)/direction.at<float>(0,0));
+        Mat rotatedHand;
+        rotateHand(segmentedHand, rotatedHand, angle);
+        MatND handRadialHistogram;
+        Point2f palmCenter = estimatePalmCenter(rotatedHand, this->maxFingerWidth);
+        radialHistogramWithCenter(
+            rotatedHand, 
+            handRadialHistogram, 
+            this->numberOfBins, 
+            palmCenter);
+        return handRadialHistogram;
+    }
+    int caracteristicVectorLength() {
+        return this->numberOfBins;
+    }
 
 private:
     int numberOfBins;

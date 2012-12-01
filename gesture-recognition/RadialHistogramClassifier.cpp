@@ -20,11 +20,16 @@ RadialHistogramClassifier::RadialHistogramClassifier(
 }
 
 Mat RadialHistogramClassifier::caracteristicVector(Mat &segmentedHand) {
-    Mat rotatedHand = redressHandFromBinarySegmentedImage(segmentedHand, 
-            HAND_PIXEL_VALUE);
+    Mat direction = handDirection(segmentedHand).second;
+    float angle = atan(direction.at<float>(0,1)/direction.at<float>(0,0));
+    Mat rotatedHand;
+    rotateHand(segmentedHand, rotatedHand, angle);
     MatND handRadialHistogram;
     Point2f palmCenter = estimatePalmCenter(rotatedHand, this->maxFingerWidth);
-    radialHistogramWithCenter(rotatedHand, handRadialHistogram, 
-            this->numberOfBins, palmCenter);
+    radialHistogramWithCenter(
+            rotatedHand, 
+            handRadialHistogram, 
+            this->numberOfBins, 
+            palmCenter);
     return handRadialHistogram;
 }

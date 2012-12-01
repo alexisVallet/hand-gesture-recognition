@@ -13,6 +13,7 @@
 #include "rotatehand.h"
 #include "crop.h"
 #include "utilsFunctions.h"
+#include "handDirection.h"
 
 /*
  * Simple C++ Test Suite
@@ -26,8 +27,10 @@ int main(int argc, char** argv) {
     Mat segmentedHandBin = segmentedHandGray / 255;
     Mat rotatedHand;
     Mat croppedRotatedHand;
+    pair<Mat,Mat> directions = handDirection(segmentedHandBin);
+    float angle = atan(directions.second.at<float>(0,1)/directions.second.at<float>(0,0));
     
-    rotateHand(segmentedHandBin, rotatedHand, M_PI/3);
+    rotateHand(segmentedHandBin, rotatedHand, angle);
     crop(rotatedHand, croppedRotatedHand);
     
     namedWindow("Original");
