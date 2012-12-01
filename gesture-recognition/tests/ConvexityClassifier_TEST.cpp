@@ -7,22 +7,51 @@
 
 #include <stdlib.h>
 #include <iostream>
+#include "opencv2/opencv.hpp"
+#include "opencv2/highgui/highgui.hpp"
+
+using namespace cv;
+using namespace std;
 
 /*
  * Simple C++ Test Suite
  */
 
-void test1() {
-    std::cout << "ConvexityClassifier_TEST test 1" << std::endl;
-}
 
-void test2() {
-    std::cout << "ConvexityClassifier_TEST test 2" << std::endl;
-    std::cout << "%TEST_FAILED% time=0 testname=test2 (ConvexityClassifier_TEST) message=error message sample" << std::endl;
+void ShowConvexityPoints(string filepath) {
+    
+    Mat out;//,contours_points,polygon;
+    vector<Point> polygon;
+    vector<Vec4i> hierarchy;
+    vector<vector<Point> > contours_points;
+    Mat segmentedHandRGB = imread(filepath);
+    imshow(filepath, segmentedHandRGB);
+    
+    /*CONVERSION FORMAT: Grayscale */
+    vector<Mat> rgbPlanes;
+    split(segmentedHandRGB, rgbPlanes);
+    Mat segmentedHandGray = rgbPlanes[0];
+    
+    /*Computing Convexity Classifier*/
+    medianBlur(segmentedHandGray,out,15);
+    
+    /*Looking for Contours Points*/
+    findContours( out, contours_points, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE );
+    
+    /*Approximation of Hands Contours by Polygon*/
+    approxPolyDP(contours_points,polygon,5,true);
+    
+    /*Affichage*/
+    namedWindow(filepath);
+    imshow(filepath,out);
+    
 }
 
 int main(int argc, char** argv) {
-
+    
+    ShowConvexityPoints("./runFolder/test-segmented-2.bmp");
+    waitKey(0);
+    
     return (EXIT_SUCCESS);
 }
 
