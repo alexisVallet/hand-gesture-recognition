@@ -6,6 +6,7 @@
  */
 
 #include <stdlib.h>
+#include "pandore.h"
 #include <iostream>
 
 #include "opencv2/imgproc/imgproc.hpp"
@@ -16,7 +17,6 @@
 #include "convert.hpp"
 #include "utilsFunctions.h"
 #include "Pfisher.h"
-#include "PHistogramEqualization.h"
 
 using namespace cv;
 using namespace pandore;

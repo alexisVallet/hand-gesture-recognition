@@ -8,9 +8,13 @@
       <itemPath>ClassifierParameters.h</itemPath>
       <itemPath>ConvexityClassifier.h</itemPath>
       <itemPath>HandDirection.h</itemPath>
+      <itemPath>Pfisher.h</itemPath>
       <itemPath>RadialHistogram.h</itemPath>
       <itemPath>RadialHistogramClassifier.h</itemPath>
+      <itemPath>Segmentation.h</itemPath>
       <itemPath>StatisticalClassifier.h</itemPath>
+      <itemPath>convert.h</itemPath>
+      <itemPath>pClearHand.h</itemPath>
       <itemPath>paramsClassifieurs.h</itemPath>
       <itemPath>rotateHand.h</itemPath>
       <itemPath>utilsFunctions.h</itemPath>
@@ -28,11 +32,14 @@
       <itemPath>ClassifieursProfils.cpp</itemPath>
       <itemPath>ConvexityClassifier.cpp</itemPath>
       <itemPath>HandDirection.cpp</itemPath>
+      <itemPath>Pfisher.cpp</itemPath>
       <itemPath>RadialHistogram.cpp</itemPath>
       <itemPath>RadialHistogramClassifier.cpp</itemPath>
+      <itemPath>C:/Users/Quentin/Documents/GI05/IN54/Projet/in5x-gesture-recognition/gesture-recognition/Segmentation.cpp</itemPath>
       <itemPath>StatisticalClassifier.cpp</itemPath>
+      <itemPath>convert.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
-      <itemPath>newfile.cpp</itemPath>
+      <itemPath>pClearHand.cpp</itemPath>
       <itemPath>rotateHand.cpp</itemPath>
       <itemPath>utilsFunctions.cpp</itemPath>
     </logicalFolder>
@@ -45,12 +52,6 @@
                      projectFiles="true"
                      kind="TEST">
         <itemPath>tests/classifieurDecodeurTest.cpp</itemPath>
-      </logicalFolder>
-      <logicalFolder name="f5"
-                     displayName="ConversionTest"
-                     projectFiles="true"
-                     kind="TEST">
-        <itemPath>tests/ConversionTest.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f1"
                      displayName="HandDirectionTest"
@@ -75,6 +76,12 @@
                      projectFiles="true"
                      kind="TEST">
         <itemPath>tests/rotateHandTest.cpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f7"
+                     displayName="SegmentationTest"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>C:/Users/Quentin/Documents/GI05/IN54/Projet/in5x-gesture-recognition/gesture-recognition/SegmentationTest/SegmentationTest.cpp</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -105,12 +112,14 @@
         <ccTool>
           <incDir>
             <pElem>../opencv/include</pElem>
+            <pElem>C:/pandore/include</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f1</output>
           <linkerAddLib>
             <pElem>../opencv/lib</pElem>
+            <pElem>C:/pandore/lib</pElem>
           </linkerAddLib>
           <linkerLibItems>
             <linkerLibFileItem>../opencv/lib/libopencv_calib3d243.dll.a</linkerLibFileItem>
@@ -130,6 +139,7 @@
             <linkerLibFileItem>../opencv/lib/libopencv_ts243.a</linkerLibFileItem>
             <linkerLibFileItem>../opencv/lib/libopencv_video243.dll.a</linkerLibFileItem>
             <linkerLibFileItem>../opencv/lib/libopencv_videostab243.dll.a</linkerLibFileItem>
+            <linkerLibLibItem>pandore</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
@@ -221,6 +231,21 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f6</output>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f7">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f7</output>
         </linkerTool>
       </folder>
     </conf>
