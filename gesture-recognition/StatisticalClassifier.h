@@ -38,7 +38,7 @@ public:
      * @param statisticalModel the statistical model used to classify the
      * caracteristic vector.
      */
-    StatisticalClassifier(TrainableStatModel<T> &statisticalModel)
+    StatisticalClassifier(TrainableStatModel<T> statisticalModel)
         : statisticalModel(statisticalModel)
     {
     }
@@ -64,7 +64,9 @@ public:
      * @param caracteristicVector caracteristic vector of the hand to classify.
      * @return the predicted class of the caracteristic vector.
      */
-    float predict(const Mat &caracteristicVector) {
+    float predict(const Mat &segmentedHand) {
+        Mat caracteristicVector = this->caracteristicVector(segmentedHand);
+        
         return this->statisticalModel.predict(caracteristicVector);
     }
     /**
@@ -89,13 +91,18 @@ public:
         const vector<int> &expectedClass) {
         assert(segmentedHands.size() == expectedClass.size());
         Mat trainData(segmentedHands.size(), this->caracteristicVectorLength(), CV_32F);
+        cout<<"trainData initialized"<<endl;
         Mat expectedResponses(1, segmentedHands.size(), CV_32F);
+        cout<<"responses initialized"<<endl;
     
         for (int i = 0; i < segmentedHands.size(); i++) {
                 Mat currentCaracteristicVector = 
                         this->caracteristicVector(segmentedHands[i]);
+                cout<<"Caracteristic vector for hand "<<i<<" computed: ("<<currentCaracteristicVector.rows<<","<<currentCaracteristicVector.cols<<")"<<endl;
                 currentCaracteristicVector.copyTo(trainData.row(i));
+                cout<<"Caracteristic vector added to the trainData"<<endl;
                 expectedResponses.at<float>(0, i) = expectedClass[i];
+                cout<<"Expected reponse added"<<endl;
         }
     
         this->statisticalModel.train(trainData, expectedResponses);

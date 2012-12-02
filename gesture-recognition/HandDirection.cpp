@@ -38,7 +38,6 @@ std::pair < cv::Mat,cv::Mat > handDirectionWithPixelValue(
     Mat handPixelsMatrix = Mat_<float>(handPixelsWithPixelValue(Mat_<int>(segmentedHand),handPixelValue));
     PCA handPCA;
     handPCA(handPixelsMatrix, Mat(), CV_PCA_DATA_AS_COL);
-    std::cout<<"PCA computed"<<std::endl;
     Mat eigenVectors = handPCA.eigenvectors.clone();
     std::pair < Mat, Mat > separatedEigenVectors(eigenVectors.row(0), eigenVectors.row(1));
     

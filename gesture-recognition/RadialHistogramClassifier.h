@@ -31,10 +31,10 @@ public:
     }
     RadialHistogramClassifier(
         T &internalStatisticalModel,
-        int numberOfBins,
+        int numberOfBins = DEFAULT_RADIAL_BINS_NUMBER,
         int maxFingerWidth = DEFAULT_MAX_FINGER_WIDTH) 
-        : StatisticalClassifier<T>(internalStatisticalModel)
-    {        
+        : StatisticalClassifier<T>(TrainableStatModel<T>(internalStatisticalModel))
+    {
         this->numberOfBins = numberOfBins;
         this->maxFingerWidth = maxFingerWidth;
     }
@@ -50,7 +50,7 @@ public:
             handRadialHistogram, 
             this->numberOfBins, 
             palmCenter);
-        return handRadialHistogram;
+        return handRadialHistogram.t();
     }
     int caracteristicVectorLength() {
         return this->numberOfBins;
