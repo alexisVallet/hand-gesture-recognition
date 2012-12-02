@@ -7,6 +7,7 @@
       <itemPath>Classifier.h</itemPath>
       <itemPath>ClassifierParameters.h</itemPath>
       <itemPath>ConvexityClassifier.h</itemPath>
+      <itemPath>Crop.h</itemPath>
       <itemPath>HandDirection.h</itemPath>
       <itemPath>Pfisher.h</itemPath>
       <itemPath>RadialHistogram.h</itemPath>
@@ -16,9 +17,7 @@
       <itemPath>TrainableClassifier.h</itemPath>
       <itemPath>TrainableStatModel.h</itemPath>
       <itemPath>convert.h</itemPath>
-      <itemPath>convert.hpp</itemPath>
       <itemPath>pClearHand.h</itemPath>
-      <itemPath>pClearHand.hpp</itemPath>
       <itemPath>paramsClassifieurs.h</itemPath>
       <itemPath>rotateHand.h</itemPath>
       <itemPath>utilsFunctions.h</itemPath>
@@ -35,12 +34,11 @@
       <itemPath>ClassifieurDistHistogramm.cpp</itemPath>
       <itemPath>ClassifieursProfils.cpp</itemPath>
       <itemPath>ConvexityClassifier.cpp</itemPath>
+      <itemPath>Crop.cpp</itemPath>
       <itemPath>HandDirection.cpp</itemPath>
       <itemPath>Pfisher.cpp</itemPath>
       <itemPath>RadialHistogram.cpp</itemPath>
-      <itemPath>RadialHistogramClassifier.cpp</itemPath>
       <itemPath>Segmentation.cpp</itemPath>
-      <itemPath>StatisticalClassifier.cpp</itemPath>
       <itemPath>convert.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>pClearHand.cpp</itemPath>
@@ -87,11 +85,11 @@
                      kind="TEST">
         <itemPath>tests/rotateHandTest.cpp</itemPath>
       </logicalFolder>
-      <logicalFolder name="f7"
+      <logicalFolder name="f8"
                      displayName="SegmentationTest"
                      projectFiles="true"
                      kind="TEST">
-        <itemPath>C:/Users/Quentin/Documents/GI05/IN54/Projet/in5x-gesture-recognition/gesture-recognition/SegmentationTest/SegmentationTest.cpp</itemPath>
+        <itemPath>SegmentationTest/SegmentationTest.cpp</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
