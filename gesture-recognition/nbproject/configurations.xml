@@ -14,10 +14,10 @@
       <itemPath>Segmentation.h</itemPath>
       <itemPath>StatisticalClassifier.h</itemPath>
       <itemPath>TrainableClassifier.h</itemPath>
-      <itemPath>convert.h</itemPath>
       <itemPath>TrainableStatModel.h</itemPath>
-      <itemPath>pClearHand.h</itemPath>
+      <itemPath>convert.h</itemPath>
       <itemPath>convert.hpp</itemPath>
+      <itemPath>pClearHand.h</itemPath>
       <itemPath>pClearHand.hpp</itemPath>
       <itemPath>paramsClassifieurs.h</itemPath>
       <itemPath>rotateHand.h</itemPath>
@@ -39,6 +39,7 @@
       <itemPath>Pfisher.cpp</itemPath>
       <itemPath>RadialHistogram.cpp</itemPath>
       <itemPath>RadialHistogramClassifier.cpp</itemPath>
+      <itemPath>Segmentation.cpp</itemPath>
       <itemPath>StatisticalClassifier.cpp</itemPath>
       <itemPath>convert.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
@@ -114,16 +115,18 @@
             <pElem>.</pElem>
             <pElem>.</pElem>
             <pElem>.</pElem>
+            <pElem>.</pElem>
           </incDir>
         </cTool>
         <ccTool>
           <incDir>
             <pElem>../opencv/include</pElem>
             <pElem>C:/pandore/include</pElem>
+            <pElem>.</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
-          <output>${TESTDIR}/TestFiles/f1</output>
+          <output>${TESTDIR}/TestFiles/f5</output>
           <linkerAddLib>
             <pElem>../opencv/lib</pElem>
             <pElem>C:/pandore/lib</pElem>
@@ -208,21 +211,6 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f4</output>
-        </linkerTool>
-      </folder>
-      <folder path="TestFiles/f5">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-        <ccTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </ccTool>
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f5</output>
         </linkerTool>
       </folder>
       <folder path="TestFiles/f6">

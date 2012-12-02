@@ -41,11 +41,20 @@ OBJECTFILES= \
 	${OBJECTDIR}/ClassifieursProfils.o \
 	${OBJECTDIR}/Crop.o \
 	${OBJECTDIR}/main.o \
+<<<<<<< Updated upstream
 	${OBJECTDIR}/HandDirection.o \
 	${OBJECTDIR}/ClassifieurDistEuclidienne.o \
 	${OBJECTDIR}/pClearHand.o \
 	${OBJECTDIR}/_ext/603711641/Segmentation.o \
 	${OBJECTDIR}/StatisticalClassifier.o \
+=======
+	${OBJECTDIR}/Crop.o \
+	${OBJECTDIR}/HandDirection.o \
+	${OBJECTDIR}/ClassifieurDistEuclidienne.o \
+	${OBJECTDIR}/newfile.o \
+	${OBJECTDIR}/pClearHand.o \
+	${OBJECTDIR}/TrainableClassifier.o \
+>>>>>>> Stashed changes
 	${OBJECTDIR}/RadialHistogram.o \
 	${OBJECTDIR}/ConvexityClassifier.o \
 	${OBJECTDIR}/RadialHistogramClassifier.o \
@@ -63,6 +72,10 @@ TESTFILES= \
 	${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition \
 	${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition \
 	${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition \
+<<<<<<< Updated upstream
+=======
+	${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition \
+>>>>>>> Stashed changes
 	${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition
 
 # C Compiler Flags
@@ -114,10 +127,17 @@ ${OBJECTDIR}/Crop.o: Crop.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Crop.o Crop.cpp
 
+<<<<<<< Updated upstream
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+=======
+${OBJECTDIR}/Crop.o: Crop.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Crop.o Crop.cpp
+>>>>>>> Stashed changes
 
 ${OBJECTDIR}/HandDirection.o: HandDirection.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -125,6 +145,14 @@ ${OBJECTDIR}/HandDirection.o: HandDirection.cpp
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/HandDirection.o HandDirection.cpp
 
 ${OBJECTDIR}/ClassifieurDistEuclidienne.o: ClassifieurDistEuclidienne.cpp 
+<<<<<<< Updated upstream
+=======
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ClassifieurDistEuclidienne.o ClassifieurDistEuclidienne.cpp
+
+${OBJECTDIR}/newfile.o: newfile.cpp 
+>>>>>>> Stashed changes
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ClassifieurDistEuclidienne.o ClassifieurDistEuclidienne.cpp
@@ -134,15 +162,19 @@ ${OBJECTDIR}/pClearHand.o: pClearHand.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/pClearHand.o pClearHand.cpp
 
+<<<<<<< Updated upstream
 ${OBJECTDIR}/_ext/603711641/Segmentation.o: /C/Users/Quentin/Documents/GI05/IN54/Projet/in5x-gesture-recognition/gesture-recognition/Segmentation.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/603711641
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/603711641/Segmentation.o /C/Users/Quentin/Documents/GI05/IN54/Projet/in5x-gesture-recognition/gesture-recognition/Segmentation.cpp
 
 ${OBJECTDIR}/StatisticalClassifier.o: StatisticalClassifier.cpp 
+=======
+${OBJECTDIR}/TrainableClassifier.o: TrainableClassifier.cpp 
+>>>>>>> Stashed changes
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/StatisticalClassifier.o StatisticalClassifier.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/TrainableClassifier.o TrainableClassifier.cpp
 
 ${OBJECTDIR}/RadialHistogram.o: RadialHistogram.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -183,7 +215,15 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition: ${TESTDIR}/tests
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc}   -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition $^ ${LDLIBSOPTIONS} 
 
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition: ${TESTDIR}/tests/ConversionTest.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
+	${LINK.cc}   -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition $^ ${LDLIBSOPTIONS} 
+
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition: ${TESTDIR}/tests/HandDirectionTest.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
+	${LINK.cc}   -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition $^ ${LDLIBSOPTIONS} 
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition: ${TESTDIR}/tests/RadialHistogramClassifierTest.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc}   -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition $^ ${LDLIBSOPTIONS} 
 
@@ -199,10 +239,13 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition: ${TESTDIR}/tests
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc}   -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition $^ ${LDLIBSOPTIONS} 
 
+<<<<<<< Updated upstream
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition: ${TESTDIR}/_ext/549880278/SegmentationTest.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc}   -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition $^ ${LDLIBSOPTIONS} 
 
+=======
+>>>>>>> Stashed changes
 
 ${TESTDIR}/tests/classifieurDecodeurTest.o: tests/classifieurDecodeurTest.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
@@ -210,10 +253,22 @@ ${TESTDIR}/tests/classifieurDecodeurTest.o: tests/classifieurDecodeurTest.cpp
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${TESTDIR}/tests/classifieurDecodeurTest.o tests/classifieurDecodeurTest.cpp
 
 
+${TESTDIR}/tests/ConversionTest.o: tests/ConversionTest.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${TESTDIR}/tests/ConversionTest.o tests/ConversionTest.cpp
+
+
 ${TESTDIR}/tests/HandDirectionTest.o: tests/HandDirectionTest.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${TESTDIR}/tests/HandDirectionTest.o tests/HandDirectionTest.cpp
+
+
+${TESTDIR}/tests/RadialHistogramClassifierTest.o: tests/RadialHistogramClassifierTest.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${TESTDIR}/tests/RadialHistogramClassifierTest.o tests/RadialHistogramClassifierTest.cpp
 
 
 ${TESTDIR}/tests/RadialHistogramTest.o: tests/RadialHistogramTest.cpp 
@@ -234,6 +289,7 @@ ${TESTDIR}/tests/rotateHandTest.o: tests/rotateHandTest.cpp
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${TESTDIR}/tests/rotateHandTest.o tests/rotateHandTest.cpp
 
 
+<<<<<<< Updated upstream
 ${TESTDIR}/_ext/549880278/SegmentationTest.o: /C/Users/Quentin/Documents/GI05/IN54/Projet/in5x-gesture-recognition/gesture-recognition/SegmentationTest/SegmentationTest.cpp 
 	${MKDIR} -p ${TESTDIR}/_ext/549880278
 	${RM} $@.d
@@ -253,6 +309,8 @@ ${OBJECTDIR}/Pfisher_nomain.o: ${OBJECTDIR}/Pfisher.o Pfisher.cpp
 	    ${CP} ${OBJECTDIR}/Pfisher.o ${OBJECTDIR}/Pfisher_nomain.o;\
 	fi
 
+=======
+>>>>>>> Stashed changes
 ${OBJECTDIR}/utilsFunctions_nomain.o: ${OBJECTDIR}/utilsFunctions.o utilsFunctions.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/utilsFunctions.o`; \
@@ -305,17 +363,29 @@ ${OBJECTDIR}/Crop_nomain.o: ${OBJECTDIR}/Crop.o Crop.cpp
 	    ${CP} ${OBJECTDIR}/Crop.o ${OBJECTDIR}/Crop_nomain.o;\
 	fi
 
+<<<<<<< Updated upstream
 ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/main.o`; \
+=======
+${OBJECTDIR}/Crop_nomain.o: ${OBJECTDIR}/Crop.o Crop.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/Crop.o`; \
+>>>>>>> Stashed changes
 	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
+<<<<<<< Updated upstream
 	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/main_nomain.o main.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/main.o ${OBJECTDIR}/main_nomain.o;\
+=======
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Crop_nomain.o Crop.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/Crop.o ${OBJECTDIR}/Crop_nomain.o;\
+>>>>>>> Stashed changes
 	fi
 
 ${OBJECTDIR}/HandDirection_nomain.o: ${OBJECTDIR}/HandDirection.o HandDirection.cpp 
@@ -344,43 +414,55 @@ ${OBJECTDIR}/ClassifieurDistEuclidienne_nomain.o: ${OBJECTDIR}/ClassifieurDistEu
 	    ${CP} ${OBJECTDIR}/ClassifieurDistEuclidienne.o ${OBJECTDIR}/ClassifieurDistEuclidienne_nomain.o;\
 	fi
 
-${OBJECTDIR}/pClearHand_nomain.o: ${OBJECTDIR}/pClearHand.o pClearHand.cpp 
+${OBJECTDIR}/newfile_nomain.o: ${OBJECTDIR}/newfile.o newfile.cpp 
 	${MKDIR} -p ${OBJECTDIR}
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/pClearHand.o`; \
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/newfile.o`; \
 	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/pClearHand_nomain.o pClearHand.cpp;\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/newfile_nomain.o newfile.cpp;\
 	else  \
-	    ${CP} ${OBJECTDIR}/pClearHand.o ${OBJECTDIR}/pClearHand_nomain.o;\
+	    ${CP} ${OBJECTDIR}/newfile.o ${OBJECTDIR}/newfile_nomain.o;\
 	fi
 
+<<<<<<< Updated upstream
 ${OBJECTDIR}/_ext/603711641/Segmentation_nomain.o: ${OBJECTDIR}/_ext/603711641/Segmentation.o /C/Users/Quentin/Documents/GI05/IN54/Projet/in5x-gesture-recognition/gesture-recognition/Segmentation.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/603711641
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/_ext/603711641/Segmentation.o`; \
+=======
+${OBJECTDIR}/pClearHand_nomain.o: ${OBJECTDIR}/pClearHand.o pClearHand.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/pClearHand.o`; \
+>>>>>>> Stashed changes
 	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
+<<<<<<< Updated upstream
 	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/603711641/Segmentation_nomain.o /C/Users/Quentin/Documents/GI05/IN54/Projet/in5x-gesture-recognition/gesture-recognition/Segmentation.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/_ext/603711641/Segmentation.o ${OBJECTDIR}/_ext/603711641/Segmentation_nomain.o;\
+=======
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/pClearHand_nomain.o pClearHand.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/pClearHand.o ${OBJECTDIR}/pClearHand_nomain.o;\
+>>>>>>> Stashed changes
 	fi
 
-${OBJECTDIR}/StatisticalClassifier_nomain.o: ${OBJECTDIR}/StatisticalClassifier.o StatisticalClassifier.cpp 
+${OBJECTDIR}/TrainableClassifier_nomain.o: ${OBJECTDIR}/TrainableClassifier.o TrainableClassifier.cpp 
 	${MKDIR} -p ${OBJECTDIR}
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/StatisticalClassifier.o`; \
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/TrainableClassifier.o`; \
 	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/StatisticalClassifier_nomain.o StatisticalClassifier.cpp;\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/TrainableClassifier_nomain.o TrainableClassifier.cpp;\
 	else  \
-	    ${CP} ${OBJECTDIR}/StatisticalClassifier.o ${OBJECTDIR}/StatisticalClassifier_nomain.o;\
+	    ${CP} ${OBJECTDIR}/TrainableClassifier.o ${OBJECTDIR}/TrainableClassifier_nomain.o;\
 	fi
 
 ${OBJECTDIR}/RadialHistogram_nomain.o: ${OBJECTDIR}/RadialHistogram.o RadialHistogram.cpp 
@@ -471,6 +553,10 @@ ${OBJECTDIR}/convert_nomain.o: ${OBJECTDIR}/convert.o convert.cpp
 	    ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition || true; \
 	    ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition || true; \
 	    ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition || true; \
+<<<<<<< Updated upstream
+=======
+	    ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gesture-recognition || true; \
+>>>>>>> Stashed changes
 	else  \
 	    ./${TEST} || true; \
 	fi
