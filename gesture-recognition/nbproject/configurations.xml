@@ -6,13 +6,17 @@
                    projectFiles="true">
       <itemPath>Classifier.h</itemPath>
       <itemPath>ClassifierParameters.h</itemPath>
-      <itemPath>Crop.h</itemPath>
+      <itemPath>ConvexityClassifier.h</itemPath>
       <itemPath>HandDirection.h</itemPath>
+      <itemPath>Pfisher.h</itemPath>
       <itemPath>RadialHistogram.h</itemPath>
       <itemPath>RadialHistogramClassifier.h</itemPath>
+      <itemPath>Segmentation.h</itemPath>
       <itemPath>StatisticalClassifier.h</itemPath>
       <itemPath>TrainableClassifier.h</itemPath>
+      <itemPath>convert.h</itemPath>
       <itemPath>TrainableStatModel.h</itemPath>
+      <itemPath>pClearHand.h</itemPath>
       <itemPath>convert.hpp</itemPath>
       <itemPath>pClearHand.hpp</itemPath>
       <itemPath>paramsClassifieurs.h</itemPath>
@@ -30,13 +34,14 @@
       <itemPath>ClassifieurDistEuclidienne.cpp</itemPath>
       <itemPath>ClassifieurDistHistogramm.cpp</itemPath>
       <itemPath>ClassifieursProfils.cpp</itemPath>
-      <itemPath>Crop.cpp</itemPath>
+      <itemPath>ConvexityClassifier.cpp</itemPath>
       <itemPath>HandDirection.cpp</itemPath>
+      <itemPath>Pfisher.cpp</itemPath>
       <itemPath>RadialHistogram.cpp</itemPath>
-      <itemPath>TrainableClassifier.cpp</itemPath>
+      <itemPath>RadialHistogramClassifier.cpp</itemPath>
+      <itemPath>StatisticalClassifier.cpp</itemPath>
       <itemPath>convert.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
-      <itemPath>newfile.cpp</itemPath>
       <itemPath>pClearHand.cpp</itemPath>
       <itemPath>rotateHand.cpp</itemPath>
       <itemPath>utilsFunctions.cpp</itemPath>
@@ -50,12 +55,6 @@
                      projectFiles="true"
                      kind="TEST">
         <itemPath>tests/classifieurDecodeurTest.cpp</itemPath>
-      </logicalFolder>
-      <logicalFolder name="f5"
-                     displayName="ConversionTest"
-                     projectFiles="true"
-                     kind="TEST">
-        <itemPath>tests/ConversionTest.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f1"
                      displayName="HandDirectionTest"
@@ -86,6 +85,12 @@
                      projectFiles="true"
                      kind="TEST">
         <itemPath>tests/rotateHandTest.cpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f7"
+                     displayName="SegmentationTest"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>C:/Users/Quentin/Documents/GI05/IN54/Projet/in5x-gesture-recognition/gesture-recognition/SegmentationTest/SegmentationTest.cpp</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -141,7 +146,7 @@
             <linkerLibFileItem>../opencv/lib/libopencv_ts243.a</linkerLibFileItem>
             <linkerLibFileItem>../opencv/lib/libopencv_video243.dll.a</linkerLibFileItem>
             <linkerLibFileItem>../opencv/lib/libopencv_videostab243.dll.a</linkerLibFileItem>
-            <linkerLibFileItem>C:/pandore/lib/pandore.lib</linkerLibFileItem>
+            <linkerLibLibItem>pandore</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

@@ -9,7 +9,6 @@
 #define	CONVERT_HPP
 
 #include <stdio.h>
-#include <pandore.h>
 #include <vector>
 
 #include "opencv2/imgproc/imgproc.hpp"
@@ -18,17 +17,18 @@
 #include "opencv2/legacy/compat.hpp"
 
 #include "utilsFunctions.h"
+#include "pandore.h"
 
-using namespace pandore;
 using namespace cv;
+using namespace pandore;
 
 /*
  * These functions are operators convertors betwenn pandore Img2duc format 
  * and OpenCV Mat format
  */
 
-Mat _PanToMat( const Img2duc &ims);
-Img2duc _MatToPan( const Mat &matrix, string panfile);
+Mat _PanToMat(const Img2duc &ims);
+Img2duc _MatToPan(const Mat &matrix);
 
 /*
  * This function allows to switch between Mat and IplImage OpenCV formats.

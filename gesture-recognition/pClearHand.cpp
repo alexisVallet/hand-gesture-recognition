@@ -6,11 +6,11 @@
  */
 #ifndef PCLEARHAND_CPP
 #define	PCLEARHAND_CPP
-#include "pClearHand.hpp"
+#include "pClearHand.h"
 
 using namespace cv;
 
-inline void testBLACK(Mat & ims, Point2d& cursor, int & counter)
+inline void testBLACK(Mat & ims, cv::Point2d& cursor, int & counter)
 {
     if(ims.data[(int)(cursor.y*ims.cols+cursor.x)] == _BLACK)
         counter++;
@@ -19,7 +19,7 @@ inline void testBLACK(Mat & ims, Point2d& cursor, int & counter)
 // This function deletes scatters pixels. It cleans and erodes an hand.
 void clearHand(Mat& imd)
 {
-    Point2d p;
+    cv::Point2d p;
     for(int i=0; i< LOOP ; i++)
     {
         for (p.y = 0 ; p.y < imd.cols ; p.y++)
