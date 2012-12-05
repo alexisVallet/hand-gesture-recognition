@@ -21,8 +21,9 @@ using namespace std;
 void ShowConvexityPoints(string filepath) {
     
     Mat out;//,contours_points,polygon;
-    vector<Point> polygon;
-    vector<Vec4i> hierarchy;
+    vector<Point> contours,polygon;
+    vector<int> hull;
+    vector<Vec4i> hierarchy,convexityDefects;
     vector<vector<Point> > contours_points;
     Mat segmentedHandRGB = imread(filepath);
     imshow(filepath, segmentedHandRGB);
@@ -36,10 +37,40 @@ void ShowConvexityPoints(string filepath) {
     medianBlur(segmentedHandGray,out,15);
     
     /*Looking for Contours Points*/
-    findContours( out, contours_points, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE );
+    findContours( out, contours_points, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE );
+    
+    /*Convert vector<vector<Point>> to vector<Point>*/
+    for(int i = 0; i < contours_points.size() ; i++){
+        for(int j = 0; j < contours_points[i].size() ; j++){
+            contours.push_back(contours_points[i][j]);
+        }
+    }
+    
+    /*Drawing Contours*/
+    Scalar color(rand()&255, rand()&255, rand()&255);
+    //drawContours(out, contours_points, 0, color, 1, 8, hierarchy);
     
     /*Approximation of Hands Contours by Polygon*/
-    approxPolyDP(contours_points,polygon,5,true);
+    approxPolyDP(contours,polygon,5,true);
+    
+    /*Drawing Identify Polygons*/
+    //fillConvexPoly( out, polygon , color );
+    
+    /**
+     * vector<Point> contours,polygon;
+     * vector<int> hull;
+     * vector<Vec4i> hierarchy,convexityDefects;
+     * vector<vector<Point> > contours_points;
+     */
+    /*Convexity points Detection*/
+    vector<vector<Point> > hull_points(contours_points.size());
+    for(int i = 0 ; i< contours_points.size();i++)
+        convexHull(Mat(contours_points[i]),hull_points[i],false); //Find the Convex of the polygon
+    
+    /*Drawing Convex of polygon*/
+    for(int i = 0; i < contours_points.size() ; i++)
+        drawContours( out, hull_points, i, color, 1, 8, vector<Vec4i>(), 0, Point() );
+    //convexityDefects(polygon,hull,convexityDefects);
     
     /*Affichage*/
     namedWindow(filepath);
