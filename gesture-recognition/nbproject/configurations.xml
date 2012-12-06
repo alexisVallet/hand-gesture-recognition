@@ -40,7 +40,6 @@
       <itemPath>RadialHistogram.cpp</itemPath>
       <itemPath>Segmentation.cpp</itemPath>
       <itemPath>convert.cpp</itemPath>
-      <itemPath>convert.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>pClearHand.cpp</itemPath>
       <itemPath>rotateHand.cpp</itemPath>
@@ -56,7 +55,7 @@
                      kind="TEST">
         <itemPath>tests/classifieurDecodeurTest.cpp</itemPath>
       </logicalFolder>
-      <logicalFolder name="f7"
+      <logicalFolder name="f10"
                      displayName="ConvexityClassifier_TEST"
                      projectFiles="true"
                      kind="TEST">
@@ -68,7 +67,7 @@
                      kind="TEST">
         <itemPath>tests/HandDirectionTest.cpp</itemPath>
       </logicalFolder>
-      <logicalFolder name="f7"
+      <logicalFolder name="f8"
                      displayName="RadialHistogramClassifierTest"
                      projectFiles="true"
                      kind="TEST">
@@ -86,13 +85,13 @@
                      kind="TEST">
         <itemPath>tests/newsimpletest.cpp</itemPath>
       </logicalFolder>
-      <logicalFolder name="f6"
+      <logicalFolder name="f5"
                      displayName="rotateHandTest"
                      projectFiles="true"
                      kind="TEST">
         <itemPath>tests/rotateHandTest.cpp</itemPath>
       </logicalFolder>
-      <logicalFolder name="f8"
+      <logicalFolder name="f9"
                      displayName="SegmentationTest"
                      projectFiles="true"
                      kind="TEST">
@@ -121,6 +120,8 @@
             <pElem>.</pElem>
             <pElem>.</pElem>
             <pElem>.</pElem>
+            <pElem>.</pElem>
+            <pElem>.</pElem>
           </incDir>
         </cTool>
         <ccTool>
@@ -128,10 +129,12 @@
             <pElem>../opencv/include</pElem>
             <pElem>C:/pandore/include</pElem>
             <pElem>.</pElem>
+            <pElem>.</pElem>
+            <pElem>.</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
-          <output>${TESTDIR}/TestFiles/f5</output>
+          <output>${TESTDIR}/TestFiles/f7</output>
           <linkerAddLib>
             <pElem>../opencv/lib</pElem>
             <pElem>C:/pandore/lib</pElem>
@@ -171,6 +174,21 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f1</output>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f10">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f10</output>
         </linkerTool>
       </folder>
       <folder path="TestFiles/f2">
@@ -218,7 +236,7 @@
           <output>${TESTDIR}/TestFiles/f4</output>
         </linkerTool>
       </folder>
-      <folder path="TestFiles/f6">
+      <folder path="TestFiles/f5">
         <cTool>
           <incDir>
             <pElem>.</pElem>
@@ -230,10 +248,10 @@
           </incDir>
         </ccTool>
         <linkerTool>
-          <output>${TESTDIR}/TestFiles/f6</output>
+          <output>${TESTDIR}/TestFiles/f5</output>
         </linkerTool>
       </folder>
-      <folder path="TestFiles/f7">
+      <folder path="TestFiles/f8">
         <cTool>
           <incDir>
             <pElem>.</pElem>
@@ -245,10 +263,10 @@
           </incDir>
         </ccTool>
         <linkerTool>
-          <output>${TESTDIR}/TestFiles/f7</output>
+          <output>${TESTDIR}/TestFiles/f8</output>
         </linkerTool>
       </folder>
-      <folder path="TestFiles/f7">
+      <folder path="TestFiles/f9">
         <cTool>
           <incDir>
             <pElem>.</pElem>
@@ -260,7 +278,7 @@
           </incDir>
         </ccTool>
         <linkerTool>
-          <output>${TESTDIR}/TestFiles/f7</output>
+          <output>${TESTDIR}/TestFiles/f9</output>
         </linkerTool>
       </folder>
     </conf>
