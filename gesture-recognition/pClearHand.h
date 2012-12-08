@@ -20,8 +20,8 @@
 
 #define _WHITE 255
 #define _BLACK 0
-#define PRECISION 3
-#define LOOP 2
+#define PRECISION 5
+#define LOOP 3
 
 using namespace cv;
 

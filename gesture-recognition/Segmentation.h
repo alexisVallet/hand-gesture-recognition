@@ -19,12 +19,16 @@ using namespace cv;
  * Fisher Thresholding and
  * Segment an image from source and save it on destination
  */
-void Segment(const Mat& source, Mat& destination, bool show);
+void Segment(const Mat& source, Mat& destination);
 
 /* 
  * Inverse a binary image
  */
 void inverse(Mat& matrix);
 
-#endif	/* SEGMENTATION_H */
+/*
+ * Normalize an gray scaled image
+ */
+void normalize(Mat& ims);
 
+#endif	/* SEGMENTATION_H */
