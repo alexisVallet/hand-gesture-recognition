@@ -23,19 +23,37 @@ using namespace cv;
 using namespace pandore;
 using namespace std;
 
-int main(int argc, char** argv) {
-
-    string ymlfile = "./runFolder/img/1.yml";
-    string panfile = "./runFolder/imgresult/1.pan";
-     
-    IplImage * imgyml = loadYml(ymlfile.c_str());
-    Mat img = IplToMat(*imgyml);
-    Mat des;
+void loadAndSegment(const char * filename) {
+    
+    Mat img = cvLoadImage(filename, CV_LOAD_IMAGE_GRAYSCALE);
+    Mat des; 
 
     // Segmentation
-    Segment(img, des, true);
+    Segment(img, des);
+
+    imshow("Equalized", des);
     
-    waitKey(0);
+    waitKey();
+}
+
+int main(int argc, char** argv) {
+   
+    loadAndSegment("./runFolder/img/1.bmp");
+    loadAndSegment("./runFolder/img/2.bmp");
+    loadAndSegment("./runFolder/img/3.bmp");
+    loadAndSegment("./runFolder/img/4.bmp");
+    loadAndSegment("./runFolder/img/5.bmp");
+    loadAndSegment("./runFolder/img/6.bmp");
+    loadAndSegment("./runFolder/img/7.bmp");
+    loadAndSegment("./runFolder/img/8.bmp");
+    loadAndSegment("./runFolder/img/9.bmp");
+    loadAndSegment("./runFolder/img/10.bmp");
+    loadAndSegment("./runFolder/img/11.bmp");
+    loadAndSegment("./runFolder/img/12.bmp");
+    loadAndSegment("./runFolder/img/13.bmp");
+    loadAndSegment("./runFolder/img/14.bmp");
+    loadAndSegment("./runFolder/img/15.bmp");
+    loadAndSegment("./runFolder/img/16.bmp");
     
     return (EXIT_SUCCESS);
 }
