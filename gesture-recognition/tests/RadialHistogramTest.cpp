@@ -10,6 +10,8 @@
 #include "opencv2/opencv.hpp"
 
 #include "RadialHistogram.h"
+#include "HandSideDetection.h"
+#include "Symmetry.h"
 
 /*
  * Simple C++ Test Suite
@@ -17,24 +19,6 @@
 
 using namespace cv;
 using namespace std;
-
-void horizontalSymmetry(Mat &inputImage, Mat &outputImage) {
-    Mat symmetryMatrix = Mat::zeros(2,3,CV_32F);
-    symmetryMatrix.at<float>(0,0) = -1;
-    symmetryMatrix.at<float>(1,1) = 1;
-    symmetryMatrix.at<float>(0,2) = inputImage.cols;
-    symmetryMatrix.at<float>(1,2) = 0;
-    warpAffine(inputImage, outputImage, symmetryMatrix, Size(inputImage.cols, inputImage.rows));
-}
-
-void verticalSymmetry(Mat &inputImage, Mat &outputImage) {
-    Mat symmetryMatrix = Mat::zeros(2,3,CV_32F);
-    symmetryMatrix.at<float>(0,0) = 1;
-    symmetryMatrix.at<float>(1,1) = -1;
-    symmetryMatrix.at<float>(0,2) = 0;
-    symmetryMatrix.at<float>(1,2) = inputImage.rows;
-    warpAffine(inputImage, outputImage, symmetryMatrix, Size(inputImage.cols, inputImage.rows));
-}
 
 void showHandAndRadialHistogram(Mat &segmentedHandRGB) {
     static int j = 0;
@@ -64,9 +48,9 @@ void showHandAndRadialHistogram(Mat &segmentedHandRGB) {
 }
 
 int main(int argc, char** argv) {
-    Mat four = imread("./runFolder/test-segmented-4.bmp").t();
+    Mat four = imread("./runFolder/test-segmented-4.bmp");
     Mat flippedFour, rotatedFour;
-    Mat five = imread("./runFolder/test-segmented-5-2-wristless.bmp").t();
+    Mat five = imread("./runFolder/test-segmented-5-2-wristless.bmp");
     Mat flippedFive, rotatedFive;
     horizontalSymmetry(four, flippedFour);
     verticalSymmetry(flippedFour, rotatedFour);

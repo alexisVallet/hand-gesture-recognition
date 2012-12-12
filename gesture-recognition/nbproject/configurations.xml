@@ -9,11 +9,13 @@
       <itemPath>ConvexityClassifier.h</itemPath>
       <itemPath>Crop.h</itemPath>
       <itemPath>HandDirection.h</itemPath>
+      <itemPath>HandSideDetection.h</itemPath>
       <itemPath>Pfisher.h</itemPath>
       <itemPath>RadialHistogram.h</itemPath>
       <itemPath>RadialHistogramClassifier.h</itemPath>
       <itemPath>Segmentation.h</itemPath>
       <itemPath>StatisticalClassifier.h</itemPath>
+      <itemPath>Symmetry.h</itemPath>
       <itemPath>TrainableClassifier.h</itemPath>
       <itemPath>TrainableStatModel.h</itemPath>
       <itemPath>convert.h</itemPath>
@@ -36,9 +38,11 @@
       <itemPath>ConvexityClassifier.cpp</itemPath>
       <itemPath>Crop.cpp</itemPath>
       <itemPath>HandDirection.cpp</itemPath>
+      <itemPath>HandSideDetection.cpp</itemPath>
       <itemPath>Pfisher.cpp</itemPath>
       <itemPath>RadialHistogram.cpp</itemPath>
       <itemPath>Segmentation.cpp</itemPath>
+      <itemPath>Symmetry.cpp</itemPath>
       <itemPath>convert.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>pClearHand.cpp</itemPath>
@@ -66,6 +70,12 @@
                      projectFiles="true"
                      kind="TEST">
         <itemPath>tests/HandDirectionTest.cpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f6"
+                     displayName="HandSideDetectionTest"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/HandSideDetectionTest.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f8"
                      displayName="RadialHistogramClassifierTest"
@@ -249,6 +259,21 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f5</output>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f6">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f6</output>
         </linkerTool>
       </folder>
       <folder path="TestFiles/f8">
