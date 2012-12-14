@@ -28,7 +28,14 @@ public:
      * @return the number of lifted fingers of the hand.
      */
     virtual int numberOfFingers(Mat &segmentedHand) = 0;
+    /**
+     * Computes the probability of the segmented hand to belong to each class
+     * (ie number of fingers).
+     * 
+     * @param segmentedHand the segmented, binarized and cropped hand image
+     * @return the probability vector for the hand
+     */
+    virtual vector<float> classProbabilities(Mat &segmentedHand);
 };
-
 #endif	/* CLASSIFIER_H */
 

@@ -9,6 +9,7 @@
 #include <iostream>
 
 #include "rotateHand.h"
+#include "utilsFunctions.h"
 
 using namespace cv;
 using namespace std;
@@ -18,13 +19,11 @@ using namespace std;
  */
 
 int main(int argc, char** argv) {
-    Mat hand = imread("./runFolder/7.bmp");
-    Mat rotated;
-    
-    rotateHand(hand, rotated, M_PI/3);
+    Mat handGray = extractHandFromBMPFile("./runFolder/13.bmp");
+    Mat redressed = redressHandFromBinarySegmentedImage(handGray, 255);
     
     namedWindow("pouet");
-    imshow("pouet", rotated);
+    imshow("pouet", redressed);
     waitKey(0);
     
     return (EXIT_SUCCESS);
