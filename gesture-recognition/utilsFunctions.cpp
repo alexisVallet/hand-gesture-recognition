@@ -6,6 +6,8 @@
 #include <iostream>
 #include <dirent.h>
 #include "utilsFunctions.h"
+#include "Segmentation.h"
+#include "LoadYML.h"
 
 using namespace cv;
 using namespace std;
@@ -14,7 +16,7 @@ using namespace std;
 #define __UTILS_FUNCTIONS_
 
 
-//converti une image au format IplImage en une image au format Mat
+//converti une image GRAYSCALE au format IplImage en une image au format Mat
 Mat IplToMat(IplImage &src)
 {
     Mat * dest = new Mat_<unsigned char>(src.width, src.height);
@@ -28,28 +30,87 @@ Mat IplToMat(IplImage &src)
 }
 
 
+//converti une image Mat vers image au format IPL
+IplImage * MatToIpl(Mat &src)
+{
+    IplImage* img = cvCreateImage(cvSize(src.cols, src.rows),IPL_DEPTH_8U,1);
+
+    int sz = src.cols*src.rows;
+    
+    for(int i=0; i<sz; i++)
+        img->imageData[i] = src.data[i];
+    
+    return img;
+}
+
+
+
+//premiere chose a faire apres utilisation de imread, si l'image chargée est RGB, on en fait une image en niveau de gris, trop de problèmes à cause de ça, au moins après cette conversion on sait sur quoi on travaille
+Mat greyscale(Mat &img)
+{
+    int datasz = img.dataend - img.datastart;
+    int res = img.cols*img.rows;
+    int dim = datasz/res;
+    cout << "datasz/res = " << datasz/res << endl;
+    Mat grey = Mat_<unsigned char>(img.rows, img.cols);
+    grey.dims = 0;
+    
+    for(int line=0; line<img.rows; line++)
+        for(int col=0; col<img.cols; col++)
+        {
+            int val = img.data[line*img.cols*dim + col*dim] + img.data[line*img.cols*dim + col*dim +1] + img.data[line*img.cols*dim + col*dim +2];
+            grey.data[line*img.cols+col] = val/3;
+        }
+    
+    namedWindow("grey", CV_WINDOW_AUTOSIZE );
+    imshow("grey", grey );
+    return grey;
+}
+
+//fonction à l'arrache binarisant automatiquement une image et l'enregistrant dans le mm dossier
+//utile pour binariser rapidement des mains pour la base à partir d'images dont on a simplement gommé la gueule du mec s'il est trop pres
+void binarizeFile(string path, int seuil)
+{
+    Mat img = imread(path.c_str());
+    binarize(img, seuil, true);
+    img = greyscale(img);
+    cvSaveImage( (path+"2"+".bmp").c_str(), MatToIpl(img));
+}
+
+
 //extrait la main à partir du nom de fichier BMP passé en paramètre
-//chargement de l'image, binarisation seuil arbitraire, détection des bounds de la main, extraction de la main
-//c'est (pour le moment) dans cette fonction qu'il faut setter le seuil, pour le moment arbitraire, l'idée étant par ex de remplacer le 90 actuelle par l'appelle d'une fonction qui va trouver automatiquement le seuil adapté, je crois que c'est ce sur quoi quentin a bossé
-//+ effectuer une passe de l'operateur supprimant les px orphelins
+//chargement de l'image, segmentation quentin, détection des bounds de la main, extraction de la main
 Mat extractHandFromBMPFile(string filename)
 {
-    Mat img = imread( filename );
+    Mat img = imread( filename, CV_LOAD_IMAGE_GRAYSCALE );
+    //img = greyscale(img);
+    
     
     //SEUIL A SETTER
-    revertBinarize(img, 90); 
+    //binarize(img, 90, revertBinarize);
+    Mat hand; 
+    // Segmentation
+    Segment(img, hand);
+    hand.dims=0;//tres important, trop de pb à cause de ces conneries de channel
     
+    string windowName = "BINARIZED" ;
+    windowName+=filename;
+    namedWindow(windowName.c_str(), CV_WINDOW_AUTOSIZE );
+    imshow(windowName.c_str(), hand );
+waitKey(0);
+
     int xMin, xMax, yMin, yMax;   
-    calculBounds(img, xMin, xMax, yMin, yMax);
+    calculBounds(hand, xMin, xMax, yMin, yMax);
     xMax++;
     yMax++;
     int sx = xMax - xMin;
     int sy = yMax - yMin;
     //extraction of the hand
-    Mat hand = Mat_<unsigned char>(sy, sx);
-    hand.dims=0;//tres important, trop de pb à cause de ces conneries de channel
-    extractSubimageFromBounds(img, hand, xMin, xMax, yMin, yMax);
-    return hand;
+    Mat hand2 = Mat_<unsigned char>(sy, sx);
+    hand2.dims=0;//tres important, trop de pb à cause de ces conneries de channel
+
+    extractSubimageFromBounds(hand, hand2, xMin, xMax, yMin, yMax);
+    return hand2;
 }
 
 //La même qu'au dessus mais à partir d'une image Mat déjà binarisée
@@ -75,56 +136,120 @@ Mat extractHandFromBinarizedMat(Mat &img)
 
 
 //binarisation on ne peut plus élémentaire, à la différence que si <seuil -> 255 et si >seuil ->0
-void revertBinarize(Mat &img, int seuil)
+void binarize(Mat &img, int seuil, bool invert)
 {
-    for(int i=0; i<img.cols*img.rows*(img.dims+1); i++)
-        if(img.data[i]>seuil)img.data[i] =0;
-        else img.data[i] =255;
-}
-
-
-
-IplImage * loadYml(const char * filename)
-{
-    CvMat* my_matrix;
-    my_matrix = (CvMat*)cvLoad(filename);
-
-    float min = my_matrix->data.fl[0], max = my_matrix->data.fl[0];
-    float moy = 0;
-
-    for(int i=0; i<my_matrix->rows; i++)
-        for(int j=0; j<my_matrix->cols; j++)
-        {
-            if(my_matrix->data.fl[i*200+j]<min) min = my_matrix->data.fl[i*200+j];
-            else if(my_matrix->data.fl[i*200+j]>max) max = my_matrix->data.fl[i*200+j];
-
-            moy+=my_matrix->data.fl[i*200+j];
-        }
-
-    moy/= my_matrix->rows * my_matrix->cols;
-
-    IplImage* img = cvCreateImage(cvSize(my_matrix->cols, my_matrix->rows),IPL_DEPTH_8U,1);
+    int high, low;
     
-    float mintmp = 0, maxtmp = 0;
-    for(int i=0; i<my_matrix->rows; i++)
-        for(int j=0; j<my_matrix->cols; j++)
-        {
-            //float val = (unsigned char) 255* ((my_matrix->data.fl[i*200+j]-min)/(max-min));
-            //float val = (unsigned char) ((my_matrix->data.fl[i*200+j]/moy)*255);
-            float val = my_matrix->data.fl[i*200+j]*16;
-            val*=val;
+    if(invert)
+    {
+        high = 0;
+        low = 255;
+    }
+    else
+    {
+        high = 255;
+        low = 0;
+    }
+    
+    
+    switch(img.dims)
+    {
+        case 0 :
+            for(int i=0; i<img.cols*img.rows*(img.dims+1); i++)
+                if(img.data[i]>seuil) 
+                    img.data[i] = high;
+                else img.data[i] = low;
+        break;
+        
+        case 2 :
+            for(int i=0; i<img.cols*img.rows*(img.dims+1); i+=3)
+            {
+                int avg = img.data[i] + img.data[i+1] + img.data[i+2];
+                
+                if(avg/3>seuil) 
+                {
+                    img.data[i] = high;
+                    img.data[i+1] = high;
+                    img.data[i+2] = high;
+                }
+                else 
+                {
+                    img.data[i] = low;
+                    img.data[i+1] = low;
+                    img.data[i+2] = low;
+                }
+            }
+        break;
+    }
 
-
-            if(mintmp > val) mintmp = val;
-            if(maxtmp < val) maxtmp = val;
-
-            if(val<0) val = 0;
-            if(val>255) val=255;
-
-            img->imageData[i*200+j] = val;
-        }
-    return img;
+  
+   
 }
+
+
+
+
+
+/*Mat binarize(Mat &img, int seuil, bool invert)
+{
+    int high, low;
+    
+    if(invert)
+    {
+        high = 0;
+        low = 255;
+    }
+    else
+    {
+        high = 255;
+        low = 0;
+    }
+    
+    Mat binarized = Mat_<unsigned char>(img.cols, img.rows);
+    binarized.dims = 0;
+    
+    
+    switch(img.dims)
+    {
+        case 0 :
+            cout << "MONODIM" << endl;
+            for(int i=0; i<img.cols*img.rows; i++)
+                if(img.data[i]>seuil) 
+                    binarized.data[i] = high;
+                else binarized.data[i] = low;
+        break;
+        
+        case 2 :
+            cout << "TRIDIM" << endl;
+            for(int i=0; i<img.cols*img.rows*(img.dims+1); i+=3)
+            {
+                int avg = img.data[i] + img.data[i+1] + img.data[i+2];
+                
+                if(avg/3>seuil) 
+                {
+                    img.data[i] = high;
+                    img.data[i+1] = high;
+                    img.data[i+2] = high;
+                    
+                    binarized.data[i/3] = high;
+                }
+                else 
+                {
+                    img.data[i] = low;
+                    img.data[i+1] = low;
+                    img.data[i+2] = low;
+                    
+                    binarized.data[i/3] = low;
+                }
+            }
+        break;
+    }
+
+    return binarized;
+   
+}*/
+
+
 
 
 
@@ -164,7 +289,10 @@ void calcHist(IplImage * img)
 
 void calculBounds(Mat img, int &xMin, int &xMax, int &yMin, int &yMax)
 {
-    cout << "datasize = " << img.dataend - img.datastart << endl;
+    
+//    cout << "calculBounds, dims = " << img.cols << " " << img.rows << endl;
+//    cout << "datasize = " << img.dataend - img.datastart << endl;
+//    cout << "image.dims = " << img.dims << endl;
     int max = 0;
     
     
@@ -177,21 +305,23 @@ void calculBounds(Mat img, int &xMin, int &xMax, int &yMin, int &yMax)
     {
         for(int i=0; i<img.rows; i++)
         {
+//            cout << (int)(img.data[i*img.cols*canal+j*canal])/255;
             if(!xMinFinded && img.data[i*img.cols*canal+j*canal]==255) 
             {
-                if(max<i*img.cols*canal+j*canal) max = i*img.cols*canal+j*canal;
+//                if(max<i*img.cols*canal+j*canal) max = i*img.cols*canal+j*canal;
                 xMin = j;
                 xMinFinded = true;
             }
             if(!xMaxFinded && img.data[(img.rows-i-1)*img.cols*canal + (img.cols-j-1)*canal]==255) 
             {
-                if(max<(img.rows-i-1)*img.cols*canal + (img.cols-j-1)*canal) max = (img.rows-i-1)*img.cols*canal + (img.cols-j-1)*canal;
-                xMax = img.rows-j;
+//                if(max<(img.rows-i-1)*img.cols*canal + (img.cols-j-1)*canal) max = (img.rows-i-1)*img.cols*canal + (img.cols-j-1)*canal;
+                xMax = img.cols-j-1;
                 xMaxFinded = true;
             }
         }
+//        cout << endl;
     }
-    cout << "max = " << max << endl;
+//    cout << "max = " << max << endl;
     
     
     //2 - detection des min/max en Y
@@ -206,7 +336,7 @@ void calculBounds(Mat img, int &xMin, int &xMax, int &yMin, int &yMax)
             }
             if(!yMaxFinded && img.data[(img.rows-i-1)*img.cols*canal + (img.cols-j-1)*canal]==255) 
             {
-                yMax = img.rows-i;
+                yMax = img.rows-i-1;
                 yMaxFinded = true;
             }
         }
@@ -274,8 +404,57 @@ void ymlToBmp(string src, string dest)
     cvSaveImage( (dest+".bmp").c_str(), imgyml);
 }
 
+
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+/*
+ * liste les fichiers de la base, on obtient un vecteur[nbclasses][nbimagesclasse]
+ * 
+ EX :
+vector< vector<string> > base;
+readPath(base, "F:/iut/utbm/S5/projetIN52-54/ClassImages/", "bmp")
+ * 
+ */
+void readPath(vector< vector<string> > &base, string dir, string fileExtension)
+{
+    DIR *dp;
+    struct dirent *ep;
+
+    dp = opendir (dir.c_str());
+    if (dp != NULL)
+    {
+        while (ep = readdir (dp))
+        {
+            
+                if (*(ep->d_name) != '.' && *(ep->d_name)!='..')
+                {
+                    base.push_back( vector<string>() );
+                    string newPath = dir + ep->d_name;
+                    DIR *dpsubdir = opendir ( newPath.c_str() );
+                    struct dirent *epsubdir;
+
+                    while (epsubdir = readdir (dpsubdir))
+                    {
+                        if(   tolower(epsubdir->d_name[strlen(epsubdir->d_name)-1])==tolower(fileExtension[fileExtension.size()-1]) && tolower(epsubdir->d_name[strlen(epsubdir->d_name)-2])==tolower(fileExtension[fileExtension.size()-2]) && tolower(epsubdir->d_name[strlen(epsubdir->d_name)-3])==tolower(fileExtension[fileExtension.size()-3])  )
+                        {        
+                            string filename = dir;
+                            filename+= *(ep->d_name);
+                            filename+="/";
+                            filename += epsubdir->d_name;
+                            base[base.size()-1].push_back(filename);
+                        }
+                    }
+                    (void) closedir (dpsubdir);
+                }
+        }
+        (void) closedir (dp);
+    }
+}
 
 
 #endif

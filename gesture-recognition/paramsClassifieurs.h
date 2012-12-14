@@ -12,7 +12,17 @@ using namespace std;
 
 
 //chemin vers le dossier contenant les images de la base^(dossier Images/ClassImages/ sur le dropbox
-static string pathBase = "./ClassImages/";
+static string pathBase = "./runFolder/ClassImages/";
+static string pathSegmentedBase = "./runFolder/ClassImagesSeg/";
+
+//les préfixes des fichiers profils correspondant aux classifieurs histo ou profils
+static string prefixProfilesClassifier = "PROFILES";
+static string prefixHistoClassifier = "HISTO";
+
+//le nom des classes des classifieurs histo et profils, utilisé pour le chargement/enregistrement des profils sur le disque
+static string classNameProfilesClassifier = "ClassifieurDistEuclidienne";
+static string classNameHistoClassifier = "ClassifieurDistHistogramm";
+
 
 const static int NB_CLASSES = 6;
 const static int NB_PROFILES = 5;

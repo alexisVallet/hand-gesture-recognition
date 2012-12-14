@@ -14,12 +14,18 @@
 #include "opencv2/legacy/compat.hpp"
 
 #include <math.h>
+#include <fstream>
+#include <typeinfo>
 
 #include "utilsFunctions.h"
 #include "paramsClassifieurs.h"
+#include "rotateHand.h"
 
 using namespace cv;
 using namespace std;
+
+//booléen indiquant si les mains doivent être redressées ou non avant traitement
+static bool redressHand = true;
 
 class ClassifieursProfils 
 {
@@ -48,6 +54,8 @@ class ClassifieursProfils
             for(int i=0; i<NB_CLASSES; i++)
                 imagesClass.push_back( vector<string>() );
             
+            
+            
             //pour chaque classe, on ajoute la/les images correspondantes à la base (pour le moment je travaille avec les 7 images initiales de Capelle)
             imagesClass[0].push_back(pathBase+"0/0.bmp");
             imagesClass[1].push_back(pathBase+"1/0.bmp");
@@ -55,8 +63,23 @@ class ClassifieursProfils
             imagesClass[3].push_back(pathBase+"3/0.bmp");
             imagesClass[4].push_back(pathBase+"4/0.bmp");
             imagesClass[5].push_back(pathBase+"5/0.bmp");
-            imagesClass[5].push_back(pathBase+"5/1.bmp");
+            //imagesClass[5].push_back(pathBase+"5/1.bmp");
+            bool revertBinarize = true;
             
+            /*imagesClass[0].push_back(pathSegmentedBase+"0/0.bmp");
+            imagesClass[1].push_back(pathSegmentedBase+"1/0.bmp");
+            imagesClass[2].push_back(pathSegmentedBase+"2/0.bmp");
+            imagesClass[2].push_back(pathSegmentedBase+"2/1.bmp");
+            imagesClass[3].push_back(pathSegmentedBase+"3/0.bmp");
+            imagesClass[3].push_back(pathSegmentedBase+"3/1.bmp");
+            imagesClass[4].push_back(pathSegmentedBase+"4/0.bmp");
+            imagesClass[4].push_back(pathSegmentedBase+"4/1.bmp");
+            imagesClass[5].push_back(pathSegmentedBase+"5/0.bmp");
+            imagesClass[5].push_back(pathSegmentedBase+"5/1.bmp");
+            bool revertBinarize = false;**/
+            
+            
+             string windowname = "ImageFinaleBase";
             //on calcule les profils de chaque image de la base
             for(int currentClass = 0; currentClass < NB_CLASSES; currentClass++)
             {
@@ -64,16 +87,28 @@ class ClassifieursProfils
                 baseVerticalProfiles.push_back( vector<float *>() );
                 for(int currentImage = 0; currentImage < imagesClass[currentClass].size(); currentImage++)
                 {
+//                    cout << "imgpath = " << imagesClass[currentClass][currentImage] << endl;
                     //chargement de l'image, binarisation seuil arbitraire, détection des bounds de la main, extraction de la main, définition des profils
-                    Mat hand = extractHandFromBMPFile( imagesClass[currentClass][currentImage] );
+                    Mat hand = extractHandFromBMPFile( imagesClass[currentClass][currentImage]);
+                    hand.dims = 0;
+                   
+                    namedWindow("avant redressement", CV_WINDOW_AUTOSIZE );
+                    imshow("avant redressement", hand );
+  waitKey(0);                   
+                    if(redressHand)
+                        hand = redressHandFromBinarySegmentedImage(hand, 255);
                     
-                    /*string windowname = "subImage"+currentImage;
+                    windowname +="a";
                     namedWindow(windowname.c_str(), CV_WINDOW_AUTOSIZE );
-                    imshow(windowname.c_str(), hand );*/
-
-                    baseHorizontalProfiles[currentClass].push_back( horizontalProfiling(hand) );  
-                    baseVerticalProfiles[currentClass].push_back( verticalProfiling(hand) );      
+                    imshow(windowname.c_str(), hand );
+waitKey(0);
+                    float * horizontalProfiles = horizontalProfiling(hand);
+                    float * verticalProfiles = horizontalProfiling(hand);
+                    baseHorizontalProfiles[currentClass].push_back( horizontalProfiles );  
+                    baseVerticalProfiles[currentClass].push_back( verticalProfiles ); 
                     
+                    //cout << "this.typeid() = " << (string)typeid(*this).name() << endl;
+                    writeProfils(imagesClass[currentClass][currentImage], horizontalProfiles, verticalProfiles);
                 }
             }
             setAVGValue();
@@ -131,13 +166,31 @@ class ClassifieursProfils
         {
             float numeratorsH[NB_CLASSES], numeratorsV[NB_CLASSES];
             float denominatorH=0, denominatorV=0;
+            
+            float combinedNumerators[NB_CLASSES];
+            float combinedDenominator = 0;
             for(int currentClass=0; currentClass<NB_CLASSES; currentClass++)
             {
                 numeratorsH[currentClass] = exp( -distanceBetweenVectors(horizontalProfilesTestedImage, baseHorizontalAVGProfiles[currentClass], NB_PROFILES*loopFactor ));
                 numeratorsV[currentClass] = exp( -distanceBetweenVectors(verticalProfilesTestedImage, baseVerticalAVGProfiles[currentClass], NB_PROFILES*loopFactor ));
                 denominatorH+=numeratorsH[currentClass];
                 denominatorV+=numeratorsV[currentClass];
+                
+                //combinaisons des profils horizontaux et verticaux pour considérer les vecteurs comme un seul
+                float * baseCombinedProfiles = new float[NB_PROFILES*loopFactor*2];
+                float * imageCombinedProfiles = new float[NB_PROFILES*loopFactor*2];
+                for(int i=0; i<NB_PROFILES*loopFactor; i++)
+                {
+                    baseCombinedProfiles[i] = baseHorizontalAVGProfiles[currentClass][i];
+                    baseCombinedProfiles[i + NB_PROFILES*loopFactor] = baseVerticalAVGProfiles[currentClass][i];
+                    
+                    imageCombinedProfiles[i] = horizontalProfilesTestedImage[i];
+                    imageCombinedProfiles[i + NB_PROFILES*loopFactor] = verticalProfilesTestedImage[i];
+                }
+                combinedNumerators[currentClass] = exp( -distanceBetweenVectors(imageCombinedProfiles, baseCombinedProfiles, NB_PROFILES*loopFactor*2 ));
+                combinedDenominator+=combinedNumerators[currentClass];
             }
+
             
             /*float maxH = 0, maxV = 0;
             int maxHClass, maxVClass;*/
@@ -145,6 +198,7 @@ class ClassifieursProfils
             {
                 float probaH = numeratorsH[currentClass]/denominatorH;
                 float probaV = numeratorsV[currentClass]/denominatorV;
+                float probaCombined = combinedNumerators[currentClass]/combinedDenominator;
                 
                 //a décommenter quand on sera d'accord sur la prise de décision lorsque les profils H et V ne donnent pas les mêmes résultats
                 /*if(maxH<probaH)
@@ -160,6 +214,7 @@ class ClassifieursProfils
                 
                 cout << "probaH class" << currentClass << " = " << probaH << endl;
                 cout << "probaV class" << currentClass << " = " << probaV << endl;
+                cout << "probaCombined class" << currentClass << " = " << probaCombined << endl << endl;
             }
         }
         
@@ -171,33 +226,65 @@ class ClassifieursProfils
         void testImage(String filename)
         {
             //chargement de l'image, binarisation seuil arbitraire, détection des bounds de la main, extraction de la main, définition des profils
-            Mat img = imread( filename, 1 );
-            namedWindow("original", CV_WINDOW_AUTOSIZE );
-            imshow("original", img );
-            
-            revertBinarize(img, 100);
-            namedWindow("binarized", CV_WINDOW_AUTOSIZE );
-            imshow("binarized", img );
-            
-            int xMin, xMax, yMin, yMax;    
-            calculBounds(img, xMin, xMax, yMin, yMax);    
-            xMax++;
-            yMax++;
-            int sx = xMax - xMin;
-            int sy = yMax - yMin;
-            //extraction of the hand
-            Mat hand = Mat_<unsigned char>(sy, sx);
-            hand.dims=0;//tres important, trop de pb à cause de ces conneries de channel
-            extractSubimageFromBounds(img, hand, xMin, xMax, yMin, yMax);            
+            Mat hand = extractHandFromBMPFile(filename);
             
             
             namedWindow("extracted hand", CV_WINDOW_AUTOSIZE );
             imshow("extracted hand", hand );
             
-            
+ waitKey(0);          
             float * horizontalProfilesTestedImage = horizontalProfiling(hand);
             float * verticalProfilesTestedImage = verticalProfiling(hand);
             probaForEachClass(horizontalProfilesTestedImage, verticalProfilesTestedImage);
+        }
+        
+        
+        
+        
+        //enregistre les profils dans un fichier texte
+        void writeProfils(string filepath, float * horizontalProfiles, float * verticalProfiles)
+        {
+            int posDernierSlash =filepath.rfind("/", filepath.size()-1);
+            
+            string path = filepath.substr(0, posDernierSlash+1);
+            
+            //on determine le préfixe du fichier, PROFIL ou HISTO selon type de classifieur
+            string prefix;
+            if( ((string)typeid(*this).name()).find(classNameProfilesClassifier)!=string::npos )
+                prefix = prefixProfilesClassifier;
+            else if( ((string)typeid(*this).name()).find(classNameHistoClassifier)!=string::npos )
+                prefix = prefixHistoClassifier;
+            
+            
+            //on détermine le nom du fichier export
+            string filename = prefix;
+            filename += filepath.substr( posDernierSlash+1, filepath.size()-1-posDernierSlash-4 );
+            filename += ".txt";
+            String fn = path + filename;
+            cout << "final = " << fn << endl;
+            
+            ofstream profil( fn.c_str());
+            
+            profil << "Hleft:" << endl;
+            for(int i=0; i<NB_PROFILES; i++)
+            {
+                profil << horizontalProfiles[i] << endl;
+            }
+            profil << "\nHright:" << endl;
+            for(int i=0; i<NB_PROFILES; i++)
+            {
+                profil << horizontalProfiles[i+NB_PROFILES] << endl;
+            }
+            profil << "\nVup:" << endl;
+            for(int i=0; i<NB_PROFILES; i++)
+            {
+                profil << verticalProfiles[i] << endl;
+            }
+            profil << "\nVdown:" << endl;
+            for(int i=0; i<NB_PROFILES; i++)
+            {
+                profil << verticalProfiles[i] << endl;
+            }
         }
         
        

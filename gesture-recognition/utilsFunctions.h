@@ -21,17 +21,22 @@ using namespace std;
 
 
 
-IplImage * loadYml(const char * filename);
+
 void calcHist(IplImage * img);
 void calculBounds(Mat img, int &xMin, int &xMax, int &yMin, int &yMax);
 void extractSubimageFromBounds(Mat img, Mat &dest, int xMin, int xMax, int yMin, int yMax);
-void revertBinarize(Mat &img, int seuil);
+void binarize(Mat &img, int seuil, bool invert);
 Mat IplToMat(IplImage &src);
 float * horizontalProfiling(Mat img);
 void convertAllYMLImageFromPath();
 Mat extractHandFromBMPFile(string filename);
 Mat extractHandFromBinarizedMat(Mat &img);
 
+Mat greyscale(Mat &img);
+
+void readPath(vector< vector<string> > &base, string dir, string fileExtension);
+IplImage * MatToIpl(Mat &src);
+void binarizeFile(string path, int seuil);
 
 
 #endif	/* UTILSFUNCTIONS_H */

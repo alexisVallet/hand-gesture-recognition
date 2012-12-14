@@ -10,6 +10,7 @@
       <itemPath>Crop.h</itemPath>
       <itemPath>HandDirection.h</itemPath>
       <itemPath>HandSideDetection.h</itemPath>
+      <itemPath>LoadYML.h</itemPath>
       <itemPath>Pfisher.h</itemPath>
       <itemPath>RadialHistogram.h</itemPath>
       <itemPath>RadialHistogramClassifier.h</itemPath>
@@ -39,6 +40,7 @@
       <itemPath>Crop.cpp</itemPath>
       <itemPath>HandDirection.cpp</itemPath>
       <itemPath>HandSideDetection.cpp</itemPath>
+      <itemPath>LoadYML.cpp</itemPath>
       <itemPath>Pfisher.cpp</itemPath>
       <itemPath>RadialHistogram.cpp</itemPath>
       <itemPath>Segmentation.cpp</itemPath>
