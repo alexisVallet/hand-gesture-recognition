@@ -11,11 +11,12 @@ HandSide detectHandSide(Mat &rotatedHand, float epsilon) {
     Point2f palmCenter = estimatePalmCenter(rotatedHand, 15);
     Point2f handCenter = computeMassCenter(rotatedHand);
     float horizontalDifference = palmCenter.x - handCenter.x;
+    float verticalDifference = palmCenter.y - handCenter.y;
     
-    if (abs(horizontalDifference) < epsilon) {
+    if (abs(horizontalDifference) < epsilon || abs(verticalDifference) < epsilon) {
         return UNDEFINED_SIDE;
     } else {
-        if (horizontalDifference < 0)
+        if (horizontalDifference * verticalDifference < 0)
             return LEFT_HAND;
         else
             return RIGHT_HAND;

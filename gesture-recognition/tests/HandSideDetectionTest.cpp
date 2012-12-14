@@ -28,10 +28,12 @@ void showHandSide(Mat &segmentedHandRGB) {
 int main(int argc, char** argv) {
     Mat five = imread("./runFolder/test-segmented-5-2-wristless.bmp");
     Mat flippedFive;
+    Mat rotatedFive;
     verticalSymmetry(five, flippedFive);
+    horizontalSymmetry(flippedFive, rotatedFive);
     showHandSide(five);
     showHandSide(flippedFive);
+    showHandSide(rotatedFive);
     
     return (EXIT_SUCCESS);
 }
-
