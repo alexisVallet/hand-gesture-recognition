@@ -190,64 +190,6 @@ void binarize(Mat &img, int seuil, bool invert)
 
 
 
-/*Mat binarize(Mat &img, int seuil, bool invert)
-{
-    int high, low;
-    
-    if(invert)
-    {
-        high = 0;
-        low = 255;
-    }
-    else
-    {
-        high = 255;
-        low = 0;
-    }
-    
-    Mat binarized = Mat_<unsigned char>(img.cols, img.rows);
-    binarized.dims = 0;
-    
-    
-    switch(img.dims)
-    {
-        case 0 :
-            cout << "MONODIM" << endl;
-            for(int i=0; i<img.cols*img.rows; i++)
-                if(img.data[i]>seuil) 
-                    binarized.data[i] = high;
-                else binarized.data[i] = low;
-        break;
-        
-        case 2 :
-            cout << "TRIDIM" << endl;
-            for(int i=0; i<img.cols*img.rows*(img.dims+1); i+=3)
-            {
-                int avg = img.data[i] + img.data[i+1] + img.data[i+2];
-                
-                if(avg/3>seuil) 
-                {
-                    img.data[i] = high;
-                    img.data[i+1] = high;
-                    img.data[i+2] = high;
-                    
-                    binarized.data[i/3] = high;
-                }
-                else 
-                {
-                    img.data[i] = low;
-                    img.data[i+1] = low;
-                    img.data[i+2] = low;
-                    
-                    binarized.data[i/3] = low;
-                }
-            }
-        break;
-    }
-
-    return binarized;
-   
-}*/
 
 
 
@@ -414,6 +356,7 @@ void ymlToBmp(string src, string dest)
 
 /*
  * liste les fichiers de la base, on obtient un vecteur[nbclasses][nbimagesclasse]
+ * ATTENTION, cette fonction n'aime pas les nom de dossier avec accent...
  * 
  EX :
 vector< vector<string> > base;
@@ -430,9 +373,9 @@ void readPath(vector< vector<string> > &base, string dir, string fileExtension)
     {
         while (ep = readdir (dp))
         {
-            
                 if (*(ep->d_name) != '.' && *(ep->d_name)!='..')
                 {
+                    
                     base.push_back( vector<string>() );
                     string newPath = dir + ep->d_name;
                     DIR *dpsubdir = opendir ( newPath.c_str() );
@@ -443,7 +386,7 @@ void readPath(vector< vector<string> > &base, string dir, string fileExtension)
                         if(   tolower(epsubdir->d_name[strlen(epsubdir->d_name)-1])==tolower(fileExtension[fileExtension.size()-1]) && tolower(epsubdir->d_name[strlen(epsubdir->d_name)-2])==tolower(fileExtension[fileExtension.size()-2]) && tolower(epsubdir->d_name[strlen(epsubdir->d_name)-3])==tolower(fileExtension[fileExtension.size()-3])  )
                         {        
                             string filename = dir;
-                            filename+= *(ep->d_name);
+                            filename+= ep->d_name;
                             filename+="/";
                             filename += epsubdir->d_name;
                             base[base.size()-1].push_back(filename);
@@ -454,6 +397,7 @@ void readPath(vector< vector<string> > &base, string dir, string fileExtension)
         }
         (void) closedir (dp);
     }
+    else cout << "le dossier n'a pas pu être ouvert..." << endl;
 }
 
 
