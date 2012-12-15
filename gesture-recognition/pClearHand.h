@@ -20,6 +20,8 @@
 
 #define _WHITE 255
 #define _BLACK 0
+
+
 #define PRECISION 5
 #define LOOP 3
 
@@ -30,5 +32,15 @@ inline void testBLACK(Mat & ims, cv::Point2d& cursor, int & counter);
 
 // This function deletes scatters pixels. It cleans and erodes an hand.
 void clearHand(Mat& imd);
+
+
+// Test color of a given pixel
+inline void testWHITE(Mat & ims, cv::Point2d& cursor, int & counter);
+
+// This function deletes scatters pixels on a 256 Grey Levels Pixels.
+// This function should correct segmentation failing on few images of Third Group of images.
+void clearHandBeforeBinarization(Mat& imd);
+
+
 
 #endif	/* PCLEARHAND_HPP */

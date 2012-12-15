@@ -70,4 +70,64 @@ void clearHand(Mat& imd)
 //    imshow("cleaned image", imd );
 }
 
+// Test color of a given pixel
+inline void testWHITE(Mat & ims, cv::Point2d& cursor, int & counter) {
+    if(ims.data[(int)(cursor.y*ims.cols+cursor.x)] == _WHITE)
+        counter++;
+}
+
+// This function deletes scatters pixels on a 256 Grey Levels Pixels.
+// This function should correct segmentation failing on few images of Third Group of images.
+void clearHandBeforeBinarization(Mat& imd) {
+    cv::Point2d p;
+    for(int i=0; i< LOOP ; i++)
+    {
+        for (p.y = 0 ; p.y < imd.cols ; p.y++)
+        {
+            for(p.x = 0 ; p.x <imd.rows ; p.x++)
+            {
+                // Deletes white scatters pixels
+                if( imd.data[(int)(p.y*imd.cols+p.x)] != _WHITE)
+                {
+                    
+                    Point2d cursor (p);
+                    int white_connex = 0;
+
+                    // bottom left pixel
+                    cursor.x--;
+                    cursor.y--;
+                    testWHITE(imd,cursor,white_connex);
+                    // bottom center pixel
+                    cursor.x++;
+                    testWHITE(imd,cursor,white_connex);
+                    // bottom right pixel
+                    cursor.x++;
+                    testWHITE(imd,cursor,white_connex);
+                    // right center pixel
+                    cursor.y++;
+                    testWHITE(imd,cursor,white_connex);
+                    // top right pixel
+                    cursor.y++;
+                    testWHITE(imd,cursor,white_connex);
+                    // top centerpixel
+                    cursor.x--;
+                    testWHITE(imd,cursor,white_connex);
+                    // top left pixel
+                    cursor.x--;
+                    testWHITE(imd,cursor,white_connex);
+                    // left center pixel
+                    cursor.y--;
+                    testWHITE(imd,cursor,white_connex);
+                    
+                    imd.data[(int)(p.y*imd.cols+p.x)] = (white_connex >= PRECISION) ? _WHITE : _BLACK;
+                }
+                else
+                    imd.data[(int)(p.y*imd.cols+p.x)] = _WHITE;
+ 
+             }
+        }      
+    }
+
+}
+
 #endif

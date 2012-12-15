@@ -18,7 +18,7 @@
 
 #define THRESH_BINARIZATION 0
 #define NB_CLASS_FISHER 5
-#define SHOW_IMAGES 0
+#define SHOW_IMAGES 1
 #define SAVE_IMAGES 0
 
 using namespace cv;
@@ -38,6 +38,49 @@ void Segment(const Mat& source, Mat& destination) {
     
     PFisher_(imgpan, fished, Uchar(0), long(NB_CLASS_FISHER));
     fished.SaveFile("./runFolder/imgresult/fished.pan");
+        
+    Mat MatFished = _PanToMat(fished);
+    if(SHOW_IMAGES) imshow("Fished", MatFished);
+    if(SAVE_IMAGES)imwrite( "./runFolder/imgresult/fished.jpg", MatFished );
+    
+    Mat MatEqualized;
+    equalizeHist(MatFished, MatEqualized);
+    normalize(MatEqualized);
+    if(SHOW_IMAGES) imshow("Equalized", MatEqualized);
+    if(SAVE_IMAGES) imwrite( "./runFolder/imgresult/equalized.jpg", MatEqualized );
+    
+    Mat segmented;
+    threshold( MatEqualized, segmented, THRESH_BINARIZATION, 255, THRESH_BINARY);
+    if(SHOW_IMAGES) imshow("Segmented", segmented);
+    if(SAVE_IMAGES) imwrite( "./runFolder/imgresult/segmented.jpg", segmented );    
+    
+    inverse(segmented);
+    if(SHOW_IMAGES) imshow("Inversed Segmented", segmented);
+    if(SAVE_IMAGES) imwrite( "./runFolder/imgresult/inversed.jpg", segmented );    
+    
+    clearHand(segmented);
+    if(SHOW_IMAGES) imshow("Cleaned", segmented);
+    if(SAVE_IMAGES) imwrite( "./runFolder/imgresult/cleaned.jpg", segmented );    
+    
+    destination = segmented;
+}
+
+
+/* This function is similar to Segment function. 
+ * It clean a hand before Fisher Algorithm application and binarization.
+ */
+void specialSegmentation(const Mat& source, Mat& destination) 
+{
+    Mat cleanedHandBeforeBinarization(source);
+    clearHandBeforeBinarization(cleanedHandBeforeBinarization);
+        
+    if(SAVE_IMAGES) imwrite( "./runFolder/imgresult/source.jpg", source );
+    
+    Img2duc imgpan = _MatToPan(cleanedHandBeforeBinarization);
+    Img2duc fished = Img2duc(imgpan.Size());
+    
+    PFisher_(imgpan, fished, Uchar(0), long(NB_CLASS_FISHER));
+    if(SAVE_IMAGES) fished.SaveFile("./runFolder/imgresult/fished.pan");
         
     Mat MatFished = _PanToMat(fished);
     if(SHOW_IMAGES) imshow("Fished", MatFished);

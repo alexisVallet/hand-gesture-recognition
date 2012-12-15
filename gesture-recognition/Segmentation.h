@@ -21,6 +21,12 @@ using namespace cv;
  */
 void Segment(const Mat& source, Mat& destination);
 
+/* Same function as Segment, but, it clean the image before
+ * Fisher and segmentation. (Scatters pixels which are harmful for histogram 
+ * equalizarion are deleted).
+ */
+void specialSegmentation(const Mat& source, Mat& destination);
+
 /* 
  * Inverse a binary image
  */

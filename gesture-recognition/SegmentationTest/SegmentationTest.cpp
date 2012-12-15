@@ -23,13 +23,16 @@ using namespace cv;
 using namespace pandore;
 using namespace std;
 
-void loadAndSegment(const char * filename) {
+void loadAndSegment(const char * filename, bool cleanBefore) {
     
     Mat img = cvLoadImage(filename, CV_LOAD_IMAGE_GRAYSCALE);
     Mat des; 
 
     // Segmentation
-    Segment(img, des);
+    if(cleanBefore)
+        specialSegmentation(img, des);
+    else
+        Segment(img, des);
 
     imshow("Equalized", des);
     
@@ -38,22 +41,30 @@ void loadAndSegment(const char * filename) {
 
 int main(int argc, char** argv) {
    
-    loadAndSegment("./runFolder/img/1.bmp");
-    loadAndSegment("./runFolder/img/2.bmp");
-    loadAndSegment("./runFolder/img/3.bmp");
-    loadAndSegment("./runFolder/img/4.bmp");
-    loadAndSegment("./runFolder/img/5.bmp");
-    loadAndSegment("./runFolder/img/6.bmp");
-    loadAndSegment("./runFolder/img/7.bmp");
-    loadAndSegment("./runFolder/img/8.bmp");
-    loadAndSegment("./runFolder/img/9.bmp");
-    loadAndSegment("./runFolder/img/10.bmp");
-    loadAndSegment("./runFolder/img/11.bmp");
-    loadAndSegment("./runFolder/img/12.bmp");
-    loadAndSegment("./runFolder/img/13.bmp");
-    loadAndSegment("./runFolder/img/14.bmp");
-    loadAndSegment("./runFolder/img/15.bmp");
-    loadAndSegment("./runFolder/img/16.bmp");
+    loadAndSegment("./runFolder/img/groupe3/1.bmp", false);    
+    loadAndSegment("./runFolder/img/groupe3/2.bmp", false);
+    loadAndSegment("./runFolder/img/groupe3/3.bmp", false);
+    loadAndSegment("./runFolder/img/groupe3/4.bmp", false);
+    loadAndSegment("./runFolder/img/groupe3/5.bmp", false);
+    loadAndSegment("./runFolder/img/groupe3/6.bmp", false);
+    loadAndSegment("./runFolder/img/groupe3/7.bmp", false);
+    loadAndSegment("./runFolder/img/groupe3/8.bmp", false);
+    loadAndSegment("./runFolder/img/groupe3/9.bmp", false);
+    loadAndSegment("./runFolder/img/groupe3/10.bmp", false);
+    loadAndSegment("./runFolder/img/groupe3/11.bmp", false);
+    loadAndSegment("./runFolder/img/groupe3/12.bmp", false);
+    
+//    loadAndSegment("./runFolder/img/groupe3/13.bmp", false);
+//    loadAndSegment("./runFolder/img/groupe3/13.bmp", true);
+//    loadAndSegment("./runFolder/img/groupe3/14.bmp", false);
+//    loadAndSegment("./runFolder/img/groupe3/14.bmp", true);
+//    loadAndSegment("./runFolder/img/groupe3/15.bmp", false);
+//    loadAndSegment("./runFolder/img/groupe3/15.bmp", true);
+//    loadAndSegment("./runFolder/img/groupe3/16.bmp", false);
+//    loadAndSegment("./runFolder/img/groupe3/16.bmp", true);
+
+    loadAndSegment("./runFolder/img/groupe3/17.bmp", false);
+    loadAndSegment("./runFolder/img/groupe3/18.bmp", false);
     
     return (EXIT_SUCCESS);
 }
