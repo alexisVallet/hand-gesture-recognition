@@ -70,7 +70,7 @@ float Compute_Distance( Point a , Point b ){
     
     float d;
     
-    return d = sqrt( pow( a.x - b.x , 2 ) + pow( a.y - b.y , 2 ) );
+    return d = sqrt( (float)pow((float) a.x - b.x , 2 ) + (float)pow((float) a.y - b.y , 2 ) );
     
 }
 
@@ -89,10 +89,10 @@ void ShowConvexityPoints(string filepath) {
     Mat segmentedHandGray = rgbPlanes[0];
     
     /*Computing median filter*/
-    medianBlur(segmentedHandGray,out,15);
+    //medianBlur(segmentedHandGray,out,15);
     
     /*Looking for Contours Points*/
-    findContours( out, contours_points, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE );
+    findContours( segmentedHandGray, contours_points, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE );
     
     /*Convert vector<vector<Point>> to vector<Point>*/
     for(int i = 0; i < contours_points.size() ; i++){
@@ -138,6 +138,16 @@ void ShowConvexityPoints(string filepath) {
     vector<int>& hull = index_hull_points;
     findConvexityDefects(contour,hull,convexDefects);
     
+    /*Controling Result*/
+    cout << "ALL Concave points: " << convexDefects.size() << endl;
+    for (int i=0; i < convexDefects.size(); i++){
+        //circle(segmentedHandGray, convexDefects[i],5, color, 2, 8, 0);
+    }
+    cout << "ALL Convex points: " << hull.size() << endl;
+    for (int i=0; i<hull.size(); i++) {
+        //circle(segmentedHandGray, contour[hull[i]], 5, color, 1, 8, 0);
+    }
+    
     /*Filtering Concave points*/
     for(int i =0; i < convexDefects.size(); i++){
         /*Compare to the y-coordinate of the center of the palm*/
@@ -150,6 +160,11 @@ void ShowConvexityPoints(string filepath) {
         /*Compare to tje y-coordiante of the center of the palm*/
         if( Palm.center.y > contour[hull[i]].y )
             Convex_points.push_back(hull[i]);
+    }
+    
+    cout << "First Filter Convex points: " << Convex_points.size() << endl;
+    for (int i=0; i<Convex_points.size(); i++) {
+        circle(segmentedHandGray, contour[Convex_points[i]], 5, color, 1, 8, 0);
     }
        
     vector<int> tmp;
@@ -166,12 +181,7 @@ void ShowConvexityPoints(string filepath) {
         
         others : {
             
-            /*case: between the last point and the first point*/
-            float d = Compute_Distance( contour[Convex_points[Convex_points.size()-1]] , contour[Convex_points[0]] );
-            
-            /*Minimum distance*/
-            if( d > 20 )
-                tmp.push_back(Convex_points[Convex_points.size()-1]);
+            float d;
             
             /*Generic cases*/
             for(int i=0; i < Convex_points.size() - 1; i++){
@@ -180,12 +190,26 @@ void ShowConvexityPoints(string filepath) {
                 d = Compute_Distance( contour[Convex_points[i]] , contour[Convex_points[i+1]] );
                 
                 /*Minimum distance*/
-                if( d > 20 )
+                if( d > 10 )
                     tmp.push_back(Convex_points[i]);
                    
             }
             
+            /*case: between the last point and the first point*/
+            d = Compute_Distance( contour[Convex_points[Convex_points.size()-1]] , contour[Convex_points[0]] );
+            
+            /*Minimum distance*/
+            if( d > 10 )
+                tmp.push_back(Convex_points[Convex_points.size()-1]);
+            else if(Convex_points.size() == 2)
+                tmp.push_back(Convex_points[0]);
+            
         }
+    }
+    
+    cout << "Second Filter Convex points: " << tmp.size() << endl;
+    for (int i=0; i<tmp.size(); i++) {
+        //circle(segmentedHandGray, contour[tmp[i]], 5, color, 1, 8, 0);
     }
     
     /*Isolating convex_points by the Average Radius of the palm**/
@@ -201,23 +225,28 @@ void ShowConvexityPoints(string filepath) {
         }
     }
     
-    /*Controling Result*/
-    cout << "Unfiltered defects: " << convexDefects.size() << endl;
-    cout << "Unfiltered hull size: " << hull.size() << endl;
-    cout << "FilteredHull size: " << tmp.size() << endl;
-    cout << "FilteredDefect size: " << Concave_points.size() << endl;
+    cout << "Convex points: " << result.size() << endl;
+    for (int i=0; i<result.size(); i++) {
+        //circle(segmentedHandGray, contour[result[i]], 5, color, 1, 8, 0);
+    }
+    
+    cout << "Concave points: " << Concave_points.size() << endl;
+    for (int i=0; i < Concave_points.size(); i++){
+        //circle(segmentedHandGray, Concave_points[i],5, color, 2, 8, 0);
+    }
     
     /*Compute result*/
+    float min_distance2 = Palm.center.y - (Palm_Radius * 2);
     if(Concave_points.size() > 0){ //Genric Cases
         cout << "Number of Digit = " << result.size() << endl; 
     }
     else{ //Cases: 0 or One
         int i = 0;
-        while(i < tmp.size() || contour[tmp[i]].y > min_distance){
+        while(i < result.size() || contour[result[i]].y > min_distance2){
             i++;
         }
         
-        if(i >= tmp.size())
+        if(i >= result.size())
             cout << "Number of Digit = 0" << endl;
         else
             cout << "Number of Digit = 1" << endl;
@@ -226,19 +255,19 @@ void ShowConvexityPoints(string filepath) {
     /*Drawing Convex of polygon*/
     for(int i = 0; i < contours_points.size() ; i++)
     {
-        drawContours( out, contours_points, i, color, 1, 8, vector<Vec4i>(), 0, Point() );
-        drawContours( out, hull_points, i, color, 1, 8, vector<Vec4i>(), 0, Point() );
+        drawContours( segmentedHandGray, contours_points, i, color, 1, 8, vector<Vec4i>(), 0, Point() );
+        //drawContours( segmentedHandGray, hull_points, i, color, 1, 8, vector<Vec4i>(), 0, Point() );
     }
     
     /*Affichage*/
     namedWindow(filepath);
-    imshow(filepath,out);
+    imshow(filepath,segmentedHandGray);
     
 }
 
 int main(int argc, char** argv) {
     
-    ShowConvexityPoints("./runFolder/test-segmented-2.bmp");
+    ShowConvexityPoints("./runFolder/test-segmented-4.bmp");
     waitKey(0);
     
     return (EXIT_SUCCESS);
