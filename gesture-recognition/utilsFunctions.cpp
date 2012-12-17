@@ -95,9 +95,9 @@ Mat extractHandFromBMPFile(string filename)
     
     string windowName = "BINARIZED" ;
     windowName+=filename;
-    namedWindow(windowName.c_str(), CV_WINDOW_AUTOSIZE );
-    imshow(windowName.c_str(), hand );
-waitKey(0);
+//    namedWindow(windowName.c_str(), CV_WINDOW_AUTOSIZE );
+//    imshow(windowName.c_str(), hand );
+//waitKey(0);
 
     int xMin, xMax, yMin, yMax;   
     calculBounds(hand, xMin, xMax, yMin, yMax);
@@ -282,7 +282,7 @@ void calculBounds(Mat img, int &xMin, int &xMax, int &yMin, int &yMax)
                 yMaxFinded = true;
             }
         }
-    cout << "xmin = " << xMin << "  xMax = " << xMax << "  yMin = " << yMin << "  yMax = " << yMax << endl;
+//    cout << "xmin = " << xMin << "  xMax = " << xMax << "  yMin = " << yMin << "  yMax = " << yMax << endl;
 }
 
 

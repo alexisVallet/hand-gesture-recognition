@@ -13,6 +13,8 @@
 #include "RadialHistogram.h"
 #include "HandDirection.h"
 #include "rotateHand.h"
+#include "HandSideDetection.h"
+#include "Symmetry.h"
 
 #define DEFAULT_RADIAL_BINS_NUMBER 80
 #define DEFAULT_MAX_FINGER_WIDTH 15
@@ -24,34 +26,41 @@
  * histogram is invariant), computes its radial
  * histogram.
  */
-template <typename T>
-class RadialHistogramClassifier : public StatisticalClassifier<T> {
+class RadialHistogramClassifier : public StatisticalClassifier {
 public:
     RadialHistogramClassifier() {
     }
     RadialHistogramClassifier(
-        T &internalStatisticalModel,
+        TrainableStatModel *internalStatisticalModel,
         int numberOfBins = DEFAULT_RADIAL_BINS_NUMBER,
         int maxFingerWidth = DEFAULT_MAX_FINGER_WIDTH) 
-        : StatisticalClassifier<T>(TrainableStatModel<T>(internalStatisticalModel))
+        : StatisticalClassifier(internalStatisticalModel)
     {
         this->numberOfBins = numberOfBins;
         this->maxFingerWidth = maxFingerWidth;
     }
+
     Mat caracteristicVector(const Mat &segmentedHand) {
         Mat direction = handDirection(segmentedHand).second;
         float angle = atan(direction.at<float>(0,1)/direction.at<float>(0,0));
         Mat rotatedHand;
         rotateHand(segmentedHand, rotatedHand, angle);
+        Mat flippedHand = rotatedHand;
+        if (detectHandSide(rotatedHand, 1) == LEFT_HAND) {
+            horizontalSymmetry(rotatedHand, flippedHand);
+        }
         MatND handRadialHistogram;
-        Point2f palmCenter = estimatePalmCenter(rotatedHand, this->maxFingerWidth);
+        Point2f palmCenter = estimatePalmCenter(
+                flippedHand, 
+                this->maxFingerWidth);
         radialHistogramWithCenter(
-            rotatedHand, 
+            flippedHand, 
             handRadialHistogram, 
             this->numberOfBins, 
             palmCenter);
         return handRadialHistogram.t();
     }
+
     int caracteristicVectorLength() {
         return this->numberOfBins;
     }

@@ -27,7 +27,6 @@
  * This may be useful for aggregating classes into one. By default, rounds
  * the result of the classifier.
  */
-template <typename T>
 class StatisticalClassifier : public TrainableClassifier {
 public:
     StatisticalClassifier() {
@@ -38,14 +37,14 @@ public:
      * @param statisticalModel the statistical model used to classify the
      * caracteristic vector.
      */
-    StatisticalClassifier(TrainableStatModel<T> statisticalModel)
+    StatisticalClassifier(TrainableStatModel *statisticalModel)
         : statisticalModel(statisticalModel)
     {
     }
     /**
      * Returns the opencv statistical model this classifier uses.
      */
-    const TrainableStatModel<T> &getStatisticalModel() const {
+    TrainableStatModel *getStatisticalModel() const{
         return this->statisticalModel;
     }
     /**
@@ -66,8 +65,9 @@ public:
      */
     float predict(const Mat &segmentedHand) {
         Mat caracteristicVector = this->caracteristicVector(segmentedHand);
+        cout<<"Caracteristic vector computed"<<endl;
         
-        return this->statisticalModel.predict(caracteristicVector);
+        return this->statisticalModel->predict(caracteristicVector);
     }
     /**
      * Returns the number from the result returnes by the opencv statistical
@@ -96,26 +96,27 @@ public:
         cout<<"responses initialized"<<endl;
     
         for (int i = 0; i < segmentedHands.size(); i++) {
-                Mat currentCaracteristicVector = 
-                        this->caracteristicVector(segmentedHands[i]);
+                Mat currentCaracteristicVector = this->caracteristicVector(segmentedHands[i]);
                 cout<<"Caracteristic vector for hand "<<i<<" computed: ("<<currentCaracteristicVector.rows<<","<<currentCaracteristicVector.cols<<")"<<endl;
                 currentCaracteristicVector.copyTo(trainData.row(i));
                 cout<<"Caracteristic vector added to the trainData"<<endl;
                 expectedResponses.at<float>(0, i) = expectedClass[i];
-                cout<<"Expected reponse added"<<endl;
+                cout<<"Expected response added"<<endl;
         }
     
-        this->statisticalModel.train(trainData, expectedResponses);
+        this->statisticalModel->train(trainData, expectedResponses);
     }
+
     void load(const char *filepath) {
-        this->statisticalModel.getStatModel().load(filepath);
+        this->statisticalModel->getStatModel()->load(filepath);
     }
+
     void save(const char *filepath) {
-        this->statisticalModel.getStatModel().save(filepath);
+        this->statisticalModel->getStatModel()->save(filepath);
     }
 
 protected:
-    TrainableStatModel<T> statisticalModel;
+    TrainableStatModel *statisticalModel;
 };
 
 #endif	/* STATISTICALCLASSIFIER_H */

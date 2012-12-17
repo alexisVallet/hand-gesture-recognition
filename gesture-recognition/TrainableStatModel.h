@@ -8,58 +8,74 @@
 #ifndef TRAINABLESTATMODEL_H
 #define	TRAINABLESTATMODEL_H
 
+#include <iostream>
 #include "opencv2/opencv.hpp"
 
 using namespace cv;
+using namespace std;
 
 /**
  * Wrapper around CvStatModels which implement a train and predict (-like)
  * method.
  */
-template <typename T> 
 class TrainableStatModel {
 public:
-    TrainableStatModel() {
-        throw "TrainableStatModel: constructor is not implemented for this type.";
-    }
-    
-    TrainableStatModel(T &internalStatModel) {
-        throw "TrainableStatModel: constructor is not implemented for this type.";
-    }
-    
-    CvStatModel &getStatModel() const {
-        throw "TrainableStatModel: getStatModel is not implemented for this type.";
-    }
-    void train(Mat &trainData, Mat &expectedResponses) {
-        throw "TrainableStatModel: train is not implemented for this type";
-    }
-    float predict(Mat &samples) {
-        throw "TrainableStatModel: predict is not implemented for this type";
-    }
+    virtual CvStatModel *getStatModel() = 0;
+    virtual void train(Mat &trainData, Mat &expectedResponses) = 0;
+    virtual float predict(Mat &samples) = 0;
 };
 
-template <>
-class TrainableStatModel <CvNormalBayesClassifier> {
+class BayesModel : public TrainableStatModel {
 private:
-    CvNormalBayesClassifier internalStatModel;
-    
+    CvNormalBayesClassifier *internalStatModel;
+
 public:    
-    TrainableStatModel() {
-        
+    BayesModel() {
+        this->internalStatModel = NULL;
     }
     
-    TrainableStatModel(CvNormalBayesClassifier &internalStatModel) {
+    BayesModel(CvNormalBayesClassifier *internalStatModel) {
         this->internalStatModel = internalStatModel;
     }
     
-    CvStatModel &getStatModel() const {
-        return (CvStatModel&)(this->internalStatModel);
+    CvStatModel *getStatModel() {
+        return this->internalStatModel;
     }
+
     void train(Mat &trainData, Mat &expectedResponses) {
-        this->internalStatModel.train(trainData, expectedResponses);
+        this->internalStatModel->train(trainData, expectedResponses);
     }
+
     float predict(const Mat &samples) {
-        return this->internalStatModel.predict(samples);
+        return this->internalStatModel->predict(samples);
+    }
+};
+
+#define DEFAULT_K 1
+
+class KNearestModel : public TrainableStatModel {
+private:
+    int k;
+    CvKNearest *internalStatModel;
+    
+public:
+    KNearestModel() : k(DEFAULT_K) {
+    }
+    
+    KNearestModel(CvKNearest *internalStatModel, int kValue = DEFAULT_K) : k(kValue) {
+        this->internalStatModel = internalStatModel;
+    }
+    
+    CvStatModel *getStatModel() {
+        return this->internalStatModel;
+    }
+    
+    void train(Mat &trainData, Mat &expectedResponses) {
+        this->internalStatModel->train(trainData, expectedResponses);
+    }
+    
+    float predict(Mat &samples) {
+        return this->internalStatModel->find_nearest(samples, this->k);
     }
 };
 
