@@ -17,7 +17,7 @@
 void loadTrainingData(vector<Mat> &segmentedHands, vector<int> &classes) {
     vector < vector < string > > pathsByClasses;
     
-    readPath(pathsByClasses, "./runFolder/ClassImagesEtendue2/", "bmp");
+    readPath(pathsByClasses, "./runFolder/ExpandedClassImages/", "bmp");
 
     for (int i = 0; i < pathsByClasses.size(); i++) {
         for (int j = 0; j < pathsByClasses[i].size(); j++) {
@@ -29,7 +29,16 @@ void loadTrainingData(vector<Mat> &segmentedHands, vector<int> &classes) {
     }
 }
 
-int classToNbFingers(int classNumber) {
+int class1ToNbFingers(int classNumber) {
+    int assocs[] = {
+        0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 3, 2, 2, 3, 2, 3, 3, 4,
+        2, 3, 3, 4, 3, 4, 4, 5
+    };
+    
+    return assocs[classNumber];
+}
+
+int class2ToNbFingers(int classNumber) {
     if (classNumber == 0) {
         return 0;
     } else if (classNumber >= 1 && classNumber <= 2) {
@@ -51,7 +60,7 @@ void showImageAndExpectedClass(StatisticalClassifier &classifier, string filepat
     namedWindow(filepath);
     imshow(filepath, image);
     waitKey(0);
-    cout<<"Image "<<filepath<<" has "<<classToNbFingers(classifier.predict(image))<<" fingers"<<endl;
+    cout<<"Image "<<filepath<<" has "<<class1ToNbFingers(classifier.predict(image))<<" fingers"<<endl;
 }
 
 vector<Mat> loadTestData(string basePath, int numberOfImages) {
@@ -73,10 +82,14 @@ float measureSuccessRate(StatisticalClassifier &classifier, vector<Mat> inputs, 
     int numberOfSuccesses = 0;
     
     for (int i = 0; i < inputs.size(); i++) {
-        int actual = classToNbFingers(classifier.predict(inputs[i]));
+        int actual = class1ToNbFingers(classifier.predict(inputs[i]));
         if (actual == expectedClasses[i]) {
             numberOfSuccesses++;
         }
+        namedWindow("image" + i);
+        imshow("image" + i, inputs[i]);
+        cout<<"Image "<<i<<" actual: "<<actual<<", expected: "<<expectedClasses[i]<<endl;
+        waitKey(0);
     }
     
     return ((float)numberOfSuccesses)/((float)inputs.size());
@@ -103,6 +116,11 @@ int main(int argc, char** argv) {
         5, 4, 3, 1, 2, 3, 4, 5, 5, 0, 5, 4, 3,
         2, 1, 5, 4, 3, 2, 1, 0
     };
+/*    int baseNumberOfFingers[] = {
+        0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+        3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4,
+        4, 4, 4, 5, 5, 5, 5
+    };*/
     float successRate = measureSuccessRate(classifier, group1, actualNumberOfFingers);
     cout<<"Success rate: "<<successRate<<endl;
     return (EXIT_SUCCESS);
