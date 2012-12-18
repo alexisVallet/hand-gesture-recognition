@@ -43,8 +43,11 @@
       <itemPath>LoadYML.cpp</itemPath>
       <itemPath>Pfisher.cpp</itemPath>
       <itemPath>RadialHistogram.cpp</itemPath>
+      <itemPath>RadialHistogramClassifier.cpp</itemPath>
       <itemPath>Segmentation.cpp</itemPath>
+      <itemPath>StatisticalClassifier.cpp</itemPath>
       <itemPath>Symmetry.cpp</itemPath>
+      <itemPath>TrainableStatModel.cpp</itemPath>
       <itemPath>convert.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>pClearHand.cpp</itemPath>

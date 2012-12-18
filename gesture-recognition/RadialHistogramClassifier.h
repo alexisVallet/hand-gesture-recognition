@@ -28,42 +28,13 @@
  */
 class RadialHistogramClassifier : public StatisticalClassifier {
 public:
-    RadialHistogramClassifier() {
-    }
+    RadialHistogramClassifier();
     RadialHistogramClassifier(
         TrainableStatModel *internalStatisticalModel,
         int numberOfBins = DEFAULT_RADIAL_BINS_NUMBER,
-        int maxFingerWidth = DEFAULT_MAX_FINGER_WIDTH) 
-        : StatisticalClassifier(internalStatisticalModel)
-    {
-        this->numberOfBins = numberOfBins;
-        this->maxFingerWidth = maxFingerWidth;
-    }
-
-    Mat caracteristicVector(const Mat &segmentedHand) {
-        Mat direction = handDirection(segmentedHand).second;
-        float angle = atan(direction.at<float>(0,1)/direction.at<float>(0,0));
-        Mat rotatedHand;
-        rotateHand(segmentedHand, rotatedHand, angle);
-        Mat flippedHand = rotatedHand;
-        if (detectHandSide(rotatedHand, 1) == LEFT_HAND) {
-            horizontalSymmetry(rotatedHand, flippedHand);
-        }
-        MatND handRadialHistogram;
-        Point2f palmCenter = estimatePalmCenter(
-                flippedHand, 
-                this->maxFingerWidth);
-        radialHistogramWithCenter(
-            flippedHand, 
-            handRadialHistogram, 
-            this->numberOfBins, 
-            palmCenter);
-        return handRadialHistogram.t();
-    }
-
-    int caracteristicVectorLength() {
-        return this->numberOfBins;
-    }
+        int maxFingerWidth = DEFAULT_MAX_FINGER_WIDTH);
+    Mat caracteristicVector(const Mat &segmentedHand);
+    int caracteristicVectorLength();
 
 private:
     int numberOfBins;
