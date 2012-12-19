@@ -58,7 +58,7 @@ public:
      * @param caracteristicVector caracteristic vector of the hand to classify.
      * @return the predicted class of the caracteristic vector.
      */
-    float predict(const Mat &segmentedHand);
+    float predict(Mat &caracteristicVector);
     /**
      * Returns the number from the result returnes by the opencv statistical
      * model. By default just rounds the result of the classifier.
@@ -67,7 +67,26 @@ public:
      * @return the computed number of fingers.
      */
     virtual int numberOfFingersFromClassifierResult(float classifierResult);
+    /**
+     * Returns the length of the caracteristic vectors computed by this
+     * classifier.
+     * @return the length of the caracteristic vectors computed by this
+     * classifier.
+     */
     virtual int caracteristicVectorLength(void) = 0;
+    /**
+     * Computes the recognition rate of the classifier using the leave one out
+     * method. This method consists in classifying by using the sample we want to
+     * classify as the test base and the rest as the training base. As a result,
+     * the training base changes for each sample, but this allows us to compute
+     * a recognition rate even with a small amount of data.
+     * 
+     * @param baseInputs the entire sample data inputs
+     * @param baseOutputs the entire sample data outputs
+     * @return a recognition rate between 0 and 1
+     */
+    float leaveOneOutRecognitionRate(vector<Mat> baseInputs, vector<int> baseOutputs);
+    
     int numberOfFingers(Mat &segmentedHand);
     void train(
         const vector<Mat> &segmentedHands,

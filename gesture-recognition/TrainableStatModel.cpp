@@ -16,7 +16,7 @@ void BayesModel::train(Mat &trainData, Mat &expectedResponses) {
     this->internalStatModel->train(trainData, expectedResponses);
 }
 
-float BayesModel::predict(const Mat &samples) {
+float BayesModel::predict(Mat &samples) {
     return this->internalStatModel->predict(samples);
 }
 

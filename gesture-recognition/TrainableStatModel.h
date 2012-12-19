@@ -60,7 +60,7 @@ public:
 
     void train(Mat &trainData, Mat &expectedResponses);
 
-    float predict(const Mat &samples);
+    float predict(Mat &samples);
 };
 
 #define DEFAULT_K 1

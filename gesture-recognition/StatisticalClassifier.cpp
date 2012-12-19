@@ -9,10 +9,7 @@ TrainableStatModel *StatisticalClassifier::getStatisticalModel() const{
     return this->statisticalModel;
 }
 
-float StatisticalClassifier::predict(const Mat &segmentedHand) {
-    Mat caracteristicVector = this->caracteristicVector(segmentedHand);
-    cout<<"Caracteristic vector computed"<<endl;
-        
+float StatisticalClassifier::predict(Mat &caracteristicVector) {
     return this->statisticalModel->predict(caracteristicVector);
 }
 
@@ -49,4 +46,27 @@ void StatisticalClassifier::load(const char *filepath) {
 
 void StatisticalClassifier::save(const char *filepath) {
     this->statisticalModel->getStatModel()->save(filepath);
+}
+
+float StatisticalClassifier::leaveOneOutRecognitionRate(vector<Mat> baseInputs, vector<int> baseOutputs) {
+    int numberOfSuccesses = 0;
+    assert(baseInputs.size() == baseOutputs.size());
+    
+    for (int i = 0; i < baseInputs.size(); i++) {
+        Mat testInput = baseInputs[i];
+        int testOutput = baseOutputs[i];
+        baseInputs.erase(baseInputs.begin()+i);
+        baseOutputs.erase(baseOutputs.begin()+i);
+        this->getStatisticalModel()->getStatModel()->clear();
+        this->train(baseInputs, baseOutputs);
+        int actualOutput = this->numberOfFingers(testInput);
+        cout<<"Expected: "<<testOutput<<", actual: "<<actualOutput<<endl;
+        if (actualOutput == testOutput) {
+            numberOfSuccesses++;
+        }
+        baseInputs.insert(baseInputs.begin()+i, testInput);
+        baseOutputs.insert(baseOutputs.begin()+i, testOutput);
+    }
+    
+    return ((float)numberOfSuccesses)/((float)baseInputs.size());
 }
