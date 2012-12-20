@@ -60,12 +60,15 @@ float StatisticalClassifier::leaveOneOutRecognitionRate(vector<Mat> baseInputs, 
         this->getStatisticalModel()->getStatModel()->clear();
         this->train(baseInputs, baseOutputs);
         int actualOutput = this->numberOfFingers(testInput);
-        cout<<"Expected: "<<testOutput<<", actual: "<<actualOutput<<endl;
+        cout<<"Image "<<i<<" expected: "<<testOutput<<", actual: "<<actualOutput<<endl;
         if (actualOutput == testOutput) {
             numberOfSuccesses++;
         }
         baseInputs.insert(baseInputs.begin()+i, testInput);
         baseOutputs.insert(baseOutputs.begin()+i, testOutput);
+        namedWindow("pouet"+i);
+        imshow("pouet"+i,testInput);
+        waitKey(0);
     }
     
     return ((float)numberOfSuccesses)/((float)baseInputs.size());

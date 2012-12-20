@@ -88,7 +88,7 @@ public:
     float leaveOneOutRecognitionRate(vector<Mat> baseInputs, vector<int> baseOutputs);
     
     int numberOfFingers(Mat &segmentedHand);
-    void train(
+    virtual void train(
         const vector<Mat> &segmentedHands,
         const vector<int> &expectedClass);
 

@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>AutoSubClassingClassifier.h</itemPath>
       <itemPath>Classifier.h</itemPath>
       <itemPath>ClassifierParameters.h</itemPath>
       <itemPath>ConvexityClassifier.h</itemPath>
@@ -32,6 +33,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>AutoSubClassingClassifier.cpp</itemPath>
       <itemPath>Classifier.cpp</itemPath>
       <itemPath>ClassifieurDistEuclidienne.cpp</itemPath>
       <itemPath>ClassifieurDistHistogramm.cpp</itemPath>
