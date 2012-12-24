@@ -15,6 +15,7 @@
 #include "rotateHand.h"
 #include "HandSideDetection.h"
 #include "Symmetry.h"
+#include "AutoSubClassingClassifier.h"
 
 #define DEFAULT_RADIAL_BINS_NUMBER 80
 #define DEFAULT_MAX_FINGER_WIDTH 15
@@ -26,13 +27,14 @@
  * histogram is invariant), computes its radial
  * histogram.
  */
-class RadialHistogramClassifier : public StatisticalClassifier {
+class RadialHistogramClassifier : public AutoSubClassingClassifier {
 public:
     RadialHistogramClassifier();
     RadialHistogramClassifier(
         TrainableStatModel *internalStatisticalModel,
         int numberOfBins = DEFAULT_RADIAL_BINS_NUMBER,
-        int maxFingerWidth = DEFAULT_MAX_FINGER_WIDTH);
+        int maxFingerWidth = DEFAULT_MAX_FINGER_WIDTH,
+        vector<int> numberOfSubClasses = vector<int>(6, 1));
     Mat caracteristicVector(const Mat &segmentedHand);
     int caracteristicVectorLength();
 

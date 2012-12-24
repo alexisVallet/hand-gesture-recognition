@@ -6,8 +6,9 @@ RadialHistogramClassifier::RadialHistogramClassifier() {
 RadialHistogramClassifier::RadialHistogramClassifier(
         TrainableStatModel *internalStatisticalModel,
         int numberOfBins,
-        int maxFingerWidth) 
-        : StatisticalClassifier(internalStatisticalModel)
+        int maxFingerWidth,
+        vector<int> numberOfSubClasses) 
+        : AutoSubClassingClassifier(numberOfSubClasses, internalStatisticalModel)
 {
     this->numberOfBins = numberOfBins;
     this->maxFingerWidth = maxFingerWidth;

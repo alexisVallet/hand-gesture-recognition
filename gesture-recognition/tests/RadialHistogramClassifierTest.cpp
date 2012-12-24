@@ -37,7 +37,8 @@ vector<float> recognitionRateByNumberOfBins(
         vector<int> baseOutputs) {
     vector<float> recognitionRates(maxNbBins - minNbBins+ 1);
     for (int nbBins = minNbBins; nbBins <= maxNbBins; nbBins++) {
-        RadialHistogramClassifier classifier(internalModel, nbBins);
+        cout<<nbBins<<" bins"<<endl;
+        RadialHistogramClassifier classifier(internalModel, nbBins, 15, vector<int>(6, 2));
         recognitionRates[nbBins-minNbBins] = classifier.leaveOneOutRecognitionRate(baseInputs, baseOutputs);
         cout<<"Recognition rate for "<<nbBins<<" bins: "<<recognitionRates[nbBins-minNbBins]<<endl;
     }
@@ -47,7 +48,7 @@ vector<float> recognitionRateByNumberOfBins(
 
 int main(int argc, char** argv) {
     CvKNearest internalClassifier;
-    KNearestModel internalModel(&internalClassifier, 1);
+    KNearestModel internalModel(&internalClassifier, 5);
     vector<Mat> segmentedHands;
     vector<int> classes;
     loadTrainingData("./runFolder/ClassImages2/", segmentedHands, classes);
