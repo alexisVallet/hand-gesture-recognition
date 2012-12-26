@@ -74,26 +74,10 @@ float Compute_Distance( Point a , Point b ){
     
 }
 
-void ShowConvexityPoints(string filepath) {
-    
-    Mat out;//,contours_points,polygon;
-    vector<Point> contours,polygon;
-    vector<Vec4i> hierarchy;
-    vector<vector<Point> > contours_points;
-    Mat segmentedHandRGB = imread(filepath);
-    
-    /*CONVERSION FORMAT: Grayscale */
-    vector<Mat> rgbPlanes;
-    split(segmentedHandRGB, rgbPlanes);
-    Mat segmentedHandGray = rgbPlanes[0];
-    
-    /*Computing median filter*/
-    medianBlur(segmentedHandGray,out,15);
-    
-    /*Looking for Contours Points*/
-    findContours( out, contours_points, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE );
+vector<Point> BiggestContour( vector<vector<Point> > contours_points ){
     
     double Contour_tmp1, Contour_tmp2;
+    vector<Point> contours;
     Contour_tmp1 = 0;
     Contour_tmp2 = 0;
     /*Convert vector<vector<Point>> to vector<Point> and find the biggest contours*/
@@ -114,16 +98,33 @@ void ShowConvexityPoints(string filepath) {
         
     }
     
-    /* OLD VERSION
-    for(int i = 0; i < contours_points.size() ; i++){
-        for(int j = 0; j < contours_points[i].size() ; j++){
-            contours.push_back(contours_points[i][j]);
-        }
-    }
-    /**/
+    return contours;
+}
+
+void ShowConvexityPoints(string filepath) {
+    
+    Mat out;//,contours_points,polygon;
+    vector<Point> contours,polygon;
+    vector<Vec4i> hierarchy;
+    vector<vector<Point> > contours_points;
+    Scalar color(rand()&255, rand()&255, rand()&255);
+    Mat segmentedHandRGB = imread(filepath);
+    
+    /*CONVERSION FORMAT: Grayscale */
+    vector<Mat> rgbPlanes;
+    split(segmentedHandRGB, rgbPlanes);
+    Mat segmentedHandGray = rgbPlanes[0];
+    
+    /*Computing median filter*/
+    medianBlur(segmentedHandGray,out,15);
+    
+    /*Looking for Contours Points*/
+    findContours( out, contours_points, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE );
+    
+    /*Convert vector<vector<Point>> to vector<Point> and find the biggest contours*/
+    contours = BiggestContour (contours_points);
     
     /*Drawing Contours*/
-    Scalar color(rand()&255, rand()&255, rand()&255);
     drawContours(out, contours_points, 0, color, 1, 8, hierarchy);
     
     /*Approximation of Hands Contours by Polygon*/
@@ -141,15 +142,15 @@ void ShowConvexityPoints(string filepath) {
     else
         Palm_Radius = Palm.size.width / 2;
     
-    /*Convexity points Detection*/
+    /*Convexity points Detection*
     vector<vector<Point> > hull_points(contours_points.size());
     for(int i = 0 ; i< contours_points.size();i++)
     {
         convexHull(contours_points[i],hull_points[i],false,true); //Find the Convex of the hand
             
     }
-    
-    
+    /**/
+        
     vector<int> index_hull_points(contours_points.size());
     vector<Point> convexityDefects(contours_points.size());
     vector<Point> Concave_points;

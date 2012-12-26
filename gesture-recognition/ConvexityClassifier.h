@@ -28,7 +28,9 @@ class ConvexityClassifier : Classifier {
 public:
     ConvexityClassifier();
     ConvexityClassifier(const ConvexityClassifier& orig);
-    virtual ~ConvexityClassifier();    
+    virtual ~ConvexityClassifier();
+    float Compute_Distance( Point a , Point b );
+    //void ConvexityClassifier::findConvexityDefects(vector<Point>& contour, vector<int>& hull, vector<Point>& convexDefects);    
     /**
      * Return the Number of Fingers identify by the Classifier
      * 
