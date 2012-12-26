@@ -30,7 +30,14 @@ public:
     ConvexityClassifier(const ConvexityClassifier& orig);
     virtual ~ConvexityClassifier();
     float Compute_Distance( Point a , Point b );
-    //void ConvexityClassifier::findConvexityDefects(vector<Point>& contour, vector<int>& hull, vector<Point>& convexDefects);    
+    void findConvexityDefects(vector<Point>& contour, vector<int>& hull, vector<Point>& convexDefects);    
+    vector<Point> BiggestContour( vector<vector<Point> > contours_points );
+    vector<Point> Filtering_Concave_Point( vector<Point> convexDefects , RotatedRect Palm );
+    vector<int> Filtering_Convex_Point( vector<int> hull , vector<Point> contour , RotatedRect Palm );
+    vector<int> Isolating_Convex_Point( vector<int> Convex_points , vector<Point> contour );
+    vector<int> Isolating_Convex_Point_byAverage( vector<Point> contour , vector<Point> Concave_points , float min_distance , vector<int> tmp );
+    int Compute_Result( vector<Point> contour , vector<Point> Concave_points , vector<int> result , float min_distance );
+    int Convexity_Computing(Mat &segmentedHand);
     /**
      * Return the Number of Fingers identify by the Classifier
      * 
