@@ -85,4 +85,8 @@ public:
     float predict(Mat &samples);
 };
 
+class ANNModel : public TrainableStatModel {
+    
+};
+
 #endif	/* TRAINABLESTATMODEL_H */

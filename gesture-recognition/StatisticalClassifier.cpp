@@ -69,9 +69,6 @@ float StatisticalClassifier::leaveOneOutRecognitionRate(vector<Mat> baseInputs, 
         }
         baseInputs.insert(baseInputs.begin()+i, testInput);
         baseOutputs.insert(baseOutputs.begin()+i, testOutput);
-        namedWindow("pouet"+i);
-        imshow("pouet"+i,testInput);
-        waitKey(0);
     }
     
     return ((float)numberOfSuccesses)/((float)baseInputs.size());
