@@ -25,6 +25,8 @@ Mat handPixelsWithPixelValue(const Mat &segmentedHand, int handPixelValue) {
             }
         }
     }
+
+    handPixelsMatrix = handPixelsMatrix.colRange(0, currentHandPixel);
     
     return handPixelsMatrix;
 }

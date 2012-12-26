@@ -20,7 +20,7 @@ using namespace cv;
  * set. The result of the training should be saveable and loadable to and
  * from a file.
  */
-class TrainableClassifier : Classifier {
+class TrainableClassifier : public Classifier {
 public:
     /**
      * Trains the classifier using an input vector of segmented hands, and

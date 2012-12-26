@@ -10,7 +10,12 @@
 using namespace cv;
 using namespace std;
 
-static void radialHistogramWithCenterAndPixels(const Mat &segmentedHand, MatND &histogram, int numberOfBins, Point center, Mat &handPixelsMatrix) {
+static void radialHistogramWithCenterAndPixels(
+        const Mat &segmentedHand, 
+        MatND &histogram, 
+        int numberOfBins, 
+        Point center, 
+        Mat &handPixelsMatrix) {
     Mat angleOffsets = Mat::zeros(segmentedHand.rows, segmentedHand.cols, CV_32F);
     
     for (int i = 0; i < handPixelsMatrix.cols; i++) {
@@ -26,9 +31,9 @@ static void radialHistogramWithCenterAndPixels(const Mat &segmentedHand, MatND &
     const float *ranges[] = {range};
     int channels[] = {0};
     calcHist(&angleOffsets, 1, channels, segmentedHandMask, histogram, 1, hsize, ranges);
-    double max;
-    minMaxIdx(histogram, NULL, &max);
-    histogram = Mat_<float>(histogram) / max;
+//    double max;
+//    minMaxIdx(histogram, NULL, &max);
+    histogram = Mat_<float>(histogram);
 }
 
 void radialHistogram(const Mat &segmentedHand, MatND &histogram, int numberOfBins) {

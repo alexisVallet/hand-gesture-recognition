@@ -17,3 +17,17 @@ vector<float> Classifier::classProbabilities(Mat& segmentedHand) {
     
     return defaultResults;
 }
+
+float Classifier::recognitionRate(vector<Mat> handsToRecognize, vector<int> expectedNumberOfFingers) {
+    int numberOfSuccesses = 0;
+    assert(handsToRecognize.size() == expectedNumberOfFingers.size());
+    
+    for (int i = 0; i < handsToRecognize.size(); i++) {
+        int actual = this->numberOfFingers(handsToRecognize[i]);
+        if (actual == expectedNumberOfFingers[i]) {
+            numberOfSuccesses++;
+        }
+    }
+    
+    return ((float)numberOfSuccesses)/((float)handsToRecognize.size());
+}

@@ -8,9 +8,11 @@
 #ifndef CLASSIFIER_H
 #define	CLASSIFIER_H
 
+#include <iostream>
 #include "opencv2/opencv.hpp"
 
 using namespace cv;
+using namespace std;
 
 /**
  * A classifier for hand gesture recognition. Takes a segmented and binarized
@@ -36,6 +38,16 @@ public:
      * @return the probability vector for the hand
      */
     virtual vector<float> classProbabilities(Mat &segmentedHand);
+    /**
+     * Computes the recognition rate of the classifier using a specific test
+     * set.
+     * 
+     * @param handsToRecognize segmented hands to recognize.
+     * @param expectedNumberOfFingers number of finger of each hand in the input.
+     * @return the recognition rate of the classifier for this test set.
+     */
+    float recognitionRate(vector<Mat> handsToRecognize, vector<int> expectedNumberOfFingers);
 };
+
 #endif	/* CLASSIFIER_H */
 

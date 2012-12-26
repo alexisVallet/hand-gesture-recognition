@@ -27,7 +27,6 @@
  * This may be useful for aggregating classes into one. By default, rounds
  * the result of the classifier.
  */
-template <typename T>
 class StatisticalClassifier : public TrainableClassifier {
 public:
     StatisticalClassifier() {
@@ -38,16 +37,11 @@ public:
      * @param statisticalModel the statistical model used to classify the
      * caracteristic vector.
      */
-    StatisticalClassifier(TrainableStatModel<T> statisticalModel)
-        : statisticalModel(statisticalModel)
-    {
-    }
+    StatisticalClassifier(TrainableStatModel *statisticalModel);
     /**
      * Returns the opencv statistical model this classifier uses.
      */
-    const TrainableStatModel<T> &getStatisticalModel() const {
-        return this->statisticalModel;
-    }
+    TrainableStatModel *getStatisticalModel() const;
     /**
      * Returns a caracteristic vector for a segmented hand. This caracteristic
      * vector will be used to classify the hand.
@@ -64,11 +58,7 @@ public:
      * @param caracteristicVector caracteristic vector of the hand to classify.
      * @return the predicted class of the caracteristic vector.
      */
-    float predict(const Mat &segmentedHand) {
-        Mat caracteristicVector = this->caracteristicVector(segmentedHand);
-        
-        return this->statisticalModel.predict(caracteristicVector);
-    }
+    float predict(Mat &caracteristicVector);
     /**
      * Returns the number from the result returnes by the opencv statistical
      * model. By default just rounds the result of the classifier.
@@ -76,46 +66,38 @@ public:
      * @param classifierResult result of the classifier.
      * @return the computed number of fingers.
      */
-    virtual int numberOfFingersFromClassifierResult(float classifierResult) {
-        return round(classifierResult);
-    }
+    virtual int numberOfFingersFromClassifierResult(float classifierResult);
+    /**
+     * Returns the length of the caracteristic vectors computed by this
+     * classifier.
+     * @return the length of the caracteristic vectors computed by this
+     * classifier.
+     */
     virtual int caracteristicVectorLength(void) = 0;
-    int numberOfFingers(Mat &segmentedHand) {
-        Mat handCaracteristicVector = this->caracteristicVector(segmentedHand);
-        float classifierResult = 
-                this->predict(handCaracteristicVector);
-        return this->numberOfFingersFromClassifierResult(classifierResult);
-    }
-    void train(
+    /**
+     * Computes the recognition rate of the classifier using the leave one out
+     * method. This method consists in classifying by using the sample we want to
+     * classify as the test base and the rest as the training base. As a result,
+     * the training base changes for each sample, but this allows us to compute
+     * a recognition rate even with a small amount of data.
+     * 
+     * @param baseInputs the entire sample data inputs
+     * @param baseOutputs the entire sample data outputs
+     * @return a recognition rate between 0 and 1
+     */
+    float leaveOneOutRecognitionRate(vector<Mat> baseInputs, vector<int> baseOutputs);
+    
+    int numberOfFingers(Mat &segmentedHand);
+    virtual void train(
         const vector<Mat> &segmentedHands,
-        const vector<int> &expectedClass) {
-        assert(segmentedHands.size() == expectedClass.size());
-        Mat trainData(segmentedHands.size(), this->caracteristicVectorLength(), CV_32F);
-        cout<<"trainData initialized"<<endl;
-        Mat expectedResponses(1, segmentedHands.size(), CV_32F);
-        cout<<"responses initialized"<<endl;
-    
-        for (int i = 0; i < segmentedHands.size(); i++) {
-                Mat currentCaracteristicVector = 
-                        this->caracteristicVector(segmentedHands[i]);
-                cout<<"Caracteristic vector for hand "<<i<<" computed: ("<<currentCaracteristicVector.rows<<","<<currentCaracteristicVector.cols<<")"<<endl;
-                currentCaracteristicVector.copyTo(trainData.row(i));
-                cout<<"Caracteristic vector added to the trainData"<<endl;
-                expectedResponses.at<float>(0, i) = expectedClass[i];
-                cout<<"Expected reponse added"<<endl;
-        }
-    
-        this->statisticalModel.train(trainData, expectedResponses);
-    }
-    void load(const char *filepath) {
-        this->statisticalModel.getStatModel().load(filepath);
-    }
-    void save(const char *filepath) {
-        this->statisticalModel.getStatModel().save(filepath);
-    }
+        const vector<int> &expectedClass);
+
+    void load(const char *filepath);
+
+    void save(const char *filepath);
 
 protected:
-    TrainableStatModel<T> statisticalModel;
+    TrainableStatModel *statisticalModel;
 };
 
 #endif	/* STATISTICALCLASSIFIER_H */

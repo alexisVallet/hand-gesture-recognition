@@ -8,59 +8,85 @@
 #ifndef TRAINABLESTATMODEL_H
 #define	TRAINABLESTATMODEL_H
 
+#include <iostream>
 #include "opencv2/opencv.hpp"
 
 using namespace cv;
+using namespace std;
 
 /**
  * Wrapper around CvStatModels which implement a train and predict (-like)
  * method.
  */
-template <typename T> 
 class TrainableStatModel {
 public:
-    TrainableStatModel() {
-        throw "TrainableStatModel: constructor is not implemented for this type.";
-    }
-    
-    TrainableStatModel(T &internalStatModel) {
-        throw "TrainableStatModel: constructor is not implemented for this type.";
-    }
-    
-    CvStatModel &getStatModel() const {
-        throw "TrainableStatModel: getStatModel is not implemented for this type.";
-    }
-    void train(Mat &trainData, Mat &expectedResponses) {
-        throw "TrainableStatModel: train is not implemented for this type";
-    }
-    float predict(Mat &samples) {
-        throw "TrainableStatModel: predict is not implemented for this type";
-    }
+    /**
+     * Returns the opencv statistical model which this statistical model
+     * is based on.
+     * 
+     * @return the opencv statistical model which this statistical model
+     * is based on.
+     */
+    virtual CvStatModel *getStatModel() = 0;
+    /**
+     * Trains the classifier using a specific training base.
+     * 
+     * @param trainData the input training data.
+     * @param expectedResponses the expected response to the training data.
+     */
+    virtual void train(Mat &trainData, Mat &expectedResponses) = 0;
+    /**
+     * Predicts the class of a sample.
+     * 
+     * @param samples one or many samples to compute the class for.
+     * @return the predicted class of the sample.
+     */
+    virtual float predict(Mat &samples) = 0;
 };
 
-template <>
-class TrainableStatModel <CvNormalBayesClassifier> {
+/**
+ * Wrapper class for Bayes's classifier.
+ */
+class BayesModel : public TrainableStatModel {
 private:
-    CvNormalBayesClassifier internalStatModel;
-    
+    CvNormalBayesClassifier *internalStatModel;
+
 public:    
-    TrainableStatModel() {
-        
-    }
+    BayesModel();
     
-    TrainableStatModel(CvNormalBayesClassifier &internalStatModel) {
-        this->internalStatModel = internalStatModel;
-    }
+    BayesModel(CvNormalBayesClassifier *internalStatModel);
     
-    CvStatModel &getStatModel() const {
-        return (CvStatModel&)(this->internalStatModel);
-    }
-    void train(Mat &trainData, Mat &expectedResponses) {
-        this->internalStatModel.train(trainData, expectedResponses);
-    }
-    float predict(const Mat &samples) {
-        return this->internalStatModel.predict(samples);
-    }
+    CvStatModel *getStatModel();
+
+    void train(Mat &trainData, Mat &expectedResponses);
+
+    float predict(Mat &samples);
+};
+
+#define DEFAULT_K 1
+
+/**
+ * Wrapper class around the K nearest neighbors classifier.
+ */
+class KNearestModel : public TrainableStatModel {
+private:
+    int k;
+    CvKNearest *internalStatModel;
+    
+public:
+    KNearestModel();
+    
+    KNearestModel(CvKNearest *internalStatModel, int kValue = DEFAULT_K);
+    
+    CvStatModel *getStatModel();
+    
+    void train(Mat &trainData, Mat &expectedResponses);
+    
+    float predict(Mat &samples);
+};
+
+class ANNModel : public TrainableStatModel {
+    
 };
 
 #endif	/* TRAINABLESTATMODEL_H */

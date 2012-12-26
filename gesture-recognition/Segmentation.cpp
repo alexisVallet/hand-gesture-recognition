@@ -18,7 +18,7 @@
 
 #define THRESH_BINARIZATION 0
 #define NB_CLASS_FISHER 5
-#define SHOW_IMAGES 1
+#define SHOW_IMAGES 0
 #define SAVE_IMAGES 0
 
 using namespace cv;
