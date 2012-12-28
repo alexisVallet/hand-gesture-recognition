@@ -9,6 +9,7 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include "Segmentation.h"
+#include "utilsFunctions.h"
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,51 +18,60 @@ using namespace cv;
 using namespace std;
 
 #define DISTANCE_MIN 5
+#define WINDOW_SIZE_CORRELATION 4
 
 /// Global variables
 Mat src, src_gray, seg;
 int thresh = 125;
 int max_thresh = 255;
 
-char* source_window = "image source";
-char* corners_window = "Harris detection";
+// Current movement of hand between two images.
+double currentmovX, currentmovY = 0;
 
-/// Function header
+/// Function headers
 void loadAndSegment(const char *, bool);
 void printMat(const Mat&);
-vector<Point> Harris();
+vector<Point> Harris(string filename);
 void matching(vector<Point>, vector<Point>);
 double euclidean(Point A, Point B);
-
+pair<Point,Point> box(const Mat& mat);
+double SAD(const Mat& mat1, Point P1, const Mat& mat2, Point P2);
 
 /** @function main */
 int main( int argc, char** argv )
 {
-    loadAndSegment("./runFolder/groupe2/1.bmp", false);
-    imshow("Segmented", seg);
-    vector<Point> P1= Harris();
+    vector< vector<string> > base;
+    readPath(base, "./runFolder/groupe2/", "bmp");
+    
+//    for(int i=0 ; i< base[0].size()-1 ; i++) {
 
-    loadAndSegment("./runFolder/groupe2/2.bmp", false);
-    imshow("Segmented2", seg);
-    vector<Point> P2= Harris();
+        // Segment two first images
+        loadAndSegment(base[0][0].c_str(), false);
+        vector<Point> P1= Harris(base[0][0]);
+        pair<Point,Point> rect = box(seg);
+        rectangle(seg, rect.first, rect.second, Scalar(255), 1, 8, 0);
+        imshow("Segmented1", seg);
+        
+        loadAndSegment(base[0][1].c_str(), false);
+        vector<Point> P2= Harris(base[0][1]);
+        matching(P1,P2);
+        Point p1adapt ((int)rect.first.x + currentmovX, (int)rect.first.y + currentmovY);
+        Point p2adapt ((int)rect.second.x + currentmovX, (int)rect.second.y + currentmovY);
+        rectangle(seg, p1adapt, p2adapt, Scalar(255), 1, 8, 0);
+        imshow("Segmented2", seg);
+
+        
+        cout << "Movement X: " << currentmovX << "  Y:" << currentmovY << endl;
+        
+        waitKey(0);
+//    }
     
-    for(int i=0 ; i<P1.size() ; i++)
-        cout << P1.at(i);
-    cout << endl << P1.size() << endl;
-    
-    for(int i=0 ; i<P2.size() ; i++)
-        cout << P2.at(i);
-    cout << endl << P2.size();
-    cout << endl;
-    
-    matching(P1,P2);
-    
-    waitKey(0);
+
     return(0);
 }
 
 /** @function Harris */
-vector<Point> Harris() 
+vector<Point> Harris(string filename) 
 {   
     Mat dst, dst_norm, dst_norm_scaled;
     dst = Mat::zeros( src.size(), CV_32FC1 );
@@ -90,8 +100,8 @@ vector<Point> Harris()
             }
     
     /// Showing the result
-    namedWindow( corners_window, CV_WINDOW_AUTOSIZE );
-    imshow( corners_window, dst_norm_scaled );   
+    namedWindow( filename, CV_WINDOW_AUTOSIZE );
+    imshow( filename, dst_norm_scaled );   
     
     return HarrisPoints;
 }
@@ -107,32 +117,33 @@ void matching(vector<Point> P1, vector<Point> P2)
     for(int i=0 ; i< P1.size() ; i++) {
         int min = 10000;
         int nearestpoint = 0;
-        for(int j=0 ; j< P2.size() ; j++)
-        {
+        for(int j=0 ; j< P2.size() ; j++) {
             match[i][j] = false;
             distances[i][j] = euclidean(P1[i], P2[j]);
             if(distances[i][j] < min) {
                 min = distances[i][j];
                 nearestpoint = j;
             }
-            cout << euclidean(P1[i], P2[j]) << "  ";
         }
         if(distances[i][nearestpoint] < DISTANCE_MIN)
-        match[i][nearestpoint] = true;
-        cout << endl;
+            match[i][nearestpoint] = true;
     }
     
-    for(int i=0 ; i< P1.size() ; i++) {
+    double movX,movY = 0;
+    int n = 0;
+    for(int i=0 ; i< P1.size() ; i++)
         for(int j=0 ; j< P2.size() ; j++)
-        {
-             cout << match[i][j] << "  ";       
-        }
-        cout << endl;
-    }
+            if(match[i][j]) {
+                movX += P2[j].x - P1[i].x;
+                movY += P2[j].y - P1[i].y;
+                n++;
+            }
+    currentmovX += (movX / n);
+    currentmovY += (movY / n);
 }
 
 double euclidean(Point A, Point B) {
-    return (sqrt( pow(A.x-B.x,2)+pow(A.y-B.y,2) ));
+    return (sqrt( pow(A.x-B.x,2)+pow(A.y-B.y,2)));
 }
 
 
@@ -156,4 +167,37 @@ void printMat(const Mat& mat) {
             cout << mat.data[i*mat.cols+j] << "   " ;
         cout << endl << endl;
     }
+}
+
+pair<Point,Point> box (const Mat& mat) {
+    
+    int xMin (mat.cols), xMax(0), yMin(mat.cols), yMax(0);
+    
+    for(int i=0 ; i< mat.cols ; i++)
+        for(int j = 0 ; j<mat.rows ; j++)
+            if(mat.data[j*mat.cols+i] > 0) {
+                if(i < xMin)
+                    xMin = i;
+                if(i > xMax)
+                    xMax = i;
+                if(j < yMin)
+                    yMin = j;
+                if(j > yMax)
+                    yMax = j;                
+            }
+    
+    Point p1(xMin, yMax);
+    Point p2(xMax, yMin);
+
+    return make_pair(p1,p2);
+}
+
+double SAD(const Mat& mat1, Point P1, const Mat& mat2, Point P2){
+    
+    double sum = 0;
+    // Computes window avergage
+    for(int i= -WINDOW_SIZE_CORRELATION ; i<WINDOW_SIZE_CORRELATION ; i++ )
+        for(int j= -WINDOW_SIZE_CORRELATION ; j<WINDOW_SIZE_CORRELATION ; j++ )
+            sum += abs(mat1[ (P1.y+j)*mat1.cols+(P1.x+i)] - mat2[(P2.y+j)*mat1.cols+(P2.x+i)]);
+    return sum;
 }
