@@ -42,6 +42,10 @@ public:
      * @return the predicted class of the sample.
      */
     virtual float predict(Mat &samples) = 0;
+    /**
+     * Clears the training of the internal statistical model.
+     */
+    virtual void clear() = 0;
 };
 
 /**
@@ -49,18 +53,18 @@ public:
  */
 class BayesModel : public TrainableStatModel {
 private:
-    CvNormalBayesClassifier *internalStatModel;
+    CvNormalBayesClassifier internalStatModel;
 
 public:    
     BayesModel();
-    
-    BayesModel(CvNormalBayesClassifier *internalStatModel);
-    
+        
     CvStatModel *getStatModel();
 
     void train(Mat &trainData, Mat &expectedResponses);
 
     float predict(Mat &samples);
+    
+    void clear();
 };
 
 #define DEFAULT_K 1
@@ -71,22 +75,42 @@ public:
 class KNearestModel : public TrainableStatModel {
 private:
     int k;
-    CvKNearest *internalStatModel;
+    CvKNearest internalStatModel;
     
 public:
     KNearestModel();
     
-    KNearestModel(CvKNearest *internalStatModel, int kValue = DEFAULT_K);
+    KNearestModel(int kValue = DEFAULT_K);
     
     CvStatModel *getStatModel();
     
     void train(Mat &trainData, Mat &expectedResponses);
     
     float predict(Mat &samples);
+    
+    void clear();
 };
 
+/**
+ * Wrapper class around the artificial neural network classifier.
+ */
 class ANNModel : public TrainableStatModel {
+private:
+    CvANN_MLP internalStatModel;
+    double fparam2;
     
+public:
+    ANNModel();
+    
+    ANNModel(Mat layersSize, int activateFunc = CvANN_MLP::SIGMOID_SYM, double fparam1 = 1, double fparam2 = 1);
+    
+    CvStatModel *getStatModel();
+    
+    void train(Mat &trainData, Mat &expectedResponses);
+    
+    float predict(Mat &samples);
+    
+    void clear();
 };
 
 #endif	/* TRAINABLESTATMODEL_H */

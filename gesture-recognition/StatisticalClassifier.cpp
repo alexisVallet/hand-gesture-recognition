@@ -36,7 +36,6 @@ void StatisticalClassifier::train(
         currentCaracteristicVector.copyTo(trainData.row(i));
         expectedResponses.at<float>(0, i) = expectedClass[i];
     }
-    
     this->statisticalModel->train(trainData, expectedResponses);
 }
 
@@ -53,17 +52,14 @@ float StatisticalClassifier::leaveOneOutRecognitionRate(vector<Mat> baseInputs, 
     assert(baseInputs.size() == baseOutputs.size());
     
     for (int i = 0; i < baseInputs.size(); i++) {
-        cout<<"Testing image "<<i<<endl;
+        cout<<i<<endl;
         Mat testInput = baseInputs[i];
         int testOutput = baseOutputs[i];
         baseInputs.erase(baseInputs.begin()+i);
         baseOutputs.erase(baseOutputs.begin()+i);
-        this->getStatisticalModel()->getStatModel()->clear();
-        cout<<"Training..."<<endl;
+        this->getStatisticalModel()->clear();
         this->train(baseInputs, baseOutputs);
-        cout<<"Trained!"<<endl;
         int actualOutput = this->numberOfFingers(testInput);
-        cout<<"Image "<<i<<" expected: "<<testOutput<<", actual: "<<actualOutput<<endl;
         if (actualOutput == testOutput) {
             numberOfSuccesses++;
         }
