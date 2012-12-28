@@ -84,6 +84,12 @@
                      kind="TEST">
         <itemPath>tests/HandSideDetectionTest.cpp</itemPath>
       </logicalFolder>
+      <logicalFolder name="f7"
+                     displayName="HarrisTest"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>C:/Users/Quentin/Documents/GI05/IN54/in5x-gesture-recognition/gesture-recognition/tests/Harris_Test.cpp</itemPath>
+      </logicalFolder>
       <logicalFolder name="f8"
                      displayName="RadialHistogramClassifierTest"
                      projectFiles="true"
@@ -281,6 +287,21 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f6</output>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f7">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f7</output>
         </linkerTool>
       </folder>
       <folder path="TestFiles/f8">

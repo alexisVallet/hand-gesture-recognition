@@ -41,18 +41,19 @@ void loadAndSegment(const char * filename, bool cleanBefore) {
 
 int main(int argc, char** argv) {
    
-    loadAndSegment("./runFolder/img/groupe3/1.bmp", false);    
-    loadAndSegment("./runFolder/img/groupe3/2.bmp", false);
-    loadAndSegment("./runFolder/img/groupe3/3.bmp", false);
-    loadAndSegment("./runFolder/img/groupe3/4.bmp", false);
-    loadAndSegment("./runFolder/img/groupe3/5.bmp", false);
-    loadAndSegment("./runFolder/img/groupe3/6.bmp", false);
-    loadAndSegment("./runFolder/img/groupe3/7.bmp", false);
-    loadAndSegment("./runFolder/img/groupe3/8.bmp", false);
-    loadAndSegment("./runFolder/img/groupe3/9.bmp", false);
-    loadAndSegment("./runFolder/img/groupe3/10.bmp", false);
-    loadAndSegment("./runFolder/img/groupe3/11.bmp", false);
-    loadAndSegment("./runFolder/img/groupe3/12.bmp", false);
+    /// GROUPE 3
+//    loadAndSegment("./runFolder/img/groupe3/1.bmp", false);    
+//    loadAndSegment("./runFolder/img/groupe3/2.bmp", false);
+//    loadAndSegment("./runFolder/img/groupe3/3.bmp", false);
+//    loadAndSegment("./runFolder/img/groupe3/4.bmp", false);
+//    loadAndSegment("./runFolder/img/groupe3/5.bmp", false);
+//    loadAndSegment("./runFolder/img/groupe3/6.bmp", false);
+//    loadAndSegment("./runFolder/img/groupe3/7.bmp", false);
+//    loadAndSegment("./runFolder/img/groupe3/8.bmp", false);
+//    loadAndSegment("./runFolder/img/groupe3/9.bmp", false);
+//    loadAndSegment("./runFolder/img/groupe3/10.bmp", false);
+//    loadAndSegment("./runFolder/img/groupe3/11.bmp", false);
+//    loadAndSegment("./runFolder/img/groupe3/12.bmp", false);
     
 //    loadAndSegment("./runFolder/img/groupe3/13.bmp", false);
 //    loadAndSegment("./runFolder/img/groupe3/13.bmp", true);
@@ -63,8 +64,12 @@ int main(int argc, char** argv) {
 //    loadAndSegment("./runFolder/img/groupe3/16.bmp", false);
 //    loadAndSegment("./runFolder/img/groupe3/16.bmp", true);
 
-    loadAndSegment("./runFolder/img/groupe3/17.bmp", false);
-    loadAndSegment("./runFolder/img/groupe3/18.bmp", false);
+//    loadAndSegment("./runFolder/img/groupe3/17.bmp", false);
+//    loadAndSegment("./runFolder/img/groupe3/18.bmp", false);
+
+    
+    ///*** GROUPE 2
+    loadAndSegment("./runFolder/groupe2/1.bmp", false);
     
     return (EXIT_SUCCESS);
 }

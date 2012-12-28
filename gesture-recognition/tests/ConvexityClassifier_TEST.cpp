@@ -70,7 +70,142 @@ float Compute_Distance( Point a , Point b ){
     
     float d;
     
-    return d = sqrt( (float)pow((float) a.x - b.x , 2 ) + (float)pow((float) a.y - b.y , 2 ) );
+    return d = sqrt( (float)pow((float) a.x - b.x , 2 ) + pow((float) a.y - b.y , 2 ) );
+    
+}
+
+vector<Point> BiggestContour( vector<vector<Point> > contours_points ){
+    
+    double Contour_tmp1, Contour_tmp2;
+    vector<Point> contours;
+    Contour_tmp1 = 0;
+    Contour_tmp2 = 0;
+    /*Convert vector<vector<Point>> to vector<Point> and find the biggest contours*/
+    vector<vector<Point> >::iterator it;
+    it = contours_points.begin();
+    while( it != contours_points.end() ){
+        
+        Contour_tmp1 = contourArea( *it , false );
+        
+        if( Contour_tmp1 > Contour_tmp2 ){
+            
+            Contour_tmp2 = Contour_tmp1;
+            contours = *it;
+            
+        }
+        
+        it++;
+        
+    }
+    
+    return contours;
+}
+
+vector<Point> Filtering_Concave_Point( vector<Point> convexDefects , RotatedRect Palm ){
+    
+    vector<Point> Concave_points;
+    
+    for(int i =0; i < convexDefects.size(); i++){
+        /*Compare to the y-coordinate of the center of the palm*/
+        if( Palm.center.y + 10 > convexDefects[i].y )
+            Concave_points.push_back(convexDefects[i]);
+    }
+    
+    return Concave_points;
+}
+
+vector<int> Filtering_Convex_Point( vector<int> hull , vector<Point> contour , RotatedRect Palm ){
+    
+    vector<int> Convex_points;
+    
+    for(int i =0; i < hull.size(); i++){
+        /*Compare to the y-coordiante of the center of the palm*/
+        if( Palm.center.y + 10 > contour[hull[i]].y )
+            Convex_points.push_back(hull[i]);
+    }
+    
+    return Convex_points;
+}
+
+vector<int> Isolating_Convex_Point( vector<int> Convex_points , vector<Point> contour ){
+    
+    vector<int> tmp;
+    /*Isolating the interesting convex points*/
+    switch(Convex_points.size()){
+        
+        /*No fingers is detected*/
+        case 0 : {}
+        /*Only one fingers is detected*/
+        case 1 :{
+            tmp = Convex_points;
+            break;
+        }
+        
+        default : {
+            
+            float d;
+            
+            /*Generic cases*/
+            for(int i=0; i < Convex_points.size() - 1; i++){
+                
+                /*Compute distance between each neighboors Convex_points*/
+                d = Compute_Distance( contour[Convex_points[i]] , contour[Convex_points[i+1]] );
+                cout << "Generics Distance " << d << endl;
+                
+                /*Minimum distance*/
+                if( d > 20 )
+                    tmp.push_back(Convex_points[i]);
+                   
+            }
+            
+            /*case: between the last point and the first point*/
+            d = Compute_Distance( contour[Convex_points[0]] , contour[Convex_points[Convex_points.size()-1]] );
+            cout << "Last Distance " << d << endl;
+            
+            /*Minimum distance*/
+            if( d > 20 )
+                tmp.push_back(Convex_points[Convex_points.size()-1]);
+            else if(Convex_points.size() == 2)
+                tmp.push_back(Convex_points[0]);
+            
+        }
+    }
+    
+    return tmp;
+}
+
+vector<int> Isolating_Convex_Point_byAverage( vector<Point> contour , vector<Point> Concave_points , float min_distance , vector<int> tmp ){
+
+    vector<int> result;
+    
+    if( (tmp.size() > 2) && (Concave_points.size() > 1) ) //Generic cases
+        result = tmp;
+    else{ // Cases: 0 or 1
+        for(int i =0; i < tmp.size(); i++){
+            if(min_distance > contour[tmp[i]].y)
+                result.push_back(tmp[i]);
+        }
+    }
+    
+    return result;
+}
+
+void Compute_Result( vector<Point> contour , vector<Point> Concave_points , vector<int> result , float min_distance ){
+    
+    if(Concave_points.size() > 0){ //Genric Cases
+        cout << "Number of Digit = " << result.size() << endl; 
+    }
+    else{ //Cases: 0 or One
+        int i = 0;
+        while(i < result.size() || contour[result[i]].y > min_distance){
+            i++;
+        }
+        
+        if(i >= result.size())
+            cout << "Number of Digit = 0" << endl;
+        else
+            cout << "Number of Digit = 1" << endl;
+    }
     
 }
 
@@ -80,8 +215,8 @@ void ShowConvexityPoints(string filepath) {
     vector<Point> contours,polygon;
     vector<Vec4i> hierarchy;
     vector<vector<Point> > contours_points;
+    Scalar color(rand()&255, rand()&255, rand()&255);
     Mat segmentedHandRGB = imread(filepath);
-    imshow(filepath, segmentedHandRGB);
     
     /*CONVERSION FORMAT: Grayscale */
     vector<Mat> rgbPlanes;
@@ -89,24 +224,20 @@ void ShowConvexityPoints(string filepath) {
     Mat segmentedHandGray = rgbPlanes[0];
     
     /*Computing median filter*/
-    //medianBlur(segmentedHandGray,out,15);
+    medianBlur(segmentedHandGray,out,15);
     
     /*Looking for Contours Points*/
-    findContours( segmentedHandGray, contours_points, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE );
+    findContours( out, contours_points, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE );
     
-    /*Convert vector<vector<Point>> to vector<Point>*/
-    for(int i = 0; i < contours_points.size() ; i++){
-        for(int j = 0; j < contours_points[i].size() ; j++){
-            contours.push_back(contours_points[i][j]);
-        }
-    }
+    /*Convert vector<vector<Point>> to vector<Point> and find the biggest contours*/
+    contours = BiggestContour (contours_points);
     
     /*Drawing Contours*/
-    Scalar color(rand()&255, rand()&255, rand()&255);
-    //drawContours(out, contours_points, 0, color, 1, 8, hierarchy);
+    drawContours(out, contours_points, 0, color, 1, 8, hierarchy);
     
     /*Approximation of Hands Contours by Polygon*/
-    approxPolyDP(contours,polygon,5,true);
+    approxPolyDP(contours,polygon,15,true);
+    contours = polygon;
     
     /*Drawing Identify Polygons*/
     //fillConvexPoly( out, polygon , color );
@@ -118,21 +249,14 @@ void ShowConvexityPoints(string filepath) {
         Palm_Radius = Palm.size.height / 2;
     else
         Palm_Radius = Palm.size.width / 2;
-    
-    /*Convexity points Detection*/
-    vector<vector<Point> > hull_points(contours_points.size());
+        
     vector<int> index_hull_points(contours_points.size());
     vector<Point> convexityDefects(contours_points.size());
     vector<Point> Concave_points;
     vector<int> Convex_points;
-    for(int i = 0 ; i< contours_points.size();i++)
-    {
-        convexHull(contours_points[i],hull_points[i],false,true); //Find the Convex of the hand
-            
-    }
-    
     convexHull(contours,index_hull_points,false,false); //Find the index of Convex points
-       
+    
+    /*Convexity Adapt from OpenCV [C versions]*/
     vector<Point>& contour = contours;
     vector<Point>& convexDefects = convexityDefects;
     vector<int>& hull = index_hull_points;
@@ -149,81 +273,29 @@ void ShowConvexityPoints(string filepath) {
     }
     
     /*Filtering Concave points*/
-    for(int i =0; i < convexDefects.size(); i++){
-        /*Compare to the y-coordinate of the center of the palm*/
-        if( Palm.center.y > convexDefects[i].y )
-            Concave_points.push_back(convexDefects[i]);
-    }
+    Concave_points = Filtering_Concave_Point( convexDefects , Palm );
        
     /*Filtering Convex points*/
-    for(int i =0; i < hull.size(); i++){
-        /*Compare to tje y-coordiante of the center of the palm*/
-        if( Palm.center.y > contour[hull[i]].y )
-            Convex_points.push_back(hull[i]);
-    }
+    Convex_points = Filtering_Convex_Point( hull , contour , Palm );
     
     cout << "First Filter Convex points: " << Convex_points.size() << endl;
     for (int i=0; i<Convex_points.size(); i++) {
-        circle(segmentedHandGray, contour[Convex_points[i]], 5, color, 1, 8, 0);
+        //circle(segmentedHandGray, contour[Convex_points[i]], 5, color, 1, 8, 0);
     }
        
     vector<int> tmp;
     /*Isolating the interesting convex points*/
-    switch(Convex_points.size()){
-        
-        /*No fingers is detected*/
-        case 0 : {}
-        /*Only one fingers is detected*/
-        case 1 :{
-            tmp = Convex_points;
-            break;
-        }
-        
-        others : {
-            
-            float d;
-            
-            /*Generic cases*/
-            for(int i=0; i < Convex_points.size() - 1; i++){
-                
-                /*Compute distance between each neighboors Convex_points*/
-                d = Compute_Distance( contour[Convex_points[i]] , contour[Convex_points[i+1]] );
-                
-                /*Minimum distance*/
-                if( d > 10 )
-                    tmp.push_back(Convex_points[i]);
-                   
-            }
-            
-            /*case: between the last point and the first point*/
-            d = Compute_Distance( contour[Convex_points[Convex_points.size()-1]] , contour[Convex_points[0]] );
-            
-            /*Minimum distance*/
-            if( d > 10 )
-                tmp.push_back(Convex_points[Convex_points.size()-1]);
-            else if(Convex_points.size() == 2)
-                tmp.push_back(Convex_points[0]);
-            
-        }
-    }
+    tmp = Isolating_Convex_Point( Convex_points , contour );
     
     cout << "Second Filter Convex points: " << tmp.size() << endl;
     for (int i=0; i<tmp.size(); i++) {
         //circle(segmentedHandGray, contour[tmp[i]], 5, color, 1, 8, 0);
     }
     
-    /*Isolating convex_points by the Average Radius of the palm**/
     vector<int> result;
     float min_distance = Palm.center.y - Palm_Radius;
-    /*Compute the result*/
-    if( (tmp.size() > 2) && (Concave_points.size() > 1) ) //Generic cases
-        result = tmp;
-    else{ // Cases: 0 or 1
-        for(int i =0; i < tmp.size(); i++){
-            if(min_distance > contour[tmp[i]].y)
-                result.push_back(tmp[i]);
-        }
-    }
+    /*Isolating convex_points by the Average Radius of the palm**/
+    result = Isolating_Convex_Point_byAverage( contour , Concave_points , min_distance , tmp );
     
     cout << "Convex points: " << result.size() << endl;
     for (int i=0; i<result.size(); i++) {
@@ -235,28 +307,14 @@ void ShowConvexityPoints(string filepath) {
         //circle(segmentedHandGray, Concave_points[i],5, color, 2, 8, 0);
     }
     
-    /*Compute result*/
     float min_distance2 = Palm.center.y - (Palm_Radius * 2);
-    if(Concave_points.size() > 0){ //Genric Cases
-        cout << "Number of Digit = " << result.size() << endl; 
-    }
-    else{ //Cases: 0 or One
-        int i = 0;
-        while(i < result.size() || contour[result[i]].y > min_distance2){
-            i++;
-        }
-        
-        if(i >= result.size())
-            cout << "Number of Digit = 0" << endl;
-        else
-            cout << "Number of Digit = 1" << endl;
-    }
+    /*Compute result*/
+    Compute_Result( contour , Concave_points , result , min_distance2 );
     
     /*Drawing Convex of polygon*/
     for(int i = 0; i < contours_points.size() ; i++)
     {
         drawContours( segmentedHandGray, contours_points, i, color, 1, 8, vector<Vec4i>(), 0, Point() );
-        //drawContours( segmentedHandGray, hull_points, i, color, 1, 8, vector<Vec4i>(), 0, Point() );
     }
     
     /*Affichage*/
@@ -267,7 +325,7 @@ void ShowConvexityPoints(string filepath) {
 
 int main(int argc, char** argv) {
     
-    ShowConvexityPoints("./runFolder/test-segmented-4.bmp");
+    ShowConvexityPoints("./runFolder/imgresult/cleaned.jpg");
     waitKey(0);
     
     return (EXIT_SUCCESS);
