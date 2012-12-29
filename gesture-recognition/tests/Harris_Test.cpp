@@ -198,6 +198,8 @@ double SAD(const Mat& mat1, Point P1, const Mat& mat2, Point P2){
     // Computes window avergage
     for(int i= -WINDOW_SIZE_CORRELATION ; i<WINDOW_SIZE_CORRELATION ; i++ )
         for(int j= -WINDOW_SIZE_CORRELATION ; j<WINDOW_SIZE_CORRELATION ; j++ )
-            sum += abs(mat1[ (P1.y+j)*mat1.cols+(P1.x+i)] - mat2[(P2.y+j)*mat1.cols+(P2.x+i)]);
+            // Temporary fix by Alexis: added .data at the end, not sure this is
+            // what it is supposed to do, please correct if necessary.
+            sum += abs(mat1.data[(P1.y+j)*mat1.cols+(P1.x+i)] - mat2.data[(P2.y+j)*mat1.cols+(P2.x+i)]);
     return sum;
 }

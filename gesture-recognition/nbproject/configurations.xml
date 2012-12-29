@@ -88,7 +88,7 @@
                      displayName="HarrisTest"
                      projectFiles="true"
                      kind="TEST">
-        <itemPath>C:/Users/Quentin/Documents/GI05/IN54/in5x-gesture-recognition/gesture-recognition/tests/Harris_Test.cpp</itemPath>
+        <itemPath>tests/Harris_Test.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f8"
                      displayName="RadialHistogramClassifierTest"
