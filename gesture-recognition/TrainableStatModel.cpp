@@ -54,11 +54,16 @@ CvStatModel *ANNModel::getStatModel() {
 }
 
 void ANNModel::train(Mat& trainData, Mat& expectedResponses) {
-    Mat responsesVectors = Mat::zeros(expectedResponses.rows, 6, CV_32F);
-    
+    cout<<"computing last layer size"<<endl;
+    Mat layerSizes = this->internalStatModel.get_layer_sizes();
+    int lastLayerSize = layerSizes.at<int>(0, layerSizes.cols-1);
+    Mat responsesVectors = Mat::zeros(expectedResponses.rows, lastLayerSize, CV_32F);
+    cout<<"computing response vectors for neural network training"<<endl;
     for (int i = 0; i < expectedResponses.rows; i++) {
         responsesVectors.at<float>(i, expectedResponses.at<float>(i,0)) = 1;
     }
+    
+    cout<<"inputs: ("<<trainData.rows<<","<<trainData.cols<<"), outputs: ("<<responsesVectors.rows<<","<<responsesVectors.cols<<")"<<endl;
     
     this->internalStatModel.train(trainData, responsesVectors, Mat());
 }

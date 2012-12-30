@@ -47,6 +47,15 @@ public:
      * @return the recognition rate of the classifier for this test set.
      */
     float recognitionRate(vector<Mat> handsToRecognize, vector<int> expectedNumberOfFingers);
+    /**
+     * Computes the recognition rate of the classifier for each number of fingers
+     * using a specific test set.
+     * 
+     * @param handsToRecognize segmented hands to recognize.
+     * @param expectedNumberOfFingers number of finger of each hand in the input.
+     * @return the recognition rate of the classifier for this test set.
+     */
+    vector<float> recognitionRatePerClass(vector<Mat> handsToRecognize, vector<int> expectedNumberOfFingers);
 };
 
 #endif	/* CLASSIFIER_H */

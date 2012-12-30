@@ -52,7 +52,6 @@ float StatisticalClassifier::leaveOneOutRecognitionRate(vector<Mat> baseInputs, 
     assert(baseInputs.size() == baseOutputs.size());
     
     for (int i = 0; i < baseInputs.size(); i++) {
-        cout<<i<<endl;
         Mat testInput = baseInputs[i];
         int testOutput = baseOutputs[i];
         baseInputs.erase(baseInputs.begin()+i);

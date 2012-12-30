@@ -31,3 +31,26 @@ float Classifier::recognitionRate(vector<Mat> handsToRecognize, vector<int> expe
     
     return ((float)numberOfSuccesses)/((float)handsToRecognize.size());
 }
+
+vector<float> Classifier::recognitionRatePerClass(vector<Mat> handsToRecognize, vector<int> expectedNumberOfFingers) {
+    assert(handsToRecognize.size() == expectedNumberOfFingers.size());
+    vector<int> numberOfSuccesses(6, 0);
+    vector<int> totalNumberOfSamples(6, 0);
+    
+    for (int i = 0; i < handsToRecognize.size(); i++) {
+        int actual = this->numberOfFingers(handsToRecognize[i]);
+        int expected = expectedNumberOfFingers[i];
+        if (actual == expected) {
+            numberOfSuccesses[expected]++;
+        }
+        totalNumberOfSamples[expected]++;
+    }
+    
+    vector<float> recognitionRates(6,0);
+    
+    for (int i = 0; i < 6; i++) {
+        recognitionRates[i] = ((float)numberOfSuccesses[i])/((float)totalNumberOfSamples[i]);
+    }
+    
+    return recognitionRates;
+}

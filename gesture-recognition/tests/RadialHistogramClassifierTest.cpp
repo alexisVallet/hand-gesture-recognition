@@ -56,10 +56,12 @@ int main(int argc, char** argv) {
     vector<Mat> segmentedHands;
     vector<int> classes;
     loadTrainingData("./runFolder/ClassImages2/", segmentedHands, classes);
-    Mat rates = recognitionRateByHiddenLayerSize(300, 400, segmentedHands, classes);
+    Mat rates = recognitionRateByHiddenLayerSize(200, 600, segmentedHands, classes);
     cout<<"rates computed"<<endl;
-    MatIterator_<float> bestRate = max_element(rates.begin<float>(), rates.end<float>());
-    cout<<"Best rate: "<<*bestRate<<endl;
+    double bestRate;
+    Point2i bestRateIdx;
+    minMaxLoc(rates, NULL, &bestRate, NULL, &bestRateIdx);
+    cout<<"Best rate: "<<bestRate<<" at "<<bestRateIdx<<endl;
     Mat plot =imHist(rates.t() *100, 1, 1);
     cout<<"image computed"<<endl;
     namedWindow("recognitionRateByBins");

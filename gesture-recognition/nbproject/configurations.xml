@@ -60,6 +60,12 @@
                    displayName="Test Files"
                    projectFiles="false"
                    kind="TEST_LOGICAL_FOLDER">
+      <logicalFolder name="f11"
+                     displayName="ClassifiersComparison"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/ClassifiersComparison.cpp</itemPath>
+      </logicalFolder>
       <logicalFolder name="f3"
                      displayName="classifieurDecodeurTest"
                      projectFiles="true"
@@ -212,6 +218,21 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f10</output>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f11">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f11</output>
         </linkerTool>
       </folder>
       <folder path="TestFiles/f2">

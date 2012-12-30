@@ -24,7 +24,7 @@
  * #6: Find out the Result of Hand Signing
  * 
  */
-class ConvexityClassifier : Classifier {
+class ConvexityClassifier : public Classifier {
 public:
     ConvexityClassifier();
     ConvexityClassifier(const ConvexityClassifier& orig);
