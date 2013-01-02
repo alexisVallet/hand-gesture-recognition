@@ -38,6 +38,7 @@ public:
     vector<int> Isolating_Convex_Point_byAverage( vector<Point> contour , vector<Point> Concave_points , float min_distance , vector<int> tmp );
     int Compute_Result( vector<Point> contour , vector<Point> Concave_points , vector<int> result , float min_distance );
     int Convexity_Computing(Mat &segmentedHand);
+    void resizeCol(Mat& m, size_t sz, const Scalar& s);
     /**
      * Return the Number of Fingers identify by the Classifier
      * 
