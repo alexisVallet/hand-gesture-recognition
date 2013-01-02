@@ -57,7 +57,7 @@ vector<Point> ConvexityClassifier::Filtering_Concave_Point( vector<Point> convex
     
     for(int i =0; i < convexDefects.size(); i++){
         /*Compare to the y-coordinate of the center of the palm*/
-        if( Palm.center.y + 10 > convexDefects[i].y )
+        if( Palm.center.y + 25 > convexDefects[i].y )
             Concave_points.push_back(convexDefects[i]);
     }
     
@@ -70,7 +70,7 @@ vector<int> ConvexityClassifier::Filtering_Convex_Point( vector<int> hull , vect
     
     for(int i =0; i < hull.size(); i++){
         /*Compare to the y-coordiante of the center of the palm*/
-        if( Palm.center.y + 10 > contour[hull[i]].y )
+        if( Palm.center.y + 26 > contour[hull[i]].y )
             Convex_points.push_back(hull[i]);
     }
     
@@ -103,7 +103,7 @@ vector<int> ConvexityClassifier::Isolating_Convex_Point( vector<int> Convex_poin
                 //cout << "Generics Distance " << d << endl;
                 
                 /*Minimum distance*/
-                if( d > 20 )
+                if( d > 15 )
                     tmp.push_back(Convex_points[i]);
                    
             }
@@ -113,7 +113,7 @@ vector<int> ConvexityClassifier::Isolating_Convex_Point( vector<int> Convex_poin
             //cout << "Last Distance " << d << endl;
             
             /*Minimum distance*/
-            if( d > 20 )
+            if( d > 15 )
                 tmp.push_back(Convex_points[Convex_points.size()-1]);
             else if(Convex_points.size() == 2)
                 tmp.push_back(Convex_points[0]);
@@ -144,7 +144,7 @@ int ConvexityClassifier::Compute_Result( vector<Point> contour , vector<Point> C
     
     int result_digit;
     
-    if(Concave_points.size() > 0){ //Genric Cases
+    if(Concave_points.size() > 0){ //Generic Cases
         cout << "Number of Digit = " << result.size() << endl;
         result_digit = result.size();
     }
@@ -175,26 +175,37 @@ int ConvexityClassifier::Convexity_Computing(Mat &segmentedHand) {
     vector<vector<Point> > contours_points;
     Scalar color(rand()&255, rand()&255, rand()&255);
     
-    /*Computing median filter*/
+    /*Computing median filter*
+    cout << "MEDIAN_BLUR" << endl;
     medianBlur(segmentedHand,out,15);
+    imshow("MEDIAN_BLUR",segmentedHand);
+    imshow("MEDIAN_BLUR OUT",out);
+    waitKey(0);
+    /**/
     
+    //cout << "FIND_CONTOURS_POINTS" << endl;
     /*Looking for Contours Points*/
-    findContours( out, contours_points, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE );
+    findContours( segmentedHand, contours_points, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE );
+    //findContours( out, contours_points, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE );
     
+    //cout << "BIGGEST_CONTOURS" << endl;
     /*Convert vector<vector<Point>> to vector<Point> and find the biggest contours*/
     contours = BiggestContour (contours_points);
     
     /*Drawing Contours*/
-    drawContours(out, contours_points, 0, color, 1, 8, hierarchy);
+    drawContours(segmentedHand, contours_points, 0, color, 1, 8, hierarchy);
     
     /*Approximation of Hands Contours by Polygon*/
+    //cout << "POLY_APPROX" << endl;
     approxPolyDP(contours,polygon,15,true);
     contours = polygon;
     
     /*Drawing Identify Polygons*/
-    fillConvexPoly( out, polygon , color );
+    //cout << "FILL_CONVEX_POLY" << endl;
+    //fillConvexPoly( out, polygon , color );
     
     /*Finding the center of palm*/
+    //cout << "MIN_AREA_RECT" << endl;
     RotatedRect Palm = minAreaRect(contours);
     float Palm_Radius;
     if( Palm.size.height <= Palm.size.width )
@@ -206,40 +217,45 @@ int ConvexityClassifier::Convexity_Computing(Mat &segmentedHand) {
     vector<Point> convexityDefects(contours_points.size());
     vector<Point> Concave_points;
     vector<int> Convex_points;
+    //cout << "CONVEX_HULL" << endl;
     convexHull(contours,index_hull_points,false,false); //Find the index of Convex points
     
     /*Convexity Adapt from OpenCV [C versions]*/
     vector<Point>& contour = contours;
     vector<Point>& convexDefects = convexityDefects;
     vector<int>& hull = index_hull_points;
+    //cout << "FIND_CONVEXITY_DEFECTS" << endl;
     findConvexityDefects(contour,hull,convexDefects);
     
     /*Controling Result*/
-    //cout << "ALL Concave points: " << convexDefects.size() << endl;
+    cout << "ALL Concave points: " << convexDefects.size() << endl;
     for (int i=0; i < convexDefects.size(); i++){
         //circle(segmentedHand, convexDefects[i],5, color, 2, 8, 0);
     }
-    //cout << "ALL Convex points: " << hull.size() << endl;
+    cout << "ALL Convex points: " << hull.size() << endl;
     for (int i=0; i<hull.size(); i++) {
         //circle(segmentedHand, contour[hull[i]], 5, color, 1, 8, 0);
     }
     
     /*Filtering Concave points*/
+    //cout << "FILTERING_CONCAVE_POINTS" << endl;
     Concave_points = Filtering_Concave_Point( convexDefects , Palm );
        
     /*Filtering Convex points*/
+    //cout << "FILTERING_CONVEX_POINTS" << endl;
     Convex_points = Filtering_Convex_Point( hull , contour , Palm );
     
-    //cout << "First Filter Convex points: " << Convex_points.size() << endl;
+    cout << "First Filter Convex points: " << Convex_points.size() << endl;
     for (int i=0; i<Convex_points.size(); i++) {
         //circle(segmentedHand, contour[Convex_points[i]], 5, color, 1, 8, 0);
     }
        
     vector<int> tmp;
     /*Isolating the interesting convex points*/
+    //cout << "ISOLATING_CONVEX_POINTS" << endl;
     tmp = Isolating_Convex_Point( Convex_points , contour );
     
-    //cout << "Second Filter Convex points: " << tmp.size() << endl;
+    cout << "Second Filter Convex points: " << tmp.size() << endl;
     for (int i=0; i<tmp.size(); i++) {
         //circle(segmentedHand, contour[tmp[i]], 5, color, 1, 8, 0);
     }
@@ -247,22 +263,27 @@ int ConvexityClassifier::Convexity_Computing(Mat &segmentedHand) {
     vector<int> result;
     float min_distance = Palm.center.y - Palm_Radius;
     /*Isolating convex_points by the Average Radius of the palm**/
+    //cout << "ISOLATING_BY_AVERAGE" << endl;
     result = Isolating_Convex_Point_byAverage( contour , Concave_points , min_distance , tmp );
     
-   // cout << "Convex points: " << result.size() << endl;
+    cout << "Convex points: " << result.size() << endl;
     for (int i=0; i<result.size(); i++) {
-        circle(segmentedHand, contour[result[i]], 5, color, 1, 8, 0);
+        //circle(segmentedHand, contour[result[i]], 5, color, 1, 8, 0);
     }
     
-    //cout << "Concave points: " << Concave_points.size() << endl;
+    cout << "Concave points: " << Concave_points.size() << endl;
     for (int i=0; i < Concave_points.size(); i++){
-        circle(segmentedHand, Concave_points[i],5, color, 2, 8, 0);
+        //circle(segmentedHand, Concave_points[i],5, color, 2, 8, 0);
     }
     
     float min_distance2 = Palm.center.y - (Palm_Radius * 2);
     /*Compute result*/
     float result_digital_numbers;
+    cout << "COMPUTE_RESULT" << endl;
     result_digital_numbers = Compute_Result( contour , Concave_points , result , min_distance2 );
+    cout<< "********************************" << endl;
+    cout<< "SIZE: " << segmentedHand.size() << endl;
+    cout<< "********************************" << endl;
     
     /*Drawing Convex of polygon*/
     for(int i = 0; i < contours_points.size() ; i++)
@@ -272,6 +293,7 @@ int ConvexityClassifier::Convexity_Computing(Mat &segmentedHand) {
     
     /*Affichage*/
     imshow("Result",segmentedHand);
+    waitKey(0);
     
     return result_digital_numbers;
 }
@@ -327,11 +349,18 @@ void ConvexityClassifier::findConvexityDefects(vector<Point>& contour, vector<in
 
 void ConvexityClassifier::resizeCol(Mat& m, size_t sz, const Scalar& s){
     
-    Mat tm;//(m.rows + sz, m.cols + sz, m.type());
-    //tm.setTo(s);
-    //m.copyTo(tm(Rect(Point(1, 1), m.size())));
+    Mat tm(m.rows + sz, m.cols + sz, m.type());
+    imshow("original",m);
+    waitKey(0);
+    imshow("BEFORE_set",tm);
+    waitKey(0);
+    tm.setTo(s);
+    imshow("BEFORE_copy",tm);
+    waitKey(0);
+    tm.copyTo(m(Rect(Point(0, 0), tm.size())));
     //m.copyTo(tm);
-    imshow("copy",m);
+    imshow("copy",tm);
+    waitKey(0);
     //m = tm;
     
 }

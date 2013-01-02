@@ -42,10 +42,10 @@ Mat AextractHandFromBMPFile(string filename)
 
     int xMin, xMax, yMin, yMax;   
     calculBounds(hand, xMin, xMax, yMin, yMax);
-    xMax+=2;
-    yMax+=2;
-    xMin-=2;
-    yMin-=2;
+    xMax++;
+    yMax++;
+    xMin--;
+    yMin--;
     int sx = xMax - xMin;
     int sy = yMax - yMin;
     //extraction of the hand
@@ -61,12 +61,20 @@ int main(int argc, char** argv) {
     ConvexityClassifier classifier;
     Mat image = AextractHandFromBMPFile("./runFolder/7.bmp");
     
-    //imshow("TEST",image);
-    //classifier.resizeCol(image,0,(double)0);
+    //waitKey(0);
+    //image.resize(10,(double)0);
+    
+    //imshow("+5",image);
+    //waitKey(0);
+    //Mat dst;
+    //transpose(image, dst);
+    //flip(dst, dst, 1);
+    
+    //imshow("+10",dst);
+    //classifier.resizeCol(image,10,0);
     
     classifier.numberOfFingers(image);
     
-    waitKey(0);
     
     return (EXIT_SUCCESS);
 }
