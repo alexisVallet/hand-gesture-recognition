@@ -83,25 +83,28 @@ void binarizeFile(string path, int seuil)
 //chargement de l'image, segmentation quentin, détection des bounds de la main, extraction de la main
 Mat extractHandFromBMPFile(string filename)
 {
+    cout << "extractHandFromBMPFile avant lecture " << filename  << endl;
     Mat img = imread( filename, CV_LOAD_IMAGE_GRAYSCALE );
     //img = greyscale(img);
-    
+ cout << "extractHandFromBMPFile apres lecture"    << endl;
+ 
     
     //SEUIL A SETTER
     //binarize(img, 90, revertBinarize);
     Mat hand; 
     // Segmentation
     Segment(img, hand);
+ cout << "extractHandFromBMPFile apres Segment"    << endl;
     hand.dims=0;//tres important, trop de pb à cause de ces conneries de channel
     
 	if(DEBUG)       
-    { 
-        string windowName = "BINARIZED" ;
-        windowName+=filename;
-        namedWindow(windowName.c_str(), CV_WINDOW_AUTOSIZE );
-        imshow(windowName.c_str(), hand );
-        waitKey(0);
-    }
+        { 
+            string windowName = "BINARIZED" ;
+            windowName+=filename;
+            namedWindow(windowName.c_str(), CV_WINDOW_AUTOSIZE );
+            imshow(windowName.c_str(), hand );
+            waitKey(0);
+        }
 
     int xMin, xMax, yMin, yMax;   
     calculBounds(hand, xMin, xMax, yMin, yMax);
@@ -112,8 +115,9 @@ Mat extractHandFromBMPFile(string filename)
     //extraction of the hand
     Mat hand2 = Mat_<unsigned char>(sy, sx);
     hand2.dims=0;//tres important, trop de pb à cause de ces conneries de channel
-
+ cout << "extractHandFromBMPFile avant extractSubimageFromBounds"    << endl;
     extractSubimageFromBounds(hand, hand2, xMin, xMax, yMin, yMax);
+
     return hand2;
 }
 
@@ -445,5 +449,34 @@ void readPath2(vector< vector<string> > &base, vector< int >&classCorrespondance
         }
 }
 
+
+
+//return index of max value on tab, used to find class corresponding to max probability
+int getMaxIndexFromTab(float * tab, int size)
+{
+    float valMax = 0;
+    int idMax = 0;
+    for(int i=0; i<size; i++)
+    {
+        if(tab[i]>valMax)
+        {
+            valMax = tab[i];
+            idMax = i;
+        }
+    }
+    return idMax;
+}
+
+
+
+//distance euclidienne entre deux vecteurs de taille égale    
+float distanceBetweenVectors(float * vec1, float * vec2, int size)
+{
+    float accum=0;
+    for(int i=0; i<size; i++)
+        accum+= pow(vec2[i]-vec1[i], 2);
+    accum = sqrt(accum);
+    return accum;
+}
 
 #endif

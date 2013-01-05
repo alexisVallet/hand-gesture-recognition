@@ -25,17 +25,7 @@
 using namespace cv;
 using namespace std;
 
-//booléen indiquant si les mains doivent être redressées ou non avant traitement
-static bool redressHand = true;
 
-//si true, on teste les images de base de cappelle, sinon on teste les images de la base étendue
-static bool testImagesCappelle = true;
-//si true, la base est la base élémentaire, sinon la base est étendue
-static bool baseImagesCappelle = true;
-
-static bool useKPPV = false;
-
-static int NB_CLASSES = (baseImagesCappelle==true ? 6:12);
 
 
 
@@ -50,6 +40,7 @@ class ClassifieursProfils
         vector<float *> baseHorizontalAVGProfiles;
         vector<float *> baseVerticalAVGProfiles;
         
+        //inutile, utilisable pour optimisations futures pour pas être obligé de retraiter n fois les images de la base
         vector< vector<Mat> > baseSegmentedImagesClass;
         
         
@@ -66,6 +57,37 @@ class ClassifieursProfils
         virtual float * verticalProfiling(Mat img) = 0;
         
 
+        
+        
+        /**
+         * add image into base
+         * @param segmentedImage the segmented extracted binarized hand
+         * @param expectedClass the expected class of the hand
+         */
+        void train(Mat segmentedImage, int expectedClass)
+        {
+            if(redressHand)
+                segmentedImage = redressHandFromBinarySegmentedImage(segmentedImage, 255);
+
+
+            float * horizontalProfiles = horizontalProfiling(segmentedImage);
+            float * verticalProfiles = verticalProfiling(segmentedImage);
+
+            if(baseHorizontalProfiles.size()<=expectedClass)
+                while(baseHorizontalProfiles.size()<=expectedClass)
+                    baseHorizontalProfiles.push_back(vector<float *>());
+            
+            if(baseVerticalProfiles.size()<=expectedClass)
+                while(baseVerticalProfiles.size()<=expectedClass)
+                    baseVerticalProfiles.push_back(vector<float *>());
+         
+            baseHorizontalProfiles[expectedClass].push_back(horizontalProfiles);
+            baseVerticalProfiles[expectedClass].push_back(verticalProfiles);
+
+            setAVGValue(baseHorizontalProfiles.size());
+        }
+        
+        
         
         void initBase()
         {
@@ -121,9 +143,9 @@ class ClassifieursProfils
         
         
         //calcule la valeur moyenne des profils et les stocke dans baseHorizontalAVGProfiles/baseVerticalAVGProfiles[currentClass][currentProfile]
-        void setAVGValue()
+        void setAVGValue(int nbClasses = NB_CLASSES)
         {
-            for(int currentClass = 0; currentClass < NB_CLASSES; currentClass++)
+            for(int currentClass = 0; currentClass < nbClasses; currentClass++)
             {
                 baseHorizontalAVGProfiles.push_back(new float[NB_PROFILES*loopFactor]);
                 baseVerticalAVGProfiles.push_back(new float[NB_PROFILES*loopFactor]);
@@ -146,19 +168,7 @@ class ClassifieursProfils
         }
         
         
-        
-        
-        //distance euclidienne entre deux vecteurs de taille égale    
-        float distanceBetweenVectors(float * vec1, float * vec2, int size)
-        {
-            float accum=0;
-            for(int i=0; i<size; i++)
-                accum+= pow(vec2[i]-vec1[i], 2);
-            accum = sqrt(accum);
-            return accum;
-        }
-        
-        
+
         
         
         
@@ -409,21 +419,7 @@ class ClassifieursProfils
         }
         
         
-        //return index of max value on tab, used to find class corresponding to max probability
-        int getMaxIndexFromTab(float * tab, int size)
-        {
-            float valMax = 0;
-            int idMax = 0;
-            for(int i=0; i<size; i++)
-            {
-                if(tab[i]>valMax)
-                {
-                    valMax = tab[i];
-                    idMax = i;
-                }
-            }
-            return idMax;
-        }
+ 
         
         
         
@@ -499,10 +495,10 @@ class ClassifieursProfils
             
             //un conteneur intermédiaire
             float KPPV[K][2];
-            //initialisation à une valeur supérieure à la distance max = 1*NB_PROFILES*loopFactor*2
+            //initialisation à une valeur supérieure à la distance max 
             for(int i=0; i<K; i++)
                 for(int j=0; j<2; j++)
-                    KPPV[i][j] = NB_PROFILES*loopFactor*2;
+                    KPPV[i][j] = 99999999;
             
             int * returnedKPPV = new int[K];
             
