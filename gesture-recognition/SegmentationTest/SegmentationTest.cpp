@@ -68,8 +68,30 @@ int main(int argc, char** argv) {
 //    loadAndSegment("./runFolder/img/groupe3/18.bmp", false);
 
     
-    ///*** GROUPE 2
-    loadAndSegment("./runFolder/groupe2/1.bmp", false);
+//    ///*** GROUPE 2
+//    loadAndSegment("./runFolder/groupe1/1.bmp", false);
+//    loadAndSegment("./runFolder/groupe1/2.bmp", false);
+//    loadAndSegment("./runFolder/groupe1/3.bmp", false);
+//    loadAndSegment("./runFolder/groupe1/4.bmp", false);
+//    loadAndSegment("./runFolder/groupe1/5.bmp", false);
+//    loadAndSegment("./runFolder/groupe1/6.bmp", false);
+//    loadAndSegment("./runFolder/groupe1/7.bmp", false);
+//    loadAndSegment("./runFolder/groupe1/8.bmp", false);
+//    loadAndSegment("./runFolder/groupe1/9.bmp", false);
+//    loadAndSegment("./runFolder/groupe1/10.bmp", false);
+//    loadAndSegment("./runFolder/groupe1/11.bmp", false);
+//    loadAndSegment("./runFolder/groupe1/12.bmp", false);
+//    loadAndSegment("./runFolder/groupe1/13.bmp", false);
+//    loadAndSegment("./runFolder/groupe1/14.bmp", false);
+//    loadAndSegment("./runFolder/groupe1/15.bmp", false);
+//    loadAndSegment("./runFolder/groupe1/16.bmp", false);
+  
+    loadAndSegment("./runFolder/groupe3/5.bmp", false);
+    loadAndSegment("./runFolder/groupe3/5.bmp", true);
+  
+//    loadAndSegment("./runFolder/groupe3/13.bmp", true);
+//    loadAndSegment("./runFolder/groupe3/16.bmp", true);
+  
     
     return (EXIT_SUCCESS);
 }
