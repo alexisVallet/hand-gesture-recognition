@@ -22,11 +22,13 @@ using namespace cv;
 using namespace std;
 
 void showHandAndRadialHistogram(Mat &segmentedHandBin) {
-    static int j = 0;
     MatND histogram;
     MatND histogramPalm;
+    cout<<"computing mass center"<<endl;
     Point2f massCenter = computeMassCenter(segmentedHandBin);
+    cout<<"computing palm center"<<endl;
     Point2f palmCenter = estimatePalmCenter(segmentedHandBin, 15);
+    cout<<"circling"<<endl;
     circle(segmentedHandBin, Point(massCenter.y, massCenter.x), 2, CV_RGB(255,0,0), 2);
     circle(segmentedHandBin, Point(palmCenter.y, palmCenter.x), 2, CV_RGB(0,255,0), 2);
     cout<<"points computed and drawn"<<endl;
@@ -39,25 +41,32 @@ void showHandAndRadialHistogram(Mat &segmentedHandBin) {
     Mat histogramImage = imHist(histogram * 100.0);
     Mat histogramPalmImage = imHist(histogramPalm * 100.0);
     cout<<"Histogram image computed"<<endl;
-    namedWindow("Segmented hand " + j);
-    imshow("Segmented hand " + j, segmentedHandBin);
-    namedWindow("Radial histogram " + j);
-    imshow("Radial histogram " + j, histogramImage);
-    namedWindow("Radial histogram with palm center " + j);
-    imshow("Radial histogram with palm center " + j, histogramPalmImage);
-    j++;
+    namedWindow("Segmented hand ");
+    imshow("Segmented hand ", segmentedHandBin);
+    namedWindow("Radial histogram ");
+    imshow("Radial histogram ", histogramImage);
+    namedWindow("Radial histogram with palm center ");
+    imshow("Radial histogram with palm center ", histogramPalmImage);
 }
 
 int main(int argc, char** argv) {
-    Mat four = extractHandFromBMPFile("./runFolder/test-segmented-4.bmp");
+    Mat four = extractHandFromBMPFile("./runFolder/ClassImages2/4/0.bmp");
     Mat flippedFour, rotatedFour;
-    Mat five = extractHandFromBMPFile("./runFolder/test-segmented-5-2-wristless.bmp");
+    Mat five = extractHandFromBMPFile("./runFolder/ClassImages2/5/0.bmp");
     Mat flippedFive, rotatedFive;
+    namedWindow("test");
+    imshow("test", four);
+    waitKey(0);
+    namedWindow("test");
+    imshow("test", five);
+    waitKey(0);
     horizontalSymmetry(four, flippedFour);
     verticalSymmetry(flippedFour, rotatedFour);
     horizontalSymmetry(five, flippedFive);
     verticalSymmetry(flippedFive, rotatedFive);
+    cout<<"showing four"<<endl;
     showHandAndRadialHistogram(four);
+    cout<<"showing rotated four"<<endl;
     showHandAndRadialHistogram(rotatedFour);
 /*    showHandAndRadialHistogram(five);
     showHandAndRadialHistogram(flippedFive);*/

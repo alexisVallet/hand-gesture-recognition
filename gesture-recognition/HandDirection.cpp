@@ -53,7 +53,7 @@ std::pair < Mat,Mat > handDirection(const Mat &segmentedHand) {
 Point2f estimatePalmCenter(const Mat &segmentedHand, int maxFingerWidth) {
     Mat structuringElement = getStructuringElement(
             MORPH_ELLIPSE, 
-            Size(maxFingerWidth-1,maxFingerWidth-1));
+            Size(maxFingerWidth-1,maxFingerWidth-1)) * HAND_PIXEL_VALUE;
     Mat palm;
     erode(segmentedHand, palm, structuringElement);
 

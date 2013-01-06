@@ -86,6 +86,15 @@ public:
      * @return a recognition rate between 0 and 1
      */
     float leaveOneOutRecognitionRate(vector<Mat> baseInputs, vector<int> baseOutputs);
+    /**
+     * Compute the recognition rate of the classifier for each number of
+     * fingers using the leave one out method.
+     * 
+     * @param baseInputs the entire sample data inputs
+     * @param baseOutputs the entire sample data outputs
+     * @return a line vector with recognition rate for each number of fingers.
+     */
+    Mat leaveOneOutRecognitionRatePerClass(vector<Mat> baseInputs, vector<int> baseOutputs);
     
     int numberOfFingers(Mat &segmentedHand);
     virtual void train(

@@ -68,3 +68,31 @@ float StatisticalClassifier::leaveOneOutRecognitionRate(vector<Mat> baseInputs, 
     
     return ((float)numberOfSuccesses)/((float)baseInputs.size());
 }
+
+Mat StatisticalClassifier::leaveOneOutRecognitionRatePerClass(vector<Mat> baseInputs, vector<int> baseOutputs) {
+    Mat rates = Mat::zeros(1,6, CV_32F);
+    Mat totals = Mat::zeros(1,6,CV_32F);
+    assert(baseInputs.size() == baseOutputs.size());
+    
+    for (int i = 0; i < baseInputs.size(); i++) {
+        Mat testInput = baseInputs[i];
+        int testOutput = baseOutputs[i];
+        baseInputs.erase(baseInputs.begin()+i);
+        baseOutputs.erase(baseOutputs.begin()+i);
+        this->getStatisticalModel()->clear();
+        this->train(baseInputs, baseOutputs);
+        int actualOutput = this->numberOfFingers(testInput);
+        if (actualOutput == testOutput) {
+            rates.at<float>(0, testOutput)++;
+        }
+        baseInputs.insert(baseInputs.begin()+i, testInput);
+        baseOutputs.insert(baseOutputs.begin()+i, testOutput);
+        totals.at<float>(0,testOutput)++;
+    }
+    
+    for (int i = 0; i < 6; i++) {
+        rates.at<float>(0,i) /= totals.at<float>(0,i);
+    }
+    
+    return rates;
+}
