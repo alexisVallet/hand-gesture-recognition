@@ -35,6 +35,12 @@ class ClassifieurDistEuclidienne : public ClassifieursProfils
 
         //attention, fonctionne avec une image binaire, n canaux mais ne travaille que sur un seul, si 3 canaux on les considère identiques
         //défini les profils gauche et droit, basé sur le même systeme que ce qu'on a fait en TP !
+        /**
+         * compute caracteristique vector
+         * 
+         * @param img binarised segmented hand
+         * @return normalized H caracteristic vector, size = NB_PROFILES
+         */
         float * horizontalProfiling(Mat img)
         {
             //tableau dans lequel on stocke les profils, dans la première moitier les profils gauches, et dans la seconde les profils droits
@@ -91,7 +97,12 @@ class ClassifieurDistEuclidienne : public ClassifieursProfils
         
         
         
-        
+        /**
+         * compute caracteristique vector
+         * 
+         * @param img binarised segmented hand
+         * @return normalized V caracteristic vector, size = NB_PROFILES
+         */
         float * verticalProfiling(Mat img)
         {
             //tableau dans lequel on stocke les profils, dans la première moitier les profils up, et dans la seconde les profils down
@@ -139,10 +150,7 @@ class ClassifieurDistEuclidienne : public ClassifieursProfils
                 yUp = 0;
                 yDown = 0;
             }
-            
-            /*namedWindow("hand", CV_WINDOW_AUTOSIZE );
-            imshow("hand", img );           
-            cout << endl <<"step = "<< step << endl;**/
+
             //normalisation
             for(int i=0; i<NB_PROFILES*loopFactor; i++)
             {

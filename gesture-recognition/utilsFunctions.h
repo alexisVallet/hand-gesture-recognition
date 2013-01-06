@@ -38,6 +38,13 @@ void readPath(vector< vector<string> > &base, string dir, string fileExtension);
 IplImage * MatToIpl(Mat &src);
 void binarizeFile(string path, int seuil);
 
+void readPath2(vector< vector<string> > &base, vector< int >&classCorrespondances, string dir, string fileExtension);
+
+int getMaxIndexFromTab(float * tab, int size);
+
+//distance euclidienne entre deux vecteurs de taille égale    
+float distanceBetweenVectors(float * vec1, float * vec2, int size);
+
 
 #endif	/* UTILSFUNCTIONS_H */
 
