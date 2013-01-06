@@ -8,6 +8,7 @@
 #include "utilsFunctions.h"
 #include "Segmentation.h"
 #include "LoadYML.h"
+#include "paramsClassifieurs.h"
 
 using namespace cv;
 using namespace std;
@@ -62,8 +63,8 @@ Mat greyscale(Mat &img)
             grey.data[line*img.cols+col] = val/3;
         }
     
-    namedWindow("grey", CV_WINDOW_AUTOSIZE );
-    imshow("grey", grey );
+    if(DEBUG) namedWindow("grey", CV_WINDOW_AUTOSIZE );
+    if(DEBUG) imshow("grey", grey );
     return grey;
 }
 
@@ -82,22 +83,28 @@ void binarizeFile(string path, int seuil)
 //chargement de l'image, segmentation quentin, détection des bounds de la main, extraction de la main
 Mat extractHandFromBMPFile(string filename)
 {
+    cout << "extractHandFromBMPFile avant lecture " << filename  << endl;
     Mat img = imread( filename, CV_LOAD_IMAGE_GRAYSCALE );
     //img = greyscale(img);
-    
+ cout << "extractHandFromBMPFile apres lecture"    << endl;
+ 
     
     //SEUIL A SETTER
     //binarize(img, 90, revertBinarize);
     Mat hand; 
     // Segmentation
     Segment(img, hand);
+ cout << "extractHandFromBMPFile apres Segment"    << endl;
     hand.dims=0;//tres important, trop de pb à cause de ces conneries de channel
     
-    string windowName = "BINARIZED" ;
-    windowName+=filename;
-//    namedWindow(windowName.c_str(), CV_WINDOW_AUTOSIZE );
-//    imshow(windowName.c_str(), hand );
-//waitKey(0);
+	if(DEBUG)       
+        { 
+            string windowName = "BINARIZED" ;
+            windowName+=filename;
+            namedWindow(windowName.c_str(), CV_WINDOW_AUTOSIZE );
+            imshow(windowName.c_str(), hand );
+            waitKey(0);
+        }
 
     int xMin, xMax, yMin, yMax;   
     calculBounds(hand, xMin, xMax, yMin, yMax);
@@ -108,8 +115,9 @@ Mat extractHandFromBMPFile(string filename)
     //extraction of the hand
     Mat hand2 = Mat_<unsigned char>(sy, sx);
     hand2.dims=0;//tres important, trop de pb à cause de ces conneries de channel
-
+ cout << "extractHandFromBMPFile avant extractSubimageFromBounds"    << endl;
     extractSubimageFromBounds(hand, hand2, xMin, xMax, yMin, yMax);
+
     return hand2;
 }
 
@@ -181,9 +189,6 @@ void binarize(Mat &img, int seuil, bool invert)
             }
         break;
     }
-
-  
-   
 }
 
 
@@ -231,15 +236,9 @@ void calcHist(IplImage * img)
 
 void calculBounds(Mat img, int &xMin, int &xMax, int &yMin, int &yMax)
 {
-    
-//    cout << "calculBounds, dims = " << img.cols << " " << img.rows << endl;
-//    cout << "datasize = " << img.dataend - img.datastart << endl;
-//    cout << "image.dims = " << img.dims << endl;
     int max = 0;
-    
-    
+
     int canal = img.dims+1;
-    //cout << "canal = " << canal << endl;
 
     bool xMinFinded = false, xMaxFinded = false;
     //1 - détection des min/max en x
@@ -247,23 +246,18 @@ void calculBounds(Mat img, int &xMin, int &xMax, int &yMin, int &yMax)
     {
         for(int i=0; i<img.rows; i++)
         {
-//            cout << (int)(img.data[i*img.cols*canal+j*canal])/255;
             if(!xMinFinded && img.data[i*img.cols*canal+j*canal]==255) 
             {
-//                if(max<i*img.cols*canal+j*canal) max = i*img.cols*canal+j*canal;
                 xMin = j;
                 xMinFinded = true;
             }
             if(!xMaxFinded && img.data[(img.rows-i-1)*img.cols*canal + (img.cols-j-1)*canal]==255) 
             {
-//                if(max<(img.rows-i-1)*img.cols*canal + (img.cols-j-1)*canal) max = (img.rows-i-1)*img.cols*canal + (img.cols-j-1)*canal;
                 xMax = img.cols-j-1;
                 xMaxFinded = true;
             }
         }
-//        cout << endl;
     }
-//    cout << "max = " << max << endl;
     
     
     //2 - detection des min/max en Y
@@ -282,7 +276,8 @@ void calculBounds(Mat img, int &xMin, int &xMax, int &yMin, int &yMax)
                 yMaxFinded = true;
             }
         }
-//    cout << "xmin = " << xMin << "  xMax = " << xMax << "  yMin = " << yMin << "  yMax = " << yMax << endl;
+		if(DEBUG)       
+			cout << "xmin = " << xMin << "  xMax = " << xMax << "  yMin = " << yMin << "  yMax = " << yMax << endl;
 }
 
 
@@ -308,7 +303,7 @@ void extractSubimageFromBounds(Mat img, Mat &dest, int xMin, int xMax, int yMin,
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //juste pour convertir toutes les images yml du dossier pathSrc vers bmp
 void ymlToBmp(string src, string dest);
-//oui je sais, c'est pas optimal, c'est dégueulasse (et je vous emmerde !), mais c'est purement utilitaire !
+//oui je sais, c'est pas optimal, c'est dégueulasse, mais c'est purement utilitaire !
 string pathSrc = "d:/img/";
 void convertAllYMLImageFromPath()
 {
@@ -400,5 +395,88 @@ void readPath(vector< vector<string> > &base, string dir, string fileExtension)
     else cout << "le dossier n'a pas pu être ouvert..." << endl;
 }
 
+
+
+/*La même fonction qu'au dessus, mais adaptée pour fonctionner avec la nouvelle base étendue, elle remplie le vecteur classCorrespondances[nbClassesEtendues] avec la première lettre du dossier, soit la classe réelle = nombre de doigt
+ EX : readPath2(imagesTest, classCorrespondancesTest, "F:/iut/utbm/S5/projetIN52-54/ClassImagesEtendue2/", "bmp");
+ */
+void readPath2(vector< vector<string> > &base, vector< int >&classCorrespondances, string dir, string fileExtension)
+{
+    DIR *dp;
+    struct dirent *ep;
+
+    dp = opendir (dir.c_str());
+    if (dp != NULL)
+    {
+        while (ep = readdir (dp))
+        {
+            
+                if (*(ep->d_name) != '.' && *(ep->d_name)!='..')
+                {
+                    base.push_back( vector<string>() );
+                    //putain ça me saoule ces conneries de conversion basiques !
+                    classCorrespondances.push_back( ep->d_name[0]-48 );
+                    string newPath = dir + ep->d_name;
+                    DIR *dpsubdir = opendir ( newPath.c_str() );
+                    struct dirent *epsubdir;
+
+                    while (epsubdir = readdir (dpsubdir))
+                    {
+                        if(   tolower(epsubdir->d_name[strlen(epsubdir->d_name)-1])==tolower(fileExtension[fileExtension.size()-1]) && tolower(epsubdir->d_name[strlen(epsubdir->d_name)-2])==tolower(fileExtension[fileExtension.size()-2]) && tolower(epsubdir->d_name[strlen(epsubdir->d_name)-3])==tolower(fileExtension[fileExtension.size()-3])  )
+                        {        
+                            string filename = dir;
+                            filename+= ep->d_name;
+                            filename+="/";
+                            filename += epsubdir->d_name;
+                            base[base.size()-1].push_back(filename);
+                        }
+                    }
+                    (void) closedir (dpsubdir);
+                }
+        }
+        (void) closedir (dp);
+    }
+    
+    if(DEBUG)
+        for(int i=0; i<base.size(); i++)
+        {
+            cout << endl << "classe " << i << "  equivalent à la classe " << classCorrespondances[i] << endl;
+            for(int j=0; j<base[i].size(); j++)
+            {
+                cout << "base[i][j]=" << base[i][j] << endl;
+            }
+
+        }
+}
+
+
+
+//return index of max value on tab, used to find class corresponding to max probability
+int getMaxIndexFromTab(float * tab, int size)
+{
+    float valMax = 0;
+    int idMax = 0;
+    for(int i=0; i<size; i++)
+    {
+        if(tab[i]>valMax)
+        {
+            valMax = tab[i];
+            idMax = i;
+        }
+    }
+    return idMax;
+}
+
+
+
+//distance euclidienne entre deux vecteurs de taille égale    
+float distanceBetweenVectors(float * vec1, float * vec2, int size)
+{
+    float accum=0;
+    for(int i=0; i<size; i++)
+        accum+= pow(vec2[i]-vec1[i], 2);
+    accum = sqrt(accum);
+    return accum;
+}
 
 #endif
