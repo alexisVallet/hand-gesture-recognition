@@ -59,19 +59,7 @@ Mat AextractHandFromBMPFile(string filename)
 int main(int argc, char** argv) {
     
     ConvexityClassifier classifier;
-    Mat image = AextractHandFromBMPFile("./runFolder/7.bmp");
-    
-    //waitKey(0);
-    //image.resize(10,(double)0);
-    
-    //imshow("+5",image);
-    //waitKey(0);
-    //Mat dst;
-    //transpose(image, dst);
-    //flip(dst, dst, 1);
-    
-    //imshow("+10",dst);
-    //classifier.resizeCol(image,10,0);
+    Mat image = AextractHandFromBMPFile("./runFolder/ClassImages2/1/4.bmp");
     
     classifier.numberOfFingers(image);
     

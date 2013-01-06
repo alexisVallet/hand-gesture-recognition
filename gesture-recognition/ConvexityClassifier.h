@@ -13,15 +13,13 @@
 #include "math.h"
 
 /**
- * A convexity classifier which classifies the segmented hand in 5 (possibly 6)
- * steps:
+ * A convexity classifier which classifies the segmented hand in 5 steps:
  * 
- * #1: Median filter
- * #2: Contour Plot of Hand
- * #3: Hand Contour Approximation by Polygon
- * #4: Convexities points Detection
- * #5: Convexities points Filtering
- * #6: Find out the Result of Hand Signing
+ * #1: Contour Plot of Hand
+ * #2: Hand Contour Approximation by Polygon
+ * #3: Convexities/Concavities points Detection
+ * #4: Convexities/Concavities points Filtering
+ * #5: Find out the Result of Hand Signing
  * 
  */
 class ConvexityClassifier : public Classifier {
@@ -38,7 +36,6 @@ public:
     vector<int> Isolating_Convex_Point_byAverage( vector<Point> contour , vector<Point> Concave_points , float min_distance , vector<int> tmp );
     int Compute_Result( vector<Point> contour , vector<Point> Concave_points , vector<int> result , float min_distance );
     int Convexity_Computing(Mat &segmentedHand);
-    void resizeCol(Mat& m, size_t sz, const Scalar& s);
     /**
      * Return the Number of Fingers identify by the Classifier
      * 
