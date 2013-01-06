@@ -19,7 +19,7 @@
 #define THRESH_BINARIZATION 0
 #define NB_CLASS_FISHER 5
 #define SHOW_IMAGES 0
-#define SAVE_IMAGES 0
+#define SAVE_IMAGES 1
 
 using namespace cv;
 using namespace pandore;
@@ -29,7 +29,6 @@ using namespace pandore;
  * Segment an image from source and save it on destination
  */
 void Segment(const Mat& source, Mat& destination) {
-
     
     imwrite( "./runFolder/imgresult/source.jpg", source );
     
@@ -106,6 +105,21 @@ void specialSegmentation(const Mat& source, Mat& destination)
     if(SAVE_IMAGES) imwrite( "./runFolder/imgresult/cleaned.jpg", segmented );    
     
     destination = segmented;
+}
+
+int segmentHand(const Mat& source) {
+    
+    
+    Mat src = source;
+    greyscale(src);
+    Img2duc imgpan = _MatToPan(src);
+    Img2duc fished = Img2duc(imgpan.Size());
+    
+    PFisher_(imgpan, fished, Uchar(0), long(NB_CLASS_FISHER));
+    fished.SaveFile("./runFolder/imgresult/fished.pan");
+    
+//    imshow("fishes", fished);
+    
 }
 
 void inverse(Mat& matrix) {

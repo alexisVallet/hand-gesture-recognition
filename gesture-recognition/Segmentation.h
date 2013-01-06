@@ -27,6 +27,8 @@ void Segment(const Mat& source, Mat& destination);
  */
 void specialSegmentation(const Mat& source, Mat& destination);
 
+int segmentHand(const Mat& source);
+
 /* 
  * Inverse a binary image
  */
