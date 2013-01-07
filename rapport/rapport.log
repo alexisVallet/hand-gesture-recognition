@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2012.7.9)  7 JAN 2013 16:13
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2012.7.9)  7 JAN 2013 20:28
 entering extended mode
 **C:/Users/Alexis/Documents/Dev/IN5x/in5x-gesture-recognition/rapport/rapport.t
 ex
@@ -885,14 +885,14 @@ Package pdftex.def Info: handPalmRadialHist.png used on input line 46.
 assRadialHist.png (PNG copy)> <C:/Users/Alexis/Documents/Dev/IN5x/in5x-gesture-
 recognition/rapport/handCenters.png (PNG copy)> <C:/Users/Alexis/Documents/Dev/
 IN5x/in5x-gesture-recognition/rapport/handPalmRadialHist.png (PNG copy)>]
-Overfull \hbox (0.63547pt too wide) in paragraph at lines 82--83
+Overfull \hbox (0.63547pt too wide) in paragraph at lines 77--78
  []\OT1/cmr/bx/n/10 Mesure du taux de re-con-nais-sance[] \OT1/cmr/m/n/10 Etant
  donne la pe-tite taille des donnees
  []
 
-) [17]
+)
 (C:\Users\Alexis\Documents\Dev\IN5x\in5x-gesture-recognition\rapport\classifieu
-rConvexites.tex <contours.png, id=336, 152.82094pt x 167.87718pt>
+rConvexites.tex [17] <contours.png, id=336, 152.82094pt x 167.87718pt>
 File: contours.png Graphic file (type png)
 
 <use contours.png>
@@ -913,10 +913,10 @@ File: convexityDefects.png Graphic file (type png)
 <use convexityDefects.png>
 Package pdftex.def Info: convexityDefects.png used on input line 48.
 (pdftex.def)             Requested size: 168.02904pt x 189.10796pt.
- [19] [20 <C:/Users/Alexis/Documents/Dev/IN5x/in5x-gesture-recognition/rapport/
-convexePolygone.jpg> <C:/Users/Alexis/Documents/Dev/IN5x/in5x-gesture-recogniti
+ [19 <C:/Users/Alexis/Documents/Dev/IN5x/in5x-gesture-recognition/rapport/conve
+xePolygone.jpg>] [20 <C:/Users/Alexis/Documents/Dev/IN5x/in5x-gesture-recogniti
 on/rapport/convexityDefects.png>]
-<umlConvexity.png, id=373, 660.21657pt x 396.7322pt>
+<umlConvexity.png, id=372, 660.21657pt x 396.7322pt>
 File: umlConvexity.png Graphic file (type png)
  <use umlConvexity.png>
 Package pdftex.def Info: umlConvexity.png used on input line 73.
@@ -927,14 +927,14 @@ Overfull \hbox (10.27927pt too wide) in paragraph at lines 79--81
  pa-rametres necessitent
  []
 
-<convexiteParams.png, id=374, 362.3136pt x 217.7736pt>
+<convexiteParams.png, id=373, 362.3136pt x 217.7736pt>
 File: convexiteParams.png Graphic file (type png)
 
 <use convexiteParams.png>
 Package pdftex.def Info: convexiteParams.png used on input line 88.
 (pdftex.def)             Requested size: 362.31271pt x 217.77306pt.
 
-<convexiteDistMin.png, id=376, 362.3136pt x 217.7736pt>
+<convexiteDistMin.png, id=375, 362.3136pt x 217.7736pt>
 File: convexiteDistMin.png Graphic file (type png)
 
 <use convexiteDistMin.png>
@@ -944,14 +944,14 @@ Package pdftex.def Info: convexiteDistMin.png used on input line 100.
 nvexity.png>] [22 <C:/Users/Alexis/Documents/Dev/IN5x/in5x-gesture-recognition/
 rapport/convexiteParams.png (PNG copy)> <C:/Users/Alexis/Documents/Dev/IN5x/in5
 x-gesture-recognition/rapport/convexiteDistMin.png (PNG copy)>] <concaviteDistM
-in.png, id=391, 362.3136pt x 217.7736pt>
+in.png, id=390, 362.3136pt x 217.7736pt>
 File: concaviteDistMin.png Graphic file (type png)
 
 <use concaviteDistMin.png>
 Package pdftex.def Info: concaviteDistMin.png used on input line 112.
 (pdftex.def)             Requested size: 362.31271pt x 217.77306pt.
 
-<convexiteEntreMin.png, id=393, 362.3136pt x 217.7736pt>
+<convexiteEntreMin.png, id=392, 362.3136pt x 217.7736pt>
 File: convexiteEntreMin.png Graphic file (type png)
 
 <use convexiteEntreMin.png>
@@ -963,13 +963,13 @@ re-recognition/rapport/convexiteEntreMin.png (PNG copy)>])
 (C:\Users\Alexis\Documents\Dev\IN5x\in5x-gesture-recognition\rapport\combinaiso
 n.tex)
 (C:\Users\Alexis\Documents\Dev\IN5x\in5x-gesture-recognition\rapport\detectionM
-ouvements.tex [25] <boundingBox.jpg, id=412, 200.75pt x 200.75pt>
+ouvements.tex [25] <boundingBox.jpg, id=411, 200.75pt x 200.75pt>
 File: boundingBox.jpg Graphic file (type jpg)
 
 <use boundingBox.jpg>
 Package pdftex.def Info: boundingBox.jpg used on input line 29.
 (pdftex.def)             Requested size: 200.7495pt x 200.7495pt.
- <harris.jpg, id=414, 200.75pt x 200.75pt>
+ <harris.jpg, id=413, 200.75pt x 200.75pt>
 File: harris.jpg Graphic file (type jpg)
 
 <use harris.jpg>
@@ -982,14 +982,14 @@ Overfull \hbox (3.55612pt too wide) in paragraph at lines 50--51
 n contraste different :
  []
 
-<table4.png, id=422, 449.5194pt x 265.2309pt>
+<table4.png, id=421, 449.5194pt x 265.2309pt>
 File: table4.png Graphic file (type png)
  <use table4.png>
 Package pdftex.def Info: table4.png used on input line 53.
 (pdftex.def)             Requested size: 449.51828pt x 265.23024pt.
  [27 <C:/Users/Alexis/Documents/Dev/IN5x/in5x-gesture-recognition/rapport/harri
 s.jpg>] [28 <C:/Users/Alexis/Documents/Dev/IN5x/in5x-gesture-recognition/rappor
-t/table4.png (PNG copy)>] <appariement.jpg, id=434, 402.50375pt x 200.75pt>
+t/table4.png (PNG copy)>] <appariement.jpg, id=433, 402.50375pt x 200.75pt>
 File: appariement.jpg Graphic file (type jpg)
 
 <use appariement.jpg>
@@ -1038,9 +1038,9 @@ Package rerunfilecheck Info: File `rapport.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 38.
  ) 
 Here is how much of TeX's memory you used:
- 7410 strings out of 494045
- 114336 string characters out of 3145967
- 201249 words of memory out of 3000000
+ 7409 strings out of 494045
+ 114327 string characters out of 3145967
+ 200249 words of memory out of 3000000
  10409 multiletter control sequences out of 15000+200000
  9492 words of font info for 35 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
@@ -1059,9 +1059,9 @@ x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files (x86)
 iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Program Files (x86)/MiKT
 eX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files (x86)/MiKTeX 
 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on rapport.pdf (32 pages, 759919 bytes).
+Output written on rapport.pdf (32 pages, 760021 bytes).
 PDF statistics:
- 537 PDF objects out of 1000 (max. 8388607)
- 124 named destinations out of 1000 (max. 500000)
+ 536 PDF objects out of 1000 (max. 8388607)
+ 123 named destinations out of 1000 (max. 500000)
  502 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -25,7 +25,6 @@ void AutoSubClassingClassifier::train(
     this->subclassesOfTrainingBase.clear();
     int numberOfClasses = *max_element(expectedClass.begin(), expectedClass.end()) + 1;
     vector<Mat> samplesPerClass(numberOfClasses);
-    cout<<"ordering samples per class"<<endl;
     for (int i = 0; i < segmentedHands.size(); i++) {
         Mat currentCaracteristicVector = this->caracteristicVector(segmentedHands[i]);
         
@@ -36,7 +35,6 @@ void AutoSubClassingClassifier::train(
         }
     }
     int accumulatedNumberOfClasses = 0;
-    cout<<"computing subclasses"<<endl;
     for (int i = 0; i < samplesPerClass.size(); i++) {
         Mat labels;
         int clusterCount = this->numberOfSubclasses[i];
@@ -44,7 +42,6 @@ void AutoSubClassingClassifier::train(
         this->subclassesOfTrainingBase.push_back(labels + (Mat::ones(samplesPerClass[i].rows, 1, CV_32S) * accumulatedNumberOfClasses));
         accumulatedNumberOfClasses += this->numberOfSubclasses[i];
     }
-    cout<<"computing training input and output"<<endl;
     Mat trainingInputs(segmentedHands.size(), this->caracteristicVectorLength(), CV_32F);
     Mat trainingOutputs(segmentedHands.size(), 1, CV_32F);
     int firstIndex = 0;
@@ -57,7 +54,6 @@ void AutoSubClassingClassifier::train(
         outputs.copyTo(trainingOutputs.rowRange(firstIndex, lastIndex));
         firstIndex = lastIndex;
     }
-    cout<<"training input and output computed"<<endl;
     this->statisticalModel->train(trainingInputs, trainingOutputs);
 }
 

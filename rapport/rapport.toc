@@ -17,20 +17,20 @@
 \contentsline {subsubsection}{\numberline {3.3.2}Organisation du programme}{17}{subsubsection.3.3.2}
 \contentsline {subsubsection}{\numberline {3.3.3}Analyse des r\IeC {\'e}sultats}{17}{subsubsection.3.3.3}
 \contentsline {paragraph}{Mesure du taux de reconnaissance}{17}{section*.5}
-\contentsline {paragraph}{Classifieur Bay\IeC {\'e}sien et choix du nombre de classes pour l'histogramme}{18}{section*.6}
+\contentsline {paragraph}{Classifieur Bay\IeC {\'e}sien et choix du nombre de classes pour l'histogramme}{17}{section*.6}
 \contentsline {subsection}{\numberline {3.4}Classifieur de convexit\IeC {\'e}}{18}{subsection.3.4}
 \contentsline {subsubsection}{\numberline {3.4.1}Etat de l'art}{18}{subsubsection.3.4.1}
 \contentsline {subsubsection}{\numberline {3.4.2}Pr\IeC {\'e}sentation}{18}{subsubsection.3.4.2}
 \contentsline {paragraph}{D\IeC {\'e}tection du contour de la main}{18}{section*.7}
-\contentsline {paragraph}{Approximation de la forme de la main par un polygone}{19}{section*.8}
+\contentsline {paragraph}{Approximation de la forme de la main par un polygone}{18}{section*.8}
 \contentsline {paragraph}{D\IeC {\'e}tection des points convexes du polygone}{19}{section*.9}
-\contentsline {paragraph}{D\IeC {\'e}tection des points de concavit\IeC {\'e}s du polygone}{19}{section*.10}
-\contentsline {paragraph}{Filtrage des points de convexit\IeC {\'e}s et de concavit\IeC {\'e}s}{19}{section*.11}
+\contentsline {paragraph}{D\IeC {\'e}tection des points de concavit\IeC {\'e}s du polygone}{20}{section*.10}
+\contentsline {paragraph}{Filtrage des points de convexit\IeC {\'e}s et de concavit\IeC {\'e}s}{20}{section*.11}
 \contentsline {paragraph}{Calcul du r\IeC {\'e}sultat du classifieur}{20}{section*.12}
 \contentsline {subsubsection}{\numberline {3.4.3}Tests: param\IeC {\`e}tres optimaux}{21}{subsubsection.3.4.3}
-\contentsline {paragraph}{D\IeC {\'e}termination de la distance minimale des points de convexit\IeC {\'e}s}{21}{figure.25}
-\contentsline {paragraph}{D\IeC {\'e}termination de la distance minimale des points de concavit\IeC {\'e}s}{23}{figure.26}
-\contentsline {paragraph}{D\IeC {\'e}termination de la distance minimale entre points de convexit\IeC {\'e}s}{23}{figure.27}
+\contentsline {paragraph}{D\IeC {\'e}termination de la distance minimale des points de convexit\IeC {\'e}s}{21}{figure.24}
+\contentsline {paragraph}{D\IeC {\'e}termination de la distance minimale des points de concavit\IeC {\'e}s}{23}{figure.25}
+\contentsline {paragraph}{D\IeC {\'e}termination de la distance minimale entre points de convexit\IeC {\'e}s}{23}{figure.26}
 \contentsline {subsubsection}{\numberline {3.4.4}Conclusions}{24}{subsubsection.3.4.4}
 \contentsline {subsubsection}{\numberline {3.4.5}Remarques}{24}{subsubsection.3.4.5}
 \contentsline {section}{\numberline {4}Combinaison des classifieurs}{25}{section.4}

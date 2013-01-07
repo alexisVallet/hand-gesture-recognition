@@ -151,7 +151,7 @@ int ConvexityClassifier::Compute_Result( vector<Point> contour , vector<Point> C
     int result_digit;
     
     if(Concave_points.size() > 0){ //Generic Cases
-        cout << "Number of Digit = " << result.size() << endl;
+//        cout << "Number of Digit = " << result.size() << endl;
         result_digit = result.size();
     }
     else{ //Cases: 0 or One
@@ -161,11 +161,11 @@ int ConvexityClassifier::Compute_Result( vector<Point> contour , vector<Point> C
         }
         
         if(i >= result.size()){
-            cout << "Number of Digit = 0" << endl;
+            //cout << "Number of Digit = 0" << endl;
             result_digit = 0;
         }
         else{
-            cout << "Number of Digit = 1" << endl;
+            //cout << "Number of Digit = 1" << endl;
             result_digit = 1;
         }
     }
@@ -218,8 +218,8 @@ int ConvexityClassifier::Convexity_Computing(Mat &segmentedHand) {
     findConvexityDefects(contour,hull,convexDefects);
     
     /*Controling Result*/
-    cout << "ALL Concave points: " << convexDefects.size() << endl;
-    cout << "ALL Convex points: " << hull.size() << endl;
+    //cout << "ALL Concave points: " << convexDefects.size() << endl;
+    //cout << "ALL Convex points: " << hull.size() << endl;
     
     /*Filtering Concave points*/
     //cout << "FILTERING_CONCAVE_POINTS" << endl;
@@ -229,14 +229,14 @@ int ConvexityClassifier::Convexity_Computing(Mat &segmentedHand) {
     //cout << "FILTERING_CONVEX_POINTS" << endl;
     Convex_points = Filtering_Convex_Point( hull , contour , Palm );
     
-    cout << "First Filter Convex points: " << Convex_points.size() << endl;
+    //cout << "First Filter Convex points: " << Convex_points.size() << endl;
        
     vector<int> tmp;
     /*Isolating the interesting convex points*/
     //cout << "ISOLATING_CONVEX_POINTS" << endl;
     tmp = Isolating_Convex_Point( Convex_points , contour );
     
-    cout << "Second Filter Convex points: " << tmp.size() << endl;
+    //cout << "Second Filter Convex points: " << tmp.size() << endl;
     
     vector<int> result;
     float min_distance = Palm.center.y - Palm_Radius;
@@ -244,18 +244,18 @@ int ConvexityClassifier::Convexity_Computing(Mat &segmentedHand) {
     //cout << "ISOLATING_BY_AVERAGE" << endl;
     result = Isolating_Convex_Point_byAverage( contour , Concave_points , min_distance , tmp );
     
-    cout << "Convex points: " << result.size() << endl;
+    //cout << "Convex points: " << result.size() << endl;
     
-    cout << "Concave points: " << Concave_points.size() << endl;
+    //cout << "Concave points: " << Concave_points.size() << endl;
     
     float min_distance2 = Palm.center.y - (Palm_Radius * 2);
     /*Compute result*/
     float result_digital_numbers;
-    cout << "COMPUTE_RESULT" << endl;
+    //cout << "COMPUTE_RESULT" << endl;
     result_digital_numbers = Compute_Result( contour , Concave_points , result , min_distance2 );
-    cout<< "********************************" << endl;
-    cout<< "SIZE: " << segmentedHand.size() << endl;
-    cout<< "********************************" << endl;
+    //cout<< "********************************" << endl;
+    //cout<< "SIZE: " << segmentedHand.size() << endl;
+    //cout<< "********************************" << endl;
     
     /*Drawing Convex of polygon*/
     for(int i = 0; i < contours_points.size() ; i++)
@@ -264,8 +264,8 @@ int ConvexityClassifier::Convexity_Computing(Mat &segmentedHand) {
     }
     
     /*Affichage*/
-    imshow("contour",segmentedHand);
-    waitKey(0);
+//    imshow("contour",segmentedHand);
+  //  waitKey(0);
     
     return result_digital_numbers;
 }
