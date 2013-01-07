@@ -41,6 +41,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/ClassifieurDistHistogramm.o \
 	${OBJECTDIR}/ClassifieursProfils.o \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/CombinedClassifier.o \
 	${OBJECTDIR}/Crop.o \
 	${OBJECTDIR}/HandDirection.o \
 	${OBJECTDIR}/ClassifieurDistEuclidienne.o \
@@ -128,6 +129,11 @@ ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/CombinedClassifier.o: CombinedClassifier.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/CombinedClassifier.o CombinedClassifier.cpp
 
 ${OBJECTDIR}/Crop.o: Crop.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -401,6 +407,19 @@ ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp
 	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/main_nomain.o main.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/main.o ${OBJECTDIR}/main_nomain.o;\
+	fi
+
+${OBJECTDIR}/CombinedClassifier_nomain.o: ${OBJECTDIR}/CombinedClassifier.o CombinedClassifier.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/CombinedClassifier.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/CombinedClassifier_nomain.o CombinedClassifier.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/CombinedClassifier.o ${OBJECTDIR}/CombinedClassifier_nomain.o;\
 	fi
 
 ${OBJECTDIR}/Crop_nomain.o: ${OBJECTDIR}/Crop.o Crop.cpp 

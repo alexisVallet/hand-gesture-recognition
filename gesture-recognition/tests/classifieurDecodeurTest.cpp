@@ -15,6 +15,8 @@
 #include "rotateHand.h"
 #include "Symmetry.h"
 
+#include "ClassifieurZoning.cpp"
+
 using namespace cv;
 using namespace std;
 
@@ -42,7 +44,7 @@ string testDirWithTwoClassifiers(string path, ClassifieursProfils &cl1, Classifi
     int numberOfTestedImages = 0;
     int resJustes = 0;
 
-    //toutes les images tests, imagesTest[i=classe de l'image testée][img = numéro de l'image de la classe i]
+    //toutes les images tests, imagesTest[i=classe de l'image testÃ©e][img = numÃ©ro de l'image de la classe i]
     for(int i=0; i<imagesTest.size(); i++)
     {
         for(int img=0; img<imagesTest[i].size(); img++)
@@ -83,7 +85,7 @@ string testDirWithTwoClassifiers(string path, ClassifieursProfils &cl1, Classifi
             for(int a=0; a<NB_CLASSES; a++)
                     combinedProbaForEachClass[a] = probaForEachClassCL1[a] * probaForEachClassCL2[a];
 
-            resultClass = cl1.getMaxIndexFromTab( combinedProbaForEachClass, NB_CLASSES );
+            resultClass = getMaxIndexFromTab( combinedProbaForEachClass, NB_CLASSES );
             
 
 
@@ -99,10 +101,10 @@ string testDirWithTwoClassifiers(string path, ClassifieursProfils &cl1, Classifi
                     if(resultClass==classCorrespondancesTest[i])
                         resJustes++;
                 }
-                if(DEBUG) result << "l'image : " << imgFile << "  est détectée comme appartenant à la classe : " << resultClass << endl;
-                if(DEBUG) cout << "l'image : " << imgFile << "  est détectée comme appartenant à la classe : " << resultClass << endl; 
+                if(DEBUG) result << "l'image : " << imgFile << "  est dÃ©tectÃ©e comme appartenant Ã  la classe : " << resultClass << endl;
+                if(DEBUG) cout << "l'image : " << imgFile << "  est dÃ©tectÃ©e comme appartenant Ã  la classe : " << resultClass << endl; 
             }
-            //base étendue
+            //base Ã©tendue
             else
             {
                 if(testImagesCappelle)
@@ -116,9 +118,9 @@ string testDirWithTwoClassifiers(string path, ClassifieursProfils &cl1, Classifi
                         resJustes++;
                 }
                 if(DEBUG)result << "resultClass = " << resultClass << "   i = " << i << endl;
-                if(DEBUG)result << "l'image : " << imgFile << "  est détectée comme appartenant à la classe : " << cl1.classCorrespondances[resultClass] << endl; 
+                if(DEBUG)result << "l'image : " << imgFile << "  est dÃ©tectÃ©e comme appartenant Ã  la classe : " << cl1.classCorrespondances[resultClass] << endl; 
                 if(DEBUG)cout << "resultClass = " << resultClass << "   i = " << i << endl;
-                if(DEBUG)cout << "l'image : " << imgFile << "  est détectée comme appartenant à la classe : " << cl1.classCorrespondances[resultClass] << endl; 
+                if(DEBUG)cout << "l'image : " << imgFile << "  est dÃ©tectÃ©e comme appartenant Ã  la classe : " << cl1.classCorrespondances[resultClass] << endl; 
             }
 
 
@@ -130,22 +132,22 @@ string testDirWithTwoClassifiers(string path, ClassifieursProfils &cl1, Classifi
          kppv = " avec KPPV :";
     else kppv = " sans KPPV :";
     if(testImagesCappelle)
-        testedImages = "images de base testée";
-    else testedImages = "images étendues à la con testée";
+        testedImages = "images de base testÃ©e";
+    else testedImages = "images Ã©tendues Ã  la con testÃ©e";
     if(baseImagesCappelle)
-        baseImages = "base élémentaire";
-    else baseImages = "base étendue";
+        baseImages = "base Ã©lÃ©mentaire";
+    else baseImages = "base Ã©tendue";
     if(redressHand)
-        redress = "images redressées";
-    else redress = "images non redressées";
+        redress = "images redressÃ©es";
+    else redress = "images non redressÃ©es";
 
     cout << baseImages << ", " << testedImages << ", " << redress << kppv << endl;
     result << baseImages << ", " << testedImages << ", " << redress << kppv << endl;
 
-    cout << "sur " << numberOfTestedImages <<" images, il en a détecté " << resJustes << " correctement" <<endl;
-    cout << "soit un taux de réussite de : " << (float)((float)resJustes/(float)numberOfTestedImages)*100 << "%" << endl;
-    result << "sur " << numberOfTestedImages <<" images, il en a détecté " << resJustes << " correctement" <<endl;
-    result << "soit un taux de réussite de : " << (float)((float)resJustes/(float)numberOfTestedImages)*100 << "%" << endl << endl;
+    cout << "sur " << numberOfTestedImages <<" images, il en a dÃ©tectÃ© " << resJustes << " correctement" <<endl;
+    cout << "soit un taux de rÃ©ussite de : " << (float)((float)resJustes/(float)numberOfTestedImages)*100 << "%" << endl;
+    result << "sur " << numberOfTestedImages <<" images, il en a dÃ©tectÃ© " << resJustes << " correctement" <<endl;
+    result << "soit un taux de rÃ©ussite de : " << (float)((float)resJustes/(float)numberOfTestedImages)*100 << "%" << endl << endl;
             
     return result.str();
 }
@@ -155,7 +157,7 @@ void testAllConfigurationsMonoClassifier(ClassifieursProfils &classifieur)
 {
     string results;
     
-    redressHand = false;
+    /*redressHand = false;
     testImagesCappelle = false;
     baseImagesCappelle = false;
     useKPPV = false;
@@ -167,6 +169,56 @@ void testAllConfigurationsMonoClassifier(ClassifieursProfils &classifieur)
     testImagesCappelle = false;
     baseImagesCappelle = false;
     classifieur.initBase();
+    results += classifieur.testDir("blabla");**/
+    
+    redressHand = false;
+    testImagesCappelle = true;
+    baseImagesCappelle = false;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");
+    
+    redressHand = true;
+    testImagesCappelle = true;
+    baseImagesCappelle = false;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");
+    
+    redressHand = false;
+    testImagesCappelle = false;
+    baseImagesCappelle = true;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");
+    
+    redressHand = true;
+    testImagesCappelle = false;
+    baseImagesCappelle = true;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");
+    
+    /*redressHand = false;
+    testImagesCappelle = true;
+    baseImagesCappelle = true;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");
+    
+    redressHand = true;
+    testImagesCappelle = true;
+    baseImagesCappelle = true;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");*/
+    
+   /* useKPPV = true;
+    
+    redressHand = false;
+    testImagesCappelle = false;
+    baseImagesCappelle = false;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");
+    
+    redressHand = true;
+    testImagesCappelle = false;
+    baseImagesCappelle = false;
+    classifieur.initBase();
     results += classifieur.testDir("blabla");
     
     redressHand = false;
@@ -203,57 +255,7 @@ void testAllConfigurationsMonoClassifier(ClassifieursProfils &classifieur)
     testImagesCappelle = true;
     baseImagesCappelle = true;
     classifieur.initBase();
-    results += classifieur.testDir("blabla");
-    
-    useKPPV = true;
-    
-    redressHand = false;
-    testImagesCappelle = false;
-    baseImagesCappelle = false;
-    classifieur.initBase();
-    results += classifieur.testDir("blabla");
-    
-    redressHand = true;
-    testImagesCappelle = false;
-    baseImagesCappelle = false;
-    classifieur.initBase();
-    results += classifieur.testDir("blabla");
-    
-    redressHand = false;
-    testImagesCappelle = true;
-    baseImagesCappelle = false;
-    classifieur.initBase();
-    results += classifieur.testDir("blabla");
-    
-    redressHand = true;
-    testImagesCappelle = true;
-    baseImagesCappelle = false;
-    classifieur.initBase();
-    results += classifieur.testDir("blabla");
-    
-    redressHand = false;
-    testImagesCappelle = false;
-    baseImagesCappelle = true;
-    classifieur.initBase();
-    results += classifieur.testDir("blabla");
-    
-    redressHand = true;
-    testImagesCappelle = false;
-    baseImagesCappelle = true;
-    classifieur.initBase();
-    results += classifieur.testDir("blabla");
-    
-    redressHand = false;
-    testImagesCappelle = true;
-    baseImagesCappelle = true;
-    classifieur.initBase();
-    results += classifieur.testDir("blabla");
-    
-    redressHand = true;
-    testImagesCappelle = true;
-    baseImagesCappelle = true;
-    classifieur.initBase();
-    results += classifieur.testDir("blabla");
+    results += classifieur.testDir("blabla");*/
 
     
     cout << endl << results << endl;
@@ -263,11 +265,17 @@ void testAllConfigurationsMonoClassifier(ClassifieursProfils &classifieur)
 
 
 
+
+
+
+
+
+
 void testAllConfigurationsTwoClassifier(ClassifieursProfils &cl1, ClassifieursProfils &cl2)
 {
     string results;
     
-    redressHand = false;
+    /*redressHand = false;
     testImagesCappelle = false;
     baseImagesCappelle = false;
     useKPPV = false;
@@ -315,11 +323,11 @@ void testAllConfigurationsTwoClassifier(ClassifieursProfils &cl1, ClassifieursPr
     testImagesCappelle = true;
     baseImagesCappelle = true;
     cl1.initBase(); cl2.initBase();
-    results += testDirWithTwoClassifiers("blabla", cl1, cl2); 
+    results += testDirWithTwoClassifiers("blabla", cl1, cl2); */
     
     useKPPV = true;
     
-    redressHand = false;
+    /*redressHand = false;
     testImagesCappelle = false;
     baseImagesCappelle = false;
     cl1.initBase(); cl2.initBase();
@@ -329,7 +337,7 @@ void testAllConfigurationsTwoClassifier(ClassifieursProfils &cl1, ClassifieursPr
     testImagesCappelle = false;
     baseImagesCappelle = false;
     cl1.initBase(); cl2.initBase();
-    results += testDirWithTwoClassifiers("blabla", cl1, cl2);
+    results += testDirWithTwoClassifiers("blabla", cl1, cl2);*/
     
     redressHand = false;
     testImagesCappelle = true;
@@ -355,7 +363,7 @@ void testAllConfigurationsTwoClassifier(ClassifieursProfils &cl1, ClassifieursPr
     cl1.initBase(); cl2.initBase();
     results += testDirWithTwoClassifiers("blabla", cl1, cl2); 
     
-    redressHand = false;
+    /*redressHand = false;
     testImagesCappelle = true;
     baseImagesCappelle = true;
     cl1.initBase(); cl2.initBase();
@@ -365,29 +373,150 @@ void testAllConfigurationsTwoClassifier(ClassifieursProfils &cl1, ClassifieursPr
     testImagesCappelle = true;
     baseImagesCappelle = true;
     cl1.initBase(); cl2.initBase();
-    results += testDirWithTwoClassifiers("blabla", cl1, cl2); 
+    results += testDirWithTwoClassifiers("blabla", cl1, cl2); **/
 
     
     cout << endl << results << endl;
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+void testAllConfigurationsMonoClassifier(ClassifieurZoning &classifieur)
+{
+    string results;
+    
+    redressHand = false;
+    testImagesCappelle = false;
+    baseImagesCappelle = false;
+    useKPPV = false;
+    
+    /*classifieur.initBase();
+    results = classifieur.testDir("blabla");
+    
+    redressHand = true;
+    testImagesCappelle = false;
+    baseImagesCappelle = false;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");**/
+    
+    redressHand = false;
+    testImagesCappelle = true;
+    baseImagesCappelle = false;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");
+    
+    redressHand = true;
+    testImagesCappelle = true;
+    baseImagesCappelle = false;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");
+    
+    redressHand = false;
+    testImagesCappelle = false;
+    baseImagesCappelle = true;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");
+    
+    redressHand = true;
+    testImagesCappelle = false;
+    baseImagesCappelle = true;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");
+    
+    /*redressHand = false;
+    testImagesCappelle = true;
+    baseImagesCappelle = true;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");
+    
+    redressHand = true;
+    testImagesCappelle = true;
+    baseImagesCappelle = true;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");*/
+    
+   /* useKPPV = true;
+    
+    redressHand = false;
+    testImagesCappelle = false;
+    baseImagesCappelle = false;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");
+    
+    redressHand = true;
+    testImagesCappelle = false;
+    baseImagesCappelle = false;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");
+    
+    redressHand = false;
+    testImagesCappelle = true;
+    baseImagesCappelle = false;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");
+    
+    redressHand = true;
+    testImagesCappelle = true;
+    baseImagesCappelle = false;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");
+    
+    redressHand = false;
+    testImagesCappelle = false;
+    baseImagesCappelle = true;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");
+    
+    redressHand = true;
+    testImagesCappelle = false;
+    baseImagesCappelle = true;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");
+    
+    redressHand = false;
+    testImagesCappelle = true;
+    baseImagesCappelle = true;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");
+    
+    redressHand = true;
+    testImagesCappelle = true;
+    baseImagesCappelle = true;
+    classifieur.initBase();
+    results += classifieur.testDir("blabla");*/
+
+    
+    cout << endl << results << endl;
+}
+
 int main( int argc, char** argv )
 {
 
     //test classifieur1
-    ClassifieurDistEuclidienne classifieur;
+//    ClassifieurDistEuclidienne classifieur;
+//    ClassifieurDistHistogramm cl2;
+    
 //    classifieur.initBase();
     //classifieur.testImage("F:/iut/utbm/S5/projetIN52-54/dropbox/Dropbox/Projet IN5x/Images/groupe1/7.bmp");
 //    classifieur.testImage("F:/iut/utbm/S5/projetIN52-54/ClassImages/test.bmp");
-    //testAllConfigurationsMonoClassifier(classifieur);
+//    testAllConfigurationsMonoClassifier(cl2);
     
 
     //classifieur.testImage("F:/iut/utbm/S5/projetIN52-54/ClassImagesSeg/test1.bmp");
     
     //test classifieur2
-    ClassifieurDistHistogramm cl2;
-    testAllConfigurationsTwoClassifier(classifieur, cl2);
+//    ClassifieurDistHistogramm cl2;
+//    testAllConfigurationsTwoClassifier(classifieur, cl2);
 //    cl2.initBase();
     //cl2.testImage("F:/iut/utbm/S5/projetIN52-54/dropbox/Dropbox/Projet IN5x/Images/groupe1/7.bmp");
 //    cl2.testDir("blabla");
@@ -403,39 +532,43 @@ int main( int argc, char** argv )
     //binarizeFile("F:/iut/utbm/S5/projetIN52-54/ClassImagesSeg/5/1.bmp", 100);
     
     
-    
-    
-    /*Mat five = imread("F:/iut/utbm/S5/projetIN52-54/ClassImages/test.bmp");
-    
-    Mat flippedFive;
-    Mat rotatedFive;
-    verticalSymmetry(five, flippedFive);
-    horizontalSymmetry(flippedFive, rotatedFive);
-    
-    namedWindow("originale", CV_WINDOW_AUTOSIZE );
-    imshow("originale", five );
-    showHandSide(five);
-    
-    namedWindow("originale", CV_WINDOW_AUTOSIZE );
-    imshow("originale", flippedFive );
-    showHandSide(flippedFive);
-    
-    namedWindow("originale", CV_WINDOW_AUTOSIZE );
-    imshow("originale", rotatedFive );
-    showHandSide(rotatedFive);**/
-            
-            
-    /*Mat hand = extractHandFromBMPFile( "F:/iut/utbm/S5/projetIN52-54/ClassImages/test.bmp" );
-    hand = redressHandFromBinarySegmentedImage(hand, 255);    
-    namedWindow("avant redressement", CV_WINDOW_AUTOSIZE );
-    imshow("avant redressement", hand );    
-    HandSide side = detectHandSide(hand, 10);**/
-    /*if(side==LEFT_HAND)
-        cout << "LEFT_HAND" << endl;
-    if(side==RIGHT_HAND)
-        cout << "RIGHT_HAND" << endl;
-    if(side==UNDEFINED_SIDE)
-        cout << "UNDEFINED_SIDE" << endl;**/
+//ClassifieurZoning zn;
+    ClassifieurDistHistogramm cl2;
+testAllConfigurationsMonoClassifier(cl2);
+
+
+
+/*Mat hand = extractHandFromBMPFile( pathBase+"0/0.bmp");
+zn.train(hand, 0);
+
+hand = extractHandFromBMPFile( pathBase+"1/0.bmp");
+zn.train(hand, 1);
+
+hand = extractHandFromBMPFile( pathBase+"2/0.bmp");
+zn.train(hand, 2);
+
+hand = extractHandFromBMPFile( pathBase+"3/0.bmp");
+zn.train(hand, 3);
+
+hand = extractHandFromBMPFile( pathBase+"4/0.bmp");
+zn.train(hand, 4);
+
+hand = extractHandFromBMPFile( pathBase+"5/0.bmp");
+zn.train(hand, 5);
+
+testImagesCappelle = true;
+useKPPV = false;
+zn.testDir("aze");*/
+
+//testAllConfigurationsMonoClassifier(zn);
+/*zn.initBase();
+cout << "apres initbase "<< endl;
+
+float * res = zn.testImage(pathBase+"2/0.bmp");
+
+for(int z=0; z<NB_CLASSES; z++)
+    cout << "proba classe " << z << " = " << res[z] << endl;
+//zn.testVitFait();**/
 
     waitKey(0);
     return 0;
