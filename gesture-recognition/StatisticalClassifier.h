@@ -105,6 +105,8 @@ public:
 
     void save(const char *filepath);
 
+    vector<float> classProbabilities(Mat &segmentedHand);
+    
 protected:
     TrainableStatModel *statisticalModel;
 };

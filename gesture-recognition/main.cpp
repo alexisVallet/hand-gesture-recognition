@@ -5,7 +5,7 @@
 #include "ClassifieurDistHistogramm.cpp"
 #include "ConvexityClassifier.h"
 #include "ClassifieurZoning.cpp"
-#include "RadialHistogramClassifier.cpp"
+#include "RadialHistogramClassifier.h"
 
 #define TEST_PATH "./testBase/"
 #define LEARNING_PATH "./learningBase/"
@@ -95,60 +95,18 @@ string testDirWithTwoClassifiers(string path)
 
             resultClass = getMaxIndexFromTab( combinedProbaForEachClass, NB_CLASSES);
 
-            if(baseImagesCappelle)
-            {
-                if(testImagesCappelle)
-                {
+
                     if(resultClass==i)
                         resJustes++;
-                }
-                else
-                {
-                    if(resultClass==classCorrespondancesTest[i])
-                        resJustes++;
-                }
+                
                 if(DEBUG) result << "l'image : " << imgFile << "  est dÃ©tectÃ©e comme appartenant Ã  la classe : " << resultClass << endl;
-                if(DEBUG) cout << "l'image : " << imgFile << "  est dÃ©tectÃ©e comme appartenant Ã  la classe : " << resultClass << endl; 
-            }
-            //base Ã©tendue
-            else
-            {
-                if(testImagesCappelle)
-                {
-                    if(cl1.classCorrespondances[resultClass]==i)
-                        resJustes++;
-                }
-                else
-                {
-                    if(cl1.classCorrespondances[resultClass]==cl1.classCorrespondances[i])
-                        resJustes++;
-                }
-                if(DEBUG)result << "resultClass = " << resultClass << "   i = " << i << endl;
-                if(DEBUG)result << "l'image : " << imgFile << "  est dÃ©tectÃ©e comme appartenant Ã  la classe : " << cl1.classCorrespondances[resultClass] << endl; 
-                if(DEBUG)cout << "resultClass = " << resultClass << "   i = " << i << endl;
-                if(DEBUG)cout << "l'image : " << imgFile << "  est dÃ©tectÃ©e comme appartenant Ã  la classe : " << cl1.classCorrespondances[resultClass] << endl; 
-            }
+                if(DEBUG) cout << "l'image : " << imgFile << "  est dÃ©tectÃ©e comme appartenant Ã  la classe : " << resultClass << endl;
+            
+            
 
 
         }
     }
-
-    string testedImages, baseImages, redress, kppv;
-    if(useKPPV)
-         kppv = " avec KPPV :";
-    else kppv = " sans KPPV :";
-    if(testImagesCappelle)
-        testedImages = "images de base testÃ©e";
-    else testedImages = "images Ã©tendues Ã  la con testÃ©e";
-    if(baseImagesCappelle)
-        baseImages = "base Ã©lÃ©mentaire";
-    else baseImages = "base Ã©tendue";
-    if(redressHand)
-        redress = "images redressÃ©es";
-    else redress = "images non redressÃ©es";
-
-    cout << baseImages << ", " << testedImages << ", " << redress << kppv << endl;
-    result << baseImages << ", " << testedImages << ", " << redress << kppv << endl;
 
     cout << "sur " << numberOfTestedImages <<" images, il en a dÃ©tectÃ© " << resJustes << " correctement" <<endl;
     cout << "soit un taux de rÃ©ussite de : " << (float)((float)resJustes/(float)numberOfTestedImages)*100 << "%" << endl;
@@ -160,28 +118,7 @@ string testDirWithTwoClassifiers(string path)
 
 
 int main(int argc, char** argv) {
-    
-    //create a gui window:
-    namedWindow("Output",1);
-    
-    //initialize a 120X350 matrix of black pixels:
-    Mat output = Mat::zeros( 120, 350, CV_8UC3 );
-    
-    //write text on the matrix:
-    putText(output,
-            "Hello World :)",
-            cvPoint(15,70),
-            FONT_HERSHEY_PLAIN,
-            3,
-            cvScalar(0,255,0),
-            4);
-    
-    //display the image:
-    imshow("Output", output);
-    
-    //wait for the user to press any key:
-    waitKey(0);
+    testDirWithTwoClassifiers("pouet");
     
     return 0;
-
 }
