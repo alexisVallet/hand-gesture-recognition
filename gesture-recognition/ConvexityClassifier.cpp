@@ -56,7 +56,7 @@ vector<Point> ConvexityClassifier::Filtering_Concave_Point( vector<Point> convex
     
     vector<Point> Concave_points;
     
-    float distance_min_concave = 5;
+    float distance_min_concave = 25;
     
     for(int i =0; i < convexDefects.size(); i++){
         /*Compare to the y-coordinate of the center of the palm*/
@@ -71,7 +71,7 @@ vector<int> ConvexityClassifier::Filtering_Convex_Point( vector<int> hull , vect
     
     vector<int> Convex_points;
     
-    float distance_min_convex = 10;
+    float distance_min_convex = 25;
     
     for(int i =0; i < hull.size(); i++){
         /*Compare to the y-coordiante of the center of the palm*/

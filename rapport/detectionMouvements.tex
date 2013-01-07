@@ -23,7 +23,7 @@ L’algorithme développé peut être écrit comme suit :
 \end{itemize}
 
 \subsubsection{Segmentation de la main et extraction de la box}
-Cette segmentation est « banale » et réutilise la méthode de segmentation générale basée sur l’algorithme de FIsher. A partir de l’image binaire résultante, il est très simple de calculer les coordonnées de la boite englobante de la main extraite (\autoref{fig:boundingBox}).
+Cette segmentation est « banale » et réutilise la méthode de segmentation générale basée sur l’algorithme de Fisher. A partir de l’image binarisée résultante, il est très simple de calculer les coordonnées de la boite englobante de la main extraite (\autoref{fig:boundingBox}).
 
 \begin{figure}[htb!]
 \centerline{\includegraphics{boundingBox.jpg}}
@@ -32,7 +32,7 @@ Cette segmentation est « banale » et réutilise la méthode de segmentation g�
 \end{figure}
 
 \subsubsection{Opérateur de Harris}
-Dans la seconde étape importante, l’opérateur de Harris a été utilisé afin d’extraire les points d’intérêt de l’image seuillée. Ces points d’intérêt auraient pu être calculés sur l’image source, mais d’une image à l’autre, l’expérience a prouvé qu’aucuns points ne correspondaient, ce qui était donc problématique pour réaliser l’appariement d’une image à l’autre et de détecter un mouvement. Sur l’image suivante, on observe les contours de la main ainsi que les points d’intérêt en blanc (\autoref{fig:harris}).
+Dans la seconde étape importante, l’opérateur de Harris a été utilisé afin d’extraire les points d’intérêt de l’image seuillée. Ces points d’intérêt auraient pu être calculés sur l’image source, mais d’une image à l’autre, l’expérience a prouvé qu’aucuns points ne correspondaient, ce qui s'avérait problématique pour réaliser l’appariement d’une image à l’autre et détecter un mouvement. Sur l’image suivante, on observe les contours de la main ainsi que les points d’intérêt en blanc (\autoref{fig:harris}).
 
 \begin{figure}[htb!]
 \centerline{\includegraphics{harris.jpg}}
@@ -98,7 +98,7 @@ Une fois obtenue l’estimation d’un mouvement d’une image à l’autre, on 
 
 \subsubsection{Redimensionnement de la boîte}
 
-Il y a un dernier point qui pose cependant problème et auquel nous avons du répondre : Lorsque la main est en mouvement, elle peut s’approcher ou s’éloigner de la caméra, ce qui est l’enjeu principal de la séquence d’images. De ce fait nait une problématique : 
+Il y a un dernier point qui pose cependant problème et auquel nous avons du répondre : Lorsque la main est en mouvement, elle peut s’approcher ou s’éloigner de la caméra, ce qui est l’enjeu principal de la séquence d’images. De ce fait naît une problématique : 
 	Sans considérer le seuillage de la main, celle-ci s’agrandit ou se rétrécit, et la taille de la boite englobante doit donc être modifiée en conséquence.
 
 Solution envisagée:
