@@ -96,3 +96,8 @@ Mat StatisticalClassifier::leaveOneOutRecognitionRatePerClass(vector<Mat> baseIn
     
     return rates;
 }
+
+vector<float> StatisticalClassifier::classProbabilities(Mat &segmentedHand) {
+    Mat handCaracteristicVector = this->caracteristicVector(segmentedHand);
+    return this->statisticalModel->probabilitiesVector(handCaracteristicVector);
+}

@@ -37,6 +37,7 @@
       <itemPath>Classifier.cpp</itemPath>
       <itemPath>ClassifieurDistEuclidienne.cpp</itemPath>
       <itemPath>ClassifieurDistHistogramm.cpp</itemPath>
+      <itemPath>ClassifieurZoning.cpp</itemPath>
       <itemPath>ClassifieursProfils.cpp</itemPath>
       <itemPath>ConvexityClassifier.cpp</itemPath>
       <itemPath>Crop.cpp</itemPath>

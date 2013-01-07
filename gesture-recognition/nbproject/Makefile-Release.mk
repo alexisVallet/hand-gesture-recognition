@@ -46,8 +46,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/HandDirection.o \
 	${OBJECTDIR}/ClassifieurDistEuclidienne.o \
 	${OBJECTDIR}/pClearHand.o \
-	${OBJECTDIR}/Symmetry.o \
+	${OBJECTDIR}/ClassifieurZoning.o \
 	${OBJECTDIR}/HandSideDetection.o \
+	${OBJECTDIR}/Symmetry.o \
 	${OBJECTDIR}/StatisticalClassifier.o \
 	${OBJECTDIR}/RadialHistogram.o \
 	${OBJECTDIR}/ConvexityClassifier.o \
@@ -155,15 +156,20 @@ ${OBJECTDIR}/pClearHand.o: pClearHand.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/pClearHand.o pClearHand.cpp
 
-${OBJECTDIR}/Symmetry.o: Symmetry.cpp 
+${OBJECTDIR}/ClassifieurZoning.o: ClassifieurZoning.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Symmetry.o Symmetry.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ClassifieurZoning.o ClassifieurZoning.cpp
 
 ${OBJECTDIR}/HandSideDetection.o: HandSideDetection.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/HandSideDetection.o HandSideDetection.cpp
+
+${OBJECTDIR}/Symmetry.o: Symmetry.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Symmetry.o Symmetry.cpp
 
 ${OBJECTDIR}/StatisticalClassifier.o: StatisticalClassifier.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -474,17 +480,17 @@ ${OBJECTDIR}/pClearHand_nomain.o: ${OBJECTDIR}/pClearHand.o pClearHand.cpp
 	    ${CP} ${OBJECTDIR}/pClearHand.o ${OBJECTDIR}/pClearHand_nomain.o;\
 	fi
 
-${OBJECTDIR}/Symmetry_nomain.o: ${OBJECTDIR}/Symmetry.o Symmetry.cpp 
+${OBJECTDIR}/ClassifieurZoning_nomain.o: ${OBJECTDIR}/ClassifieurZoning.o ClassifieurZoning.cpp 
 	${MKDIR} -p ${OBJECTDIR}
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/Symmetry.o`; \
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/ClassifieurZoning.o`; \
 	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Symmetry_nomain.o Symmetry.cpp;\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/ClassifieurZoning_nomain.o ClassifieurZoning.cpp;\
 	else  \
-	    ${CP} ${OBJECTDIR}/Symmetry.o ${OBJECTDIR}/Symmetry_nomain.o;\
+	    ${CP} ${OBJECTDIR}/ClassifieurZoning.o ${OBJECTDIR}/ClassifieurZoning_nomain.o;\
 	fi
 
 ${OBJECTDIR}/HandSideDetection_nomain.o: ${OBJECTDIR}/HandSideDetection.o HandSideDetection.cpp 
@@ -498,6 +504,19 @@ ${OBJECTDIR}/HandSideDetection_nomain.o: ${OBJECTDIR}/HandSideDetection.o HandSi
 	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/HandSideDetection_nomain.o HandSideDetection.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/HandSideDetection.o ${OBJECTDIR}/HandSideDetection_nomain.o;\
+	fi
+
+${OBJECTDIR}/Symmetry_nomain.o: ${OBJECTDIR}/Symmetry.o Symmetry.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/Symmetry.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Symmetry_nomain.o Symmetry.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/Symmetry.o ${OBJECTDIR}/Symmetry_nomain.o;\
 	fi
 
 ${OBJECTDIR}/StatisticalClassifier_nomain.o: ${OBJECTDIR}/StatisticalClassifier.o StatisticalClassifier.cpp 
