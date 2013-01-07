@@ -1,0 +1,11 @@
+\section{Invariance par rotation et symétrie}
+\subsection{Redressement de la main}
+Un des premiers problèmes que nous avons rencontré est lié à la rotation des mains, certaines mains ne sont pas orientées verticalement alors que nos classifieurs font l'hypothèse que toutes les mains sont orientées verticalement (c'est à dire avec les doigts vers le haut). Pour redresser la main, il nous fallait tout d'abord déterminer la direction de la main dans l'image. Pour ceci, nous avons utilisé une technique inspirée de l'analyse en composantes principales pour estimer la direction "principale" de l'image.
+
+Soit $I$ une image segmentée et binarisée d'une main, définissons $P \cup \mathbb{R}^2$ l'ensemble des positions des pixels appartenant à la main dans $I$. Nous déterminons alors la matrice de covariance de ces points par rapport à leur centre de gravité (qui correspond à la valeur moyenne des points), et nous considérons les $2$ vecteurs propres de cette matrice. Nous en choisissons 1 quelconque car il est orthogonal à l'autre, et nous considérons que celui-ci indique la direction de la main (\autoref{fig:pca}). Nous appliquons alors une rotation à l'image segmentée binarisée de façon à obtenir la verticale dans la direction de ce vecteur propre. Le calcul a été implémentée à l'aide de la classe PCA d'OpenCV.
+
+\begin{figure}[htb!]
+
+\caption{Image segmentée et binarisée d'une main, avec en vert et rouge les deux vecteurs propres de la matrice de covariance.}
+\label{fig:pca}
+\end{figure}

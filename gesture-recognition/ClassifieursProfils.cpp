@@ -103,11 +103,9 @@ class ClassifieursProfils
             //on set les images de la base de référence
             vector< vector<string> > imagesClass;
             
-            if(!baseImagesCappelle)
-                readPath2(imagesClass, classCorrespondances, /*"F:/iut/utbm/S5/projetIN52-54/ClassImagesEtendue2/"*/"D:/partage/projetIN52-54/dropbox/Dropbox/Projet IN5x/Images/ClassImagesEtendue2/", "bmp"); // base étendue
-            else readPath(imagesClass, pathBase, "bmp"); // base élémentaire
+            readPath(imagesClass, pathBase, "bmp"); // base élémentaire
             
-         
+            cout << "imagesClass = " << imagesClass.size() << endl;
 
             //on calcule les profils de chaque image de la base
             for(int currentClass = 0; currentClass < NB_CLASSES; currentClass++)
@@ -331,7 +329,7 @@ class ClassifieursProfils
                 imagesTest[5].push_back(pathBase+"5/0.bmp");
                 //readPath(imagesTest, pathBase, "bmp");
             }
-            else readPath2(imagesTest, classCorrespondancesTest, /*"F:/iut/utbm/S5/projetIN52-54/ClassImagesEtendue2/"*/"D:/partage/projetIN52-54/dropbox/Dropbox/Projet IN5x/Images/ClassImagesEtendue2/", "bmp");
+            else readPath2(imagesTest, classCorrespondancesTest, /*"F:/iut/utbm/S5/projetIN52-54/ClassImagesEtendue2/"*/"./runFolder/ClassImagesEtendue2/", "bmp");
             
             int numberOfTestedImages = 0;
             int resJustes = 0;

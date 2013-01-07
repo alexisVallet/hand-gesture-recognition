@@ -1,5 +1,12 @@
 #include "TrainableStatModel.h"
 
+vector<float> TrainableStatModel::probabilitiesVector(Mat& segmentedHand) {
+    vector<float> defaultResults(6, 0);
+    defaultResults[(int)this->predict(segmentedHand)] = 1;
+    
+    return defaultResults;
+}
+
 BayesModel::BayesModel() {
 }
     
@@ -39,6 +46,20 @@ float KNearestModel::predict(Mat &samples) {
 
 void KNearestModel::clear() {
     this->internalStatModel.clear();
+}
+
+vector<float> KNearestModel::probabilitiesVector(Mat& sample) {
+    vector<float> res(6,0);
+    Mat neighborResponses;
+    Mat results;
+    Mat dists;
+    this->internalStatModel.find_nearest(sample, this->k, results, neighborResponses, dists);
+    
+    for (int i = 0; i < this->k; i++) {
+        res[round(neighborResponses.at<float>(0,i))] += 1.0/(float)k;
+    }
+    
+    return res;
 }
 
 ANNModel::ANNModel() {

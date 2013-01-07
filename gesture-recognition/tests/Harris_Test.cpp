@@ -32,15 +32,36 @@ Mat src1, src2, seg;
 // Current movement of hand between two images.
 double currentmovX, currentmovY = 0;
 
-/// Function headers
+
+////////////////////////////////
+/////// Function headers ///////
+////////////////////////////////
+
+/// Load and segment an image
 void loadAndSegment(const char * , bool, Mat & src);
+
+// Function segmenting an image according to the box of the hand
 void segmentAccordingToBox(const char *, Mat&, pair<Point,Point>&);
+
+// Function printing a matrix
 void printMat(const Mat&);
+
+// Function doing an Harris on a function
 vector<Point> Harris();
+
+// Function doing matching between to sets of point
 void matching(vector<Point>, vector<Point>);
+
+// Function computing euclidean distance between two points
 double euclidean(Point A, Point B);
+
+// function returning a box of a hand(pair of points) of a matrix of a binarized image
 pair<Point,Point> makebox(const Mat& mat);
+
+// Function computing Sum of Absolute Distances between two points onto two matrices
 int SAD(const Mat& mat1, Point P1, const Mat& mat2, Point P2);
+
+// Function extracting thresh of a subimage (box of a hand) for segmentation
 int extractNewThresh(const Mat& hand);
 
 

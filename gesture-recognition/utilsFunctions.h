@@ -45,6 +45,8 @@ int getMaxIndexFromTab(float * tab, int size);
 //distance euclidienne entre deux vecteurs de taille égale    
 float distanceBetweenVectors(float * vec1, float * vec2, int size);
 
+void ymlToBmp(string src, string dest);
+
 
 #endif	/* UTILSFUNCTIONS_H */
 

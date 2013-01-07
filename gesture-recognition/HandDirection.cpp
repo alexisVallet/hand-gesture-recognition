@@ -7,6 +7,7 @@
 
 #include "HandDirection.h"
 
+using namespace std;
 using namespace cv;
 
 Mat handPixelsWithPixelValue(const Mat &segmentedHand, int handPixelValue) {
@@ -55,9 +56,9 @@ Point2f estimatePalmCenter(const Mat &segmentedHand, int maxFingerWidth) {
             MORPH_ELLIPSE, 
             Size(maxFingerWidth-1,maxFingerWidth-1));
     Mat palm;
-    erode(segmentedHand, palm, structuringElement);
+    erode(segmentedHand / HAND_PIXEL_VALUE, palm, structuringElement);
 
-    return computeMassCenter(palm);
+    return computeMassCenter(palm * HAND_PIXEL_VALUE);
 }
 
 Point2f computeMassCenter(const Mat &segmentedHand) {

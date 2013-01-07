@@ -46,6 +46,12 @@ public:
      * Clears the training of the internal statistical model.
      */
     virtual void clear() = 0;
+    /**
+     * 
+     * @param segmentedHand
+     * @return 
+     */
+    virtual vector<float> probabilitiesVector(Mat &segmentedHand);
 };
 
 /**
@@ -89,6 +95,8 @@ public:
     float predict(Mat &samples);
     
     void clear();
+    
+    vector<float> probabilitiesVector(Mat &segmentedHand);
 };
 
 /**

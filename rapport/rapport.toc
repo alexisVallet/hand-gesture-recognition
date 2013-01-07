@@ -1,0 +1,46 @@
+\select@language {french}
+\contentsline {section}{\numberline {1}Pr\IeC {\'e}sentation globale du programme}{2}{section.1}
+\contentsline {section}{\numberline {2}Segmentation}{2}{section.2}
+\contentsline {subsection}{\numberline {2.1}Pr\IeC {\'e}sentation de la m\IeC {\'e}thode}{2}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Analyse des r\IeC {\'e}sultats}{6}{subsection.2.2}
+\contentsline {section}{\numberline {3}Classification}{10}{section.3}
+\contentsline {subsection}{\numberline {3.1}Classifieurs par profils et histogrammes horizontaux et verticaux}{10}{subsection.3.1}
+\contentsline {subsubsection}{\numberline {3.1.1}Pr\IeC {\'e}sentation de la m\IeC {\'e}thode}{10}{subsubsection.3.1.1}
+\contentsline {subsubsection}{\numberline {3.1.2}R\IeC {\'e}sultats}{12}{subsubsection.3.1.2}
+\contentsline {subsubsection}{\numberline {3.1.3}Am\IeC {\'e}lioratoins possibles}{12}{subsubsection.3.1.3}
+\contentsline {subsection}{\numberline {3.2}Classifieur densit\IeC {\'e}s}{14}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}R\IeC {\'e}sultats}{14}{subsubsection.3.2.1}
+\contentsline {subsection}{\numberline {3.3}Classifieur histogramme radial}{15}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}Pr\IeC {\'e}sentation de la m\IeC {\'e}thode}{15}{subsubsection.3.3.1}
+\contentsline {paragraph}{Calcul de l'histogramme radial}{15}{section*.3}
+\contentsline {paragraph}{Calcul de sous-classes automatique par $K$ moyennes}{17}{section*.4}
+\contentsline {subsubsection}{\numberline {3.3.2}Organisation du programme}{17}{subsubsection.3.3.2}
+\contentsline {subsubsection}{\numberline {3.3.3}Analyse des r\IeC {\'e}sultats}{17}{subsubsection.3.3.3}
+\contentsline {paragraph}{Mesure du taux de reconnaissance}{17}{section*.5}
+\contentsline {paragraph}{Classifieur Bay\IeC {\'e}sien et choix du nombre de classes pour l'histogramme}{18}{section*.6}
+\contentsline {subsection}{\numberline {3.4}Classifieur de convexit\IeC {\'e}}{18}{subsection.3.4}
+\contentsline {subsubsection}{\numberline {3.4.1}Etat de l'art}{18}{subsubsection.3.4.1}
+\contentsline {subsubsection}{\numberline {3.4.2}Pr\IeC {\'e}sentation}{18}{subsubsection.3.4.2}
+\contentsline {paragraph}{D\IeC {\'e}tection du contour de la main}{18}{section*.7}
+\contentsline {paragraph}{Approximation de la forme de la main par un polygone}{19}{section*.8}
+\contentsline {paragraph}{D\IeC {\'e}tection des points convexes du polygone}{19}{section*.9}
+\contentsline {paragraph}{D\IeC {\'e}tection des points de concavit\IeC {\'e}s du polygone}{19}{section*.10}
+\contentsline {paragraph}{Filtrage des points de convexit\IeC {\'e}s et de concavit\IeC {\'e}s}{19}{section*.11}
+\contentsline {paragraph}{Calcul du r\IeC {\'e}sultat du classifieur}{20}{section*.12}
+\contentsline {subsubsection}{\numberline {3.4.3}Tests: param\IeC {\`e}tres optimaux}{21}{subsubsection.3.4.3}
+\contentsline {paragraph}{D\IeC {\'e}termination de la distance minimale des points de convexit\IeC {\'e}s}{21}{figure.25}
+\contentsline {paragraph}{D\IeC {\'e}termination de la distance minimale des points de concavit\IeC {\'e}s}{23}{figure.26}
+\contentsline {paragraph}{D\IeC {\'e}termination de la distance minimale entre points de convexit\IeC {\'e}s}{23}{figure.27}
+\contentsline {subsubsection}{\numberline {3.4.4}Conclusions}{24}{subsubsection.3.4.4}
+\contentsline {subsubsection}{\numberline {3.4.5}Remarques}{24}{subsubsection.3.4.5}
+\contentsline {section}{\numberline {4}Combinaison des classifieurs}{25}{section.4}
+\contentsline {section}{\numberline {5}Suivi de la main dans une s\IeC {\'e}quence d\IeC {\textquoteright }images}{25}{section.5}
+\contentsline {subsection}{\numberline {5.1}Pr\IeC {\'e}sentation de la m\IeC {\'e}thode}{25}{subsection.5.1}
+\contentsline {subsubsection}{\numberline {5.1.1}Segmentation de la main et extraction de la box}{26}{subsubsection.5.1.1}
+\contentsline {subsubsection}{\numberline {5.1.2}Op\IeC {\'e}rateur de Harris}{26}{subsubsection.5.1.2}
+\contentsline {subsubsection}{\numberline {5.1.3}Seuillage sur la boite englobante}{26}{subsubsection.5.1.3}
+\contentsline {subsubsection}{\numberline {5.1.4}Harris + Appariement des points de deux images seuill\IeC {\'e}es}{28}{subsubsection.5.1.4}
+\contentsline {subsubsection}{\numberline {5.1.5}D\IeC {\'e}placement de la box}{29}{subsubsection.5.1.5}
+\contentsline {subsubsection}{\numberline {5.1.6}Redimensionnement de la bo\IeC {\^\i }te}{30}{subsubsection.5.1.6}
+\contentsline {subsection}{\numberline {5.2}Analyse des r\IeC {\'e}sultats}{30}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Am\IeC {\'e}liorations possibles}{31}{subsection.5.3}

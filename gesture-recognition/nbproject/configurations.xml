@@ -37,6 +37,7 @@
       <itemPath>Classifier.cpp</itemPath>
       <itemPath>ClassifieurDistEuclidienne.cpp</itemPath>
       <itemPath>ClassifieurDistHistogramm.cpp</itemPath>
+      <itemPath>ClassifieurZoning.cpp</itemPath>
       <itemPath>ClassifieursProfils.cpp</itemPath>
       <itemPath>ConvexityClassifier.cpp</itemPath>
       <itemPath>Crop.cpp</itemPath>
@@ -133,6 +134,8 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>CombinedClassifier.cpp</itemPath>
+    <itemPath>CombinedClassifier.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>

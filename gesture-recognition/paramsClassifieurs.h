@@ -12,7 +12,7 @@ using namespace std;
 
 
 //chemin vers le dossier contenant les images de la base^(dossier Images/ClassImages/ sur le dropbox
-static string pathBase = "D:/partage/projetIN52-54/ClassImages/";
+static string pathBase = "./runFolder/ClassImages/";
 //static string pathBase = "D:/partage/projetIN52-54/ClassImages2/";
 
 //les préfixes des fichiers profils correspondant aux classifieurs histo ou profils
@@ -25,7 +25,7 @@ static string classNameHistoClassifier = "ClassifieurDistHistogramm";
 
 
 //const static int NB_CLASSES = 12;
-const static int NB_PROFILES = 14;
+const static int NB_PROFILES = 8;
 const static int K = 3;
 
 static bool DEBUG = false;
@@ -48,8 +48,8 @@ static bool useKPPV = true;
 
 static int NB_CLASSES = (baseImagesCappelle==true ? 6:12);
 
-static int M = 3;
-static int N = 3;
+static int M = 8;
+static int N = 8;
 
 
 #endif	/* PARAMSCLASSIFIEURS_H */

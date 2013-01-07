@@ -30,23 +30,24 @@ void loadTrainingData(string basePath, vector<Mat> &segmentedHands, vector<int> 
     }
 }
 
-Mat recognitionRateByHiddenLayerSize( 
+Mat recognitionRateByNumberOfBins(
+        TrainableStatModel &internalModel,          
         int minNbBins, 
         int maxNbBins, 
         vector<Mat> baseInputs, 
-        vector<int> baseOutputs) {
-    Mat recognitionRates(1, maxNbBins - minNbBins+ 1, CV_32F);
-    for (int nbBins = minNbBins; nbBins <= maxNbBins; nbBins++) {
-        Mat layerSizes(1,3,CV_32S);
-        layerSizes.at<int>(0,0) = 80;
-        layerSizes.at<int>(0,1) = nbBins;
-        layerSizes.at<int>(0,2) = 12;
-        cout<<"calling constructor"<<endl;
-        ANNModel internalModel(layerSizes, CvANN_MLP::SIGMOID_SYM, 1, 0.5);
-        cout<<"initializing radial histogram classifier"<<endl;
-        RadialHistogramClassifier classifier(&internalModel, 80, 15, vector<int>(6, 2));
+        vector<int> baseOutputs,
+        Mat &perClasses,
+        int step) {
+    Mat recognitionRates(1, (maxNbBins - minNbBins)/step + 1, CV_32F);
+    perClasses = Mat::zeros(6, (maxNbBins - minNbBins)/step + 1, CV_32F);
+    int i = 0;
+    for (int nbBins = minNbBins; nbBins <= maxNbBins; nbBins += step) {
+        RadialHistogramClassifier classifier(&internalModel, nbBins, 15, vector<int>(6, 1));
         cout<<"radial histogram classifier initialized"<<endl;
-        recognitionRates.at<float>(0,nbBins-minNbBins) = classifier.leaveOneOutRecognitionRate(baseInputs, baseOutputs);
+        recognitionRates.at<float>(0,i) = classifier.leaveOneOutRecognitionRate(baseInputs, baseOutputs);
+        Mat perClass = classifier.leaveOneOutRecognitionRatePerClass(baseInputs, baseOutputs).t();
+        perClass.copyTo(perClasses.colRange(i, i + 1));
+        i++;
     }
     
     return recognitionRates;
@@ -56,16 +57,15 @@ int main(int argc, char** argv) {
     vector<Mat> segmentedHands;
     vector<int> classes;
     loadTrainingData("./runFolder/ClassImages2/", segmentedHands, classes);
-    Mat rates = recognitionRateByHiddenLayerSize(200, 600, segmentedHands, classes);
-    cout<<"rates computed"<<endl;
+    BayesModel internalModel;
+    Mat perClasses;
+    Mat rates = recognitionRateByNumberOfBins(internalModel, 10, 150, segmentedHands, classes, perClasses, 10);
     double bestRate;
-    Point2i bestRateIdx;
+    Point bestRateIdx;
     minMaxLoc(rates, NULL, &bestRate, NULL, &bestRateIdx);
-    cout<<"Best rate: "<<bestRate<<" at "<<bestRateIdx<<endl;
-    Mat plot =imHist(rates.t() *100, 1, 1);
-    cout<<"image computed"<<endl;
-    namedWindow("recognitionRateByBins");
-    imshow("recognitionRateByBins", plot);
+    cout<<"rates: "<<rates<<endl;
+    cout<<"best rate: "<<bestRate<<" at "<<bestRateIdx<<endl;
+    cout<<"per class: "<<perClasses.colRange(bestRateIdx.y, bestRateIdx.y+1)<<endl;
     waitKey(0);
     return (EXIT_SUCCESS);
 }
