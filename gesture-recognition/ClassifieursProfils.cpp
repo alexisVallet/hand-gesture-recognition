@@ -103,9 +103,7 @@ class ClassifieursProfils
             //on set les images de la base de référence
             vector< vector<string> > imagesClass;
             
-            if(!baseImagesCappelle)
-                readPath2(imagesClass, classCorrespondances, /*"F:/iut/utbm/S5/projetIN52-54/ClassImagesEtendue2/"*/"./runFolder/ClassImagesEtendue2/", "bmp"); // base étendue
-            else readPath(imagesClass, pathBase, "bmp"); // base élémentaire
+            readPath(imagesClass, pathBase, "bmp"); // base élémentaire
             
             cout << "imagesClass = " << imagesClass.size() << endl;
 

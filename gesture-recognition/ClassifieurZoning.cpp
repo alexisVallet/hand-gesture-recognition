@@ -65,9 +65,7 @@ class ClassifieurZoning
             //on set les images de la base de référence
             vector< vector<string> > imagesClass;
             
-            if(!baseImagesCappelle)
-                readPath2(imagesClass, classCorrespondances, "D:/partage/projetIN52-54/dropbox/Dropbox/Projet IN5x/Images/ClassImagesEtendue2/", "bmp"); // base étendue
-            else readPath(imagesClass, pathBase, "bmp"); // base élémentaire
+            readPath(imagesClass, pathBase, "bmp"); // base élémentaire
             
             /*for(int i=0; i<NB_CLASSES; i++)
                 imagesClass.push_back( vector<string>() );

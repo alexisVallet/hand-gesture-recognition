@@ -28,7 +28,7 @@ static string classNameHistoClassifier = "ClassifieurDistHistogramm";
 const static int NB_PROFILES = 8;
 const static int K = 3;
 
-static bool DEBUG = true;
+static bool DEBUG = false;
 
 
 

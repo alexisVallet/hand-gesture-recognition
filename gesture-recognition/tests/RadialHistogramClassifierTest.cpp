@@ -36,15 +36,18 @@ Mat recognitionRateByNumberOfBins(
         int maxNbBins, 
         vector<Mat> baseInputs, 
         vector<int> baseOutputs,
-        Mat &perClasses) {
-    Mat recognitionRates(1, maxNbBins - minNbBins+ 1, CV_32F);
-    perClasses = Mat::zeros(6, maxNbBins - minNbBins + 1, CV_32F);
-    for (int nbBins = minNbBins; nbBins <= maxNbBins; nbBins++) {
-        RadialHistogramClassifier classifier(&internalModel, nbBins, 15, vector<int>(6, 2));
+        Mat &perClasses,
+        int step) {
+    Mat recognitionRates(1, (maxNbBins - minNbBins)/step + 1, CV_32F);
+    perClasses = Mat::zeros(6, (maxNbBins - minNbBins)/step + 1, CV_32F);
+    int i = 0;
+    for (int nbBins = minNbBins; nbBins <= maxNbBins; nbBins += step) {
+        RadialHistogramClassifier classifier(&internalModel, nbBins, 15, vector<int>(6, 1));
         cout<<"radial histogram classifier initialized"<<endl;
-        recognitionRates.at<float>(0,nbBins-minNbBins) = classifier.leaveOneOutRecognitionRate(baseInputs, baseOutputs);
+        recognitionRates.at<float>(0,i) = classifier.leaveOneOutRecognitionRate(baseInputs, baseOutputs);
         Mat perClass = classifier.leaveOneOutRecognitionRatePerClass(baseInputs, baseOutputs).t();
-        perClass.copyTo(perClasses.colRange(nbBins-minNbBins, nbBins-minNbBins+1));
+        perClass.copyTo(perClasses.colRange(i, i + 1));
+        i++;
     }
     
     return recognitionRates;
@@ -54,12 +57,13 @@ int main(int argc, char** argv) {
     vector<Mat> segmentedHands;
     vector<int> classes;
     loadTrainingData("./runFolder/ClassImages2/", segmentedHands, classes);
-    KNearestModel internalModel(1);
+    BayesModel internalModel;
     Mat perClasses;
-    Mat rates = recognitionRateByNumberOfBins(internalModel, 106, 106, segmentedHands, classes, perClasses);
+    Mat rates = recognitionRateByNumberOfBins(internalModel, 10, 150, segmentedHands, classes, perClasses, 10);
     double bestRate;
     Point bestRateIdx;
     minMaxLoc(rates, NULL, &bestRate, NULL, &bestRateIdx);
+    cout<<"rates: "<<rates<<endl;
     cout<<"best rate: "<<bestRate<<" at "<<bestRateIdx<<endl;
     cout<<"per class: "<<perClasses.colRange(bestRateIdx.y, bestRateIdx.y+1)<<endl;
     waitKey(0);
