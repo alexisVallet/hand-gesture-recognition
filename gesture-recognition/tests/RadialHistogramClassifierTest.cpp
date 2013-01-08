@@ -30,6 +30,33 @@ void loadTrainingData(string basePath, vector<Mat> &segmentedHands, vector<int> 
     }
 }
 
+Mat recognitionRateByNumberOfNeurons(     
+        int minNeurons, 
+        int maxNeurons, 
+        vector<Mat> baseInputs, 
+        vector<int> baseOutputs,
+        Mat &perClasses,
+        int step) {
+    Mat recognitionRates(1, (maxNeurons - minNeurons)/step + 1, CV_32F);
+    perClasses = Mat::zeros(6, (maxNeurons - minNeurons)/step + 1, CV_32F);
+    int i = 0;
+    for (int nbNeurons = minNeurons; nbNeurons <= maxNeurons; nbNeurons += step) {
+        Mat layerSizes(1,3,CV_32S);
+        layerSizes.at<int>(0,0) = 90;
+        layerSizes.at<int>(0,1) = nbNeurons;
+        layerSizes.at<int>(0,2) = 6;
+        ANNModel internalModel(layerSizes, CvANN_MLP::SIGMOID_SYM, 1, 0.5);
+        RadialHistogramClassifier classifier(&internalModel, 90, 15, vector<int>(6, 1));
+        cout<<"radial histogram classifier initialized"<<endl;
+        recognitionRates.at<float>(0,i) = classifier.leaveOneOutRecognitionRate(baseInputs, baseOutputs);
+        Mat perClass = classifier.leaveOneOutRecognitionRatePerClass(baseInputs, baseOutputs).t();
+        perClass.copyTo(perClasses.colRange(i, i + 1));
+        i++;
+    }
+    
+    return recognitionRates;
+}
+
 Mat recognitionRateByNumberOfBins(
         TrainableStatModel &internalModel,          
         int minNbBins, 
@@ -42,7 +69,7 @@ Mat recognitionRateByNumberOfBins(
     perClasses = Mat::zeros(6, (maxNbBins - minNbBins)/step + 1, CV_32F);
     int i = 0;
     for (int nbBins = minNbBins; nbBins <= maxNbBins; nbBins += step) {
-        RadialHistogramClassifier classifier(&internalModel, nbBins, 15, vector<int>(6, 1));
+        RadialHistogramClassifier classifier(&internalModel, nbBins, 15, vector<int>(6, 2));
         cout<<"radial histogram classifier initialized"<<endl;
         recognitionRates.at<float>(0,i) = classifier.leaveOneOutRecognitionRate(baseInputs, baseOutputs);
         Mat perClass = classifier.leaveOneOutRecognitionRatePerClass(baseInputs, baseOutputs).t();
@@ -57,9 +84,9 @@ int main(int argc, char** argv) {
     vector<Mat> segmentedHands;
     vector<int> classes;
     loadTrainingData("./runFolder/ClassImages2/", segmentedHands, classes);
-    BayesModel internalModel;
+    KNearestModel internalModel(8);
     Mat perClasses;
-    Mat rates = recognitionRateByNumberOfBins(internalModel, 10, 150, segmentedHands, classes, perClasses, 10);
+    Mat rates = recognitionRateByNumberOfNeurons(50, 500, segmentedHands, classes, perClasses, 50);
     double bestRate;
     Point bestRateIdx;
     minMaxLoc(rates, NULL, &bestRate, NULL, &bestRateIdx);

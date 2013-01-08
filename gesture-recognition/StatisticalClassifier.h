@@ -41,7 +41,7 @@ public:
     /**
      * Returns the opencv statistical model this classifier uses.
      */
-    TrainableStatModel *getStatisticalModel() const;
+    TrainableStatModel *getStatisticalModel();
     /**
      * Returns a caracteristic vector for a segmented hand. This caracteristic
      * vector will be used to classify the hand.

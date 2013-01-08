@@ -13,7 +13,7 @@ L’algorithme développé peut être écrit comme suit :
 \item Opérateur de Harris pour identifier les points d’intérêts.
 \item Boucle : Pour chaque image consécutive
 \begin{itemize}
-\item Elargissement de la box.
+\item Élargissement de la box.
 \item Seuillage à l’intérieur de la box afin d’extraire la main.
 \item Recadrage de la box si nécessaire.
 \item Opérateur de Harris pour identifier les points d’intérêts.
@@ -65,7 +65,7 @@ Thresh = mode + n
 
 \subsubsection{Harris + Appariement des points de deux images seuillées}
 
-Une fois le seuillage et la segmentation effectués, il est important de détecter le mouvement de lamain afin d’obtenir une nouvelle box pour cette seconde image. Si l’on se contentait de conserver l’ancienne box dont on s’est servi pour segmenter la nouvelle image, on pourrait d’une image à l’autre perdre de l’information dans la mesure où la main se déplace.
+Une fois le seuillage et la segmentation effectués, il est important de détecter le mouvement de la main afin d’obtenir une nouvelle box pour cette seconde image. Si l’on se contentait de conserver l’ancienne box dont on s’est servi pour segmenter la nouvelle image, on pourrait d’une image à l’autre perdre de l’information dans la mesure où la main se déplace.
 
 	Solution développée : On applique l’opérateur de Harris sur la nouvelle image seuillée afin de réaliser l’appariement avec l’image précédente, le but étant d’identifier le mouvement, déplacement des points d’intérêt.
 

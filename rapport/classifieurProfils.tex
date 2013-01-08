@@ -1,4 +1,4 @@
-﻿\subsection{Classifieurs par profils et histogrammes horizontaux et verticaux}
+\subsection{Classifieurs par profils et histogrammes horizontaux et verticaux}
 \subsubsection{Présentation de la méthode}
 Le premier classifieur développé se base sur la détermination de vecteurs caractéristiques de la main à reconnaitre. Il a été subdivisé en deux sous classes, dont chacune se base sur une caractéristique différente. Ce classifieur travaille sur les images des mains segmentées et extraites de l'image originale.
 
@@ -63,7 +63,7 @@ Considérant que le meilleur compromis est atteint pour D = 8, voici une seconde
 \label{fig:resultatsKPPV}
 \end{figure}
 
-\subsubsection{Amélioratoins possibles}
+\subsubsection{Améliorations possibles}
 L'amélioration la plus importante à apporter est probablement l'enrichissement de la base d'apprentissage. En effet, nos bases actuelles disposent de trop peu d'images, ce qui génère des différences importantes entre les images de la base et certaines configurations hasardeuses de la main à tester.
 
 	Une seconde amélioration envisagée serait de pondérer la prise en compte des caractéristiques des différentes zones de l'image à tester, notamment en augmentant le poids des mesures effectuées sur la partie supérieure de la main, là où se trouvent les doigts. A l'inverse, il serait intéressant de réduire l'importance des mesures effectuées dans la partie basse de l'image, zone dans laquelle se trouve le poignet que la segmentation ne permet pas toujours d'éliminer. Cependant, il faudrait pour ce faire disposer d'une fonction de redressement des mains moins hasardeuse. En effet, certaines images sont tout bonnement redressées à l'envers, ce qui fausse la comparaison par la suite.
@@ -86,5 +86,5 @@ Le second classifieur implémenté s'intéresse à la densité de l'image à tra
 
 \begin{figure}[htb!]
 \centerline{\includegraphics[scale=0.7]{table3.png}}
-\caption{Resultats du classifieur densités avec KPPV.}
+\caption{Résultats du classifieur densités avec KPPV.}
 \end{figure}

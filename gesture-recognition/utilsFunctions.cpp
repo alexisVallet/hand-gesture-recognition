@@ -52,7 +52,7 @@ Mat greyscale(Mat &img)
     int datasz = img.dataend - img.datastart;
     int res = img.cols*img.rows;
     int dim = datasz/res;
-    cout << "datasz/res = " << datasz/res << endl;
+//    cout << "datasz/res = " << datasz/res << endl;
     Mat grey = Mat_<unsigned char>(img.rows, img.cols);
     grey.dims = 0;
     
@@ -83,10 +83,10 @@ void binarizeFile(string path, int seuil)
 //chargement de l'image, segmentation quentin, détection des bounds de la main, extraction de la main
 Mat extractHandFromBMPFile(string filename)
 {
-    cout << "extractHandFromBMPFile avant lecture " << filename  << endl;
+    //cout << "extractHandFromBMPFile avant lecture " << filename  << endl;
     Mat img = imread( filename, CV_LOAD_IMAGE_GRAYSCALE );
     //img = greyscale(img);
- cout << "extractHandFromBMPFile apres lecture"    << endl;
+ //cout << "extractHandFromBMPFile apres lecture"    << endl;
  
     
     //SEUIL A SETTER
@@ -94,7 +94,7 @@ Mat extractHandFromBMPFile(string filename)
     Mat hand; 
     // Segmentation
     Segment(img, hand);
- cout << "extractHandFromBMPFile apres Segment"    << endl;
+// cout << "extractHandFromBMPFile apres Segment"    << endl;
     hand.dims=0;//tres important, trop de pb à cause de ces conneries de channel
     
 	if(DEBUG)       
@@ -115,7 +115,7 @@ Mat extractHandFromBMPFile(string filename)
     //extraction of the hand
     Mat hand2 = Mat_<unsigned char>(sy, sx);
     hand2.dims=0;//tres important, trop de pb à cause de ces conneries de channel
- cout << "extractHandFromBMPFile avant extractSubimageFromBounds"    << endl;
+ //cout << "extractHandFromBMPFile avant extractSubimageFromBounds"    << endl;
     extractSubimageFromBounds(hand, hand2, xMin, xMax, yMin, yMax);
 
     return hand2;
@@ -276,8 +276,8 @@ void calculBounds(Mat img, int &xMin, int &xMax, int &yMin, int &yMax)
                 yMaxFinded = true;
             }
         }
-		if(DEBUG)       
-			cout << "xmin = " << xMin << "  xMax = " << xMax << "  yMin = " << yMin << "  yMax = " << yMax << endl;
+		//if(DEBUG)       
+		//	cout << "xmin = " << xMin << "  xMax = " << xMax << "  yMin = " << yMin << "  yMax = " << yMax << endl;
 }
 
 
@@ -332,7 +332,7 @@ void convertAllYMLImageFromPath()
 
 void ymlToBmp(string src, string dest)
 {
-    cout << "src = " << src << "  dest = " << dest << endl;
+    //cout << "src = " << src << "  dest = " << dest << endl;
     IplImage * imgyml = loadYml(src.c_str()); 
     
     /*Mat img = IplToMat(*imgyml);
@@ -440,10 +440,10 @@ void readPath2(vector< vector<string> > &base, vector< int >&classCorrespondance
     if(DEBUG)
         for(int i=0; i<base.size(); i++)
         {
-            cout << endl << "classe " << i << "  equivalent à la classe " << classCorrespondances[i] << endl;
+            //cout << endl << "classe " << i << "  equivalent à la classe " << classCorrespondances[i] << endl;
             for(int j=0; j<base[i].size(); j++)
             {
-                cout << "base[i][j]=" << base[i][j] << endl;
+                //cout << "base[i][j]=" << base[i][j] << endl;
             }
 
         }

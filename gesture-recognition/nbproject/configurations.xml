@@ -134,8 +134,6 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>CombinedClassifier.cpp</itemPath>
-    <itemPath>CombinedClassifier.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -370,6 +368,10 @@
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>../opencv/include</pElem>
+            <pElem>C:/pandore/include</pElem>
+          </incDir>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -377,6 +379,32 @@
         <asmTool>
           <developmentMode>5</developmentMode>
         </asmTool>
+        <linkerTool>
+          <linkerAddLib>
+            <pElem>C:/pandore/lib</pElem>
+            <pElem>../opencv/lib</pElem>
+          </linkerAddLib>
+          <linkerLibItems>
+            <linkerLibLibItem>opencv_calib3d243.dll</linkerLibLibItem>
+            <linkerLibLibItem>opencv_contrib243.dll</linkerLibLibItem>
+            <linkerLibLibItem>opencv_core243.dll</linkerLibLibItem>
+            <linkerLibLibItem>opencv_features2d243.dll</linkerLibLibItem>
+            <linkerLibLibItem>opencv_flann243.dll</linkerLibLibItem>
+            <linkerLibLibItem>opencv_gpu243.dll</linkerLibLibItem>
+            <linkerLibLibItem>opencv_highgui243.dll</linkerLibLibItem>
+            <linkerLibLibItem>opencv_imgproc243.dll</linkerLibLibItem>
+            <linkerLibLibItem>opencv_legacy243.dll</linkerLibLibItem>
+            <linkerLibLibItem>opencv_ml243.dll</linkerLibLibItem>
+            <linkerLibLibItem>opencv_nonfree243.dll</linkerLibLibItem>
+            <linkerLibLibItem>opencv_objdetect243.dll</linkerLibLibItem>
+            <linkerLibLibItem>opencv_photo243.dll</linkerLibLibItem>
+            <linkerLibLibItem>opencv_stitching243.dll</linkerLibLibItem>
+            <linkerLibLibItem>opencv_ts243</linkerLibLibItem>
+            <linkerLibLibItem>opencv_video243.dll</linkerLibLibItem>
+            <linkerLibLibItem>opencv_videostab243.dll</linkerLibLibItem>
+            <linkerLibFileItem>../../../../../../../pandore/lib/pandore.lib</linkerLibFileItem>
+          </linkerLibItems>
+        </linkerTool>
       </compileType>
     </conf>
   </confs>

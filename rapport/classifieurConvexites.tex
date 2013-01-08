@@ -2,11 +2,7 @@
 \subsubsection{Etat de l'art}
 Ce classifieur est basé sur le rapport « Hand Gesture Recognition Using Kinect » de Heng Du et TszHang To de l’Université de Boston \cite{hengDuEtAl}.  Leurs travaux ont portés sur la reconnaissance de nombre de doigts à partir d’une image capturé à l’aide d’une caméra kinect et de la bibliothèque OpenCV. 
 
-<<<<<<< HEAD
-Ce classifieur est basé sur la publication « Hand Gesture Recognition Using Kinect » de Heng Du et TszHang To de l’Université de Boston.  Leurs travaux ont porté sur la reconnaissance du nombre de doigts à partir d’une image capturée à l’aide d’une caméra Kinect et de la bibliothèque OpenCV. 
-=======
 \subsubsection{Présentation}
->>>>>>> a28458ec8f3969685ca5bfe7ec7a3d5a8488568f
 
 Le principe général de ce classifieur est de détecter les points de convexités et de concavités du contour de la main et ainsi, selon un raisonnement logique, calculer le nombre de doigts levés.
 
@@ -32,7 +28,7 @@ L’étape suivante permet de simplifier la détection des points de convexité 
 \item Si la distance est inférieure à $\alpha$ ($>0$ une valeur déterminée), alors on retire tous les points non marqués.
 \item Si la distance est supérieure à $\alpha$, alors on marque le point et on trace le nouveau segment contenant le premier point et le dernier passant par le nouveau point marqué.
 \end{enumerate}
-\item On réapplique l’algorithme récursivement sur les deux segments : (premier point, nouveau point) et (nouveau point, dernier point), jusqu'à ce qu'on soit limité par le quadrillage pixellaire (deux points ont la même coordonnée dans l'image).
+\item On applique l’algorithme récursivement sur les deux segments : (premier point, nouveau point) et (nouveau point, dernier point), jusqu'à ce qu'on soit limité par le quadrillage pixellaire (deux points ont la même coordonnée dans l'image).
 \item Une fois la récursion terminée, on retrace la nouvelle courbe avec les points visités uniquement.
 \end{enumerate}
 
@@ -41,7 +37,7 @@ Afin de détecter les points de convexité de la main, on calcul un contour ento
 
 \begin{figure}[htb!]
 \centerline{\includegraphics{convexePolygone.jpg}}
-\caption{Polygone englobant de la main tel que claclulé par convexHull.}
+\caption{Polygone englobant de la main tel que calculé par convexHull.}
 \label{fig:convexePolygone}
 \end{figure}
 
@@ -135,7 +131,7 @@ Ce résultat est expliqué par le fait que cette distance permet de détecter le
 De cette série de test, on déduit que la valeur intéressante de $\mu$ est 15, car elle permet de d’obtenir à la fois le meilleur taux mais aussi potentiellement une détection plus efficace pour les signes de la main contenant des combinaisons de doigts inférieurs à 2.
 
 \subsubsection{Conclusion}
-Avec les séries de test effectuées, on a pu atteindre un maximum de 55\% de taux de reconnaissance sur la base d’apprentissage sur laquelle l'ensemble des classifeurs s'est basé. De plus, ce classifieur ne nécessite pas de phase d’apprentissage. Il permet des calculs plus rapides et donc permettra à terme de pouvoir trancher les ambiguités lors de la combinaison de tous les classifieurs.
+Avec les séries de test effectuées, on a pu atteindre un maximum de 55\% de taux de reconnaissance sur la base d’apprentissage sur laquelle l'ensemble des classifeurs s'est basé. De plus, ce classifieur ne nécessite pas de phase d’apprentissage. Il permet des calculs plus rapides et donc permettra à terme de pouvoir trancher les ambiguïtés lors de la combinaison de tous les classifieurs.
 
 \subsubsection{Remarques}
 Cependant, cet algorithme ne nous permet pas de dépasser un taux de reconnaissance au dessus de 55\%, car il a été admis sur des conditions d’acquisition restreintes, telles que :
@@ -145,5 +141,5 @@ Cependant, cet algorithme ne nous permet pas de dépasser un taux de reconnaissa
 \item La main doit être levée perpendiculairement au bras
 \item Les doigts de la main doivent pointer (dans l’idéal vers le haut)
 \item Les signes de la main doivent avoir uniquement les doigts levés de manière successive
-\item Lors de la segementation, seule la main est sauvegardée (en dehors du poignet et tout autre forme parasite lors de l’acquisition).
+\item Lors de la segmentation, seule la main est sauvegardée (en dehors du poignet et tout autre forme parasite lors de l'acquisition).
 \end{itemize}

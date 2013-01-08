@@ -5,7 +5,7 @@ StatisticalClassifier::StatisticalClassifier(TrainableStatModel *statisticalMode
 {
 }
 
-TrainableStatModel *StatisticalClassifier::getStatisticalModel() const{
+TrainableStatModel *StatisticalClassifier::getStatisticalModel() {
     return this->statisticalModel;
 }
 

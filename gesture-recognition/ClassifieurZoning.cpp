@@ -122,7 +122,7 @@ class ClassifieurZoning
                 result[currentClass] = numerators[currentClass]/denominator;
                 if(DEBUG)
                 {
-                    cout << "probaclass" << currentClass << " = " << result[currentClass] << endl << endl;
+                    //cout << "probaclass" << currentClass << " = " << result[currentClass] << endl << endl;
                 }
             }
             return result;

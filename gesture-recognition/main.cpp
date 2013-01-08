@@ -19,8 +19,8 @@ string testDirWithTwoClassifiers(string path)
     ClassifieurDistHistogramm histoVertHoriz;
     ClassifieurZoning zoning;
     ConvexityClassifier convexity;
-    KNearestModel internalModel(3);
-    RadialHistogramClassifier radialHistogram(&internalModel, 82);
+    KNearestModel internalModel(7);
+    RadialHistogramClassifier radialHistogram(&internalModel, 90);
     
     stringstream result;
     vector< vector < string > > imagesTraining;
@@ -99,8 +99,8 @@ string testDirWithTwoClassifiers(string path)
                     if(resultClass==i)
                         resJustes++;
                 
-                if(DEBUG) result << "l'image : " << imgFile << "  est dÃ©tectÃ©e comme appartenant Ã  la classe : " << resultClass << endl;
-                if(DEBUG) cout << "l'image : " << imgFile << "  est dÃ©tectÃ©e comme appartenant Ã  la classe : " << resultClass << endl;
+       //         result << "l'image : " << imgFile << "  est dÃ©tectÃ©e comme appartenant Ã  la classe : " << resultClass << endl;
+                cout << "l'image : " << imgFile << "  est detectee comme appartenant a  la classe : " << resultClass << endl;
             
             
 
@@ -108,10 +108,10 @@ string testDirWithTwoClassifiers(string path)
         }
     }
 
-    cout << "sur " << numberOfTestedImages <<" images, il en a dÃ©tectÃ© " << resJustes << " correctement" <<endl;
-    cout << "soit un taux de rÃ©ussite de : " << (float)((float)resJustes/(float)numberOfTestedImages)*100 << "%" << endl;
-    result << "sur " << numberOfTestedImages <<" images, il en a dÃ©tectÃ© " << resJustes << " correctement" <<endl;
-    result << "soit un taux de rÃ©ussite de : " << (float)((float)resJustes/(float)numberOfTestedImages)*100 << "%" << endl << endl;
+    cout << "sur " << numberOfTestedImages <<" images, il en a detecte " << resJustes << " correctement" <<endl;
+    cout << "soit un taux de reussite de : " << (float)((float)resJustes/(float)numberOfTestedImages)*100 << "%" << endl;
+    result << "sur " << numberOfTestedImages <<" images, il en a detecte " << resJustes << " correctement" <<endl;
+    result << "soit un taux de reussite de : " << (float)((float)resJustes/(float)numberOfTestedImages)*100 << "%" << endl << endl;
             
     return result.str();
 }
@@ -119,6 +119,8 @@ string testDirWithTwoClassifiers(string path)
 
 int main(int argc, char** argv) {
     testDirWithTwoClassifiers("pouet");
-    
+    cout<<"Press any key to quit..."<<endl;
+    namedWindow("press any key to quit...");
+    waitKey(0);
     return 0;
 }
